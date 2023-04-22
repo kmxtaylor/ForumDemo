@@ -3,13 +3,12 @@ import {
   View,
   FlatList,
   TextInput,
-  TouchableOpacity,
   KeyboardAvoidingView,
   StyleSheet,
 } from 'react-native';
 // import PropTypes from 'prop-types';
 
-// import MyButton from '../components/MyButton';
+import MyButton from '../components/MyButton';
 import MyText from '../components/MyText';
 
 const MainScreen = () => {
@@ -54,12 +53,12 @@ const MainScreen = () => {
           placeholder='Reply to this comment'
           onSubmitEditing={() => addReply(index)}
         />
-        <TouchableOpacity
+        <MyButton
           style={styles.replyButton}
           onPress={() => addReply(index)}
         >
           <MyText weight={700} style={styles.replyButtonText}>Reply</MyText>
-        </TouchableOpacity>
+        </MyButton>
       </View>
     </View>
   );
@@ -81,9 +80,9 @@ const MainScreen = () => {
           placeholder='Add a comment'
           onSubmitEditing={addComment}
         />
-        <TouchableOpacity style={styles.addButton} onPress={addComment}>
+        <MyButton style={styles.addButton} onPress={addComment}>
           <MyText weight={700} style={styles.addButtonText}>+</MyText>
-        </TouchableOpacity>
+        </MyButton>
       </View>
     </>
   );
