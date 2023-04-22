@@ -5,6 +5,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   StyleSheet,
+  Image,
 } from 'react-native';
 // import PropTypes from 'prop-types';
 
@@ -58,7 +59,10 @@ const MainScreen = () => {
     <View style={[styles.myCard, styles.commentContainer]}>
       {/* Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies */}
       <View style={styles.cardTopRow}>
-        <MyText style={styles.img}>Photo</MyText>
+        <Image
+          style={styles.avatar}
+          source={require('../assets/images/avatars/image-amyrobson.png')}
+        />
         <MyText style={styles.postAuthor}>Name</MyText>
         <MyText style={styles.itsYou}>you</MyText>
         {/* ^ indicator for whether it's you, but idk how to display conditionally */}
@@ -75,7 +79,7 @@ const MainScreen = () => {
         </View>
         <View style={styles.actionButtons}>
           {/* this isn't appearing yet */}
-          {(item) => renderActionButtons(item)}
+          {/* {(item) => renderActionButtons(item)} */}
           <MyText>Action Buttons</MyText>
         </View>
       </View>
@@ -128,8 +132,11 @@ const MainScreen = () => {
           // maxLength={}
         />
         <View style={styles.cardBottomRow}>
-          <MyText>Photo</MyText>
-          <MyButton style={styles.addButton} onPress={addComment}>
+          <Image
+            style={styles.avatar}
+            source={require('../assets/images/avatars/image-amyrobson.png')}
+          />
+            <MyButton style={styles.addButton} onPress={addComment}>
             <MyText style={styles.addButtonText}>+</MyText>
           </MyButton>
         </View>
@@ -181,7 +188,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // marginTop: 10,
   },
-  img: {
+  avatar: {
+    width: 40,
+    height: 40,
     marginRight: 10,
   },
   postAuthor: {
