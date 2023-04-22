@@ -38,6 +38,7 @@ MyButton.propTypes = {
 /* Static styles */
 const styles = StyleSheet.create({
   btn: {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },

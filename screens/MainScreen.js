@@ -3,7 +3,6 @@ import {
   View,
   FlatList,
   TextInput,
-  KeyboardAvoidingView,
   StyleSheet,
   Image,
 } from 'react-native';
@@ -11,6 +10,11 @@ import {
 
 import MyButton from '../components/MyButton';
 import MyText from '../components/MyText';
+import IconDelete from '../components/svgs/IconDelete';
+import IconEdit from '../components/svgs/IconEdit';
+import IconMinus from '../components/svgs/IconMinus';
+import IconPlus from '../components/svgs/IconPlus';
+import IconReply from '../components/svgs/IconReply';
 
 const MainScreen = () => {
   const [comments, setComments] = useState([]);
@@ -35,13 +39,21 @@ const MainScreen = () => {
   };
 
   const renderActionButtons = ({item}) => {
-    if (item?.author === 'you') {
+    if (item?.author === currentUser?.username) {
       return (
         <>
-          <MyButton>
+          <MyButton
+            // style={styles.deleteButton}
+            // onPress={() => deletePost(item)}
+          >
+            <IconDelete />
             <MyText>Delete</MyText>
           </MyButton>
-          <MyButton>
+          <MyButton
+            // style={styles.editButton}
+            // onPress={() => editPost(item)}
+          >
+            <IconEdit />
             <MyText>Edit</MyText>
           </MyButton>
         </>
@@ -73,9 +85,9 @@ const MainScreen = () => {
       </MyText>
       <View style={styles.cardBottomRow}>
         <View style={styles.vote}>
-          <MyButton><MyText style={[styles.voteText, styles.voteControl]}>+</MyText></MyButton>
-          <MyText style={[styles.voteText, styles.voteCount]}>#</MyText>
-          <MyButton><MyText style={[styles.voteText, styles.voteControl]}>-</MyText></MyButton>
+          <IconPlus />
+          <MyText style={styles.voteText}>#</MyText>
+          <IconMinus />
         </View>
         <View style={styles.actionButtons}>
           {/* this isn't appearing yet */}
@@ -104,6 +116,7 @@ const MainScreen = () => {
           style={styles.replyButton}
           onPress={() => addReply(index)}
         >
+          <IconReply />
           <MyText style={styles.replyButtonText}>Reply</MyText>
         </MyButton>
       </View>
@@ -137,7 +150,7 @@ const MainScreen = () => {
             source={require('../assets/images/avatars/image-amyrobson.png')}
           />
             <MyButton style={styles.addButton} onPress={addComment}>
-            <MyText style={styles.addButtonText}>+</MyText>
+            <MyText style={styles.addButtonText}>SEND</MyText>
           </MyButton>
         </View>
       </View>
@@ -224,22 +237,22 @@ const styles = StyleSheet.create({
     height: 40,
     width: 100,
     justifyContent: 'space-around',
+    alignItems: 'center',
     backgroundColor: neutralColors.veryLightGray,
     borderRadius: 10,
   },
   voteText: {
     fontWeight: '700',
-    padding: 5,
-    marginTop: 0,
-  },
-  voteControl: {
-    // color: neutralColors.lightGray,
-    color: neutralColors.grayishBlue, // not sure if this is right but not better option
-    fontSize: 20,
-  },
-  voteCount: {
     color: primaryColors.moderateBlue,
   },
+  // voteControl: {
+  //   // color: neutralColors.lightGray,
+  //   color: neutralColors.grayishBlue, // not sure if this is right but not better option
+  //   fontSize: 20,
+  // },
+  // voteCount: {
+  //   color: primaryColors.moderateBlue,
+  // },
   commentsList: {
     flex: 1,
     height: '100%',
@@ -291,14 +304,19 @@ const styles = StyleSheet.create({
     // fontSize: 16,
   },
   replyButton: {
-    backgroundColor: '#3F51B5',
+    backgroundColor: neutralColors.white,
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 10,
     fontWeight: '700',
   },
+  // replyButtonIcon: {
+  //   marginRight: 5,
+  // },
   replyButtonText: {
-    color: '#fff',
+    marginLeft: 5,
+    color: primaryColors.moderateBlue,
+    fontWeight: '700',
     // fontSize: 16,
   },
   inputContainer: {
