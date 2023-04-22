@@ -1,17 +1,16 @@
 import { useState } from 'react';
 import {
   View,
-  Text,
   FlatList,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
   StyleSheet,
 } from 'react-native';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 // import MyButton from '../components/MyButton';
-// import MyText from '../components/MyText';
+import MyText from '../components/MyText';
 
 const MainScreen = () => {
   const [comments, setComments] = useState([]);
@@ -37,13 +36,13 @@ const MainScreen = () => {
 
   const renderItem = ({ item, index }) => (
     <View style={styles.commentContainer}>
-      <Text style={styles.commentText}>{item.text}</Text>
+      <MyText weight={500} style={styles.commentText}>{item.text}</MyText>
 
       <View style={styles.replyContainer}>
         {item.replies.map((reply, i) => (
-          <Text key={i} style={styles.replyText}>
+          <MyText key={i} weight={500} style={styles.replyText}>
             {reply}
-          </Text>
+          </MyText>
         ))}
       </View>
 
@@ -59,7 +58,7 @@ const MainScreen = () => {
           style={styles.replyButton}
           onPress={() => addReply(index)}
         >
-          <Text style={styles.replyButtonText}>Reply</Text>
+          <MyText weight={700} style={styles.replyButtonText}>Reply</MyText>
         </TouchableOpacity>
       </View>
     </View>
@@ -83,13 +82,30 @@ const MainScreen = () => {
           onSubmitEditing={addComment}
         />
         <TouchableOpacity style={styles.addButton} onPress={addComment}>
-          <Text style={styles.addButtonText}>+</Text>
+          <MyText weight={700} style={styles.addButtonText}>+</MyText>
         </TouchableOpacity>
       </View>
     </>
   );
 };
 
+/* Colors */
+const primaryColors = {
+  moderateBlue: 'hsl(238, 40%, 52%)',
+  softRed: 'hsl(358, 79%, 66%)',
+  lightGrayishBlue: 'hsl(239, 57%, 85%)',
+  paleRed: 'hsl(357, 100%, 86%)',
+};
+
+const neutralColors = {
+  darkBlue: 'hsl(212, 24%, 26%)',
+  grayishBlue: 'hsl(211, 10%, 45%)',
+  lightGray: 'hsl(223, 19%, 93%)',
+  veryLightGray: 'hsl(228, 33%, 97%)',
+  White: 'hsl(0, 0%, 100%)',
+};
+
+/* Styles */
 const styles = StyleSheet.create({
   commentsList: {
     flex: 1,
@@ -103,13 +119,13 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
   },
   commentText: {
-    fontSize: 16,
+    // fontSize: 16,
   },
   replyContainer: {
     marginVertical: 5,
   },
   replyText: {
-    fontSize: 14,
+    // fontSize: 16,
     color: '#666',
     marginVertical: 2,
   },
@@ -127,7 +143,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginRight: 10,
-    fontSize: 14,
+    // fontSize: 16,
   },
   replyButton: {
     backgroundColor: '#3F51B5',
@@ -137,7 +153,7 @@ const styles = StyleSheet.create({
   },
   replyButtonText: {
     color: '#fff',
-    fontSize: 14,
+    // fontSize: 16,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -154,7 +170,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    fontSize: 14,
+    // fontSize: 16,
     marginRight: 10,
   },
   addButton: {
