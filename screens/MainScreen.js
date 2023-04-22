@@ -33,13 +33,56 @@ const MainScreen = () => {
     }
   };
 
-  const renderItem = ({ item, index }) => (
+  const renderActionButtons = ({item}) => {
+    if (item?.author === 'you') {
+      return (
+        <>
+          <MyButton>
+            <MyText>Delete</MyText>
+          </MyButton>
+          <MyButton>
+            <MyText>Edit</MyText>
+          </MyButton>
+        </>
+      ); 
+    }
+    else {
+      <MyButton>
+        <MyText>Reply!</MyText>
+      </MyButton>
+    }
+  }
+      
+
+  const renderPost = ({ item, index }) => (
     <View style={[styles.myCard, styles.commentContainer]}>
-      <MyText weight={500} style={styles.commentText}>{item.text}</MyText>
+      {/* Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies */}
+      <View style={styles.cardTopRow}>
+        <MyText style={styles.img}>Photo</MyText>
+        <MyText style={styles.postAuthor}>Name</MyText>
+        <MyText style={styles.itsYou}>you</MyText>
+        {/* ^ indicator for whether it's you, but idk how to display conditionally */}
+        <MyText style={styles.timeAgo}># days ago</MyText>
+      </View>
+      <MyText style={styles.commentText}>
+        <MyText style={styles.replyAtUsername}>@username</MyText>{' ' + item.text}
+      </MyText>
+      <View style={styles.cardBottomRow}>
+        <View style={styles.vote}>
+          <MyButton><MyText style={[styles.voteText, styles.voteControl]}>+</MyText></MyButton>
+          <MyText style={[styles.voteText, styles.voteCount]}>#</MyText>
+          <MyButton><MyText style={[styles.voteText, styles.voteControl]}>-</MyText></MyButton>
+        </View>
+        <View style={styles.actionButtons}>
+          {/* this isn't appearing yet */}
+          {(item) => renderActionButtons(item)}
+          <MyText>Action Buttons</MyText>
+        </View>
+      </View>
 
       <View style={[styles.myCard, styles.replyContainer]}>
         {item.replies.map((reply, i) => (
-          <MyText key={i} weight={500} style={styles.replyText}>
+          <MyText key={i} style={styles.replyText}>
             {reply}
           </MyText>
         ))}
@@ -57,7 +100,7 @@ const MainScreen = () => {
           style={styles.replyButton}
           onPress={() => addReply(index)}
         >
-          <MyText weight={700} style={styles.replyButtonText}>Reply</MyText>
+          <MyText style={styles.replyButtonText}>Reply</MyText>
         </MyButton>
       </View>
     </View>
@@ -70,7 +113,7 @@ const MainScreen = () => {
       <FlatList
         style={styles.commentsList}
         data={comments}
-        renderItem={renderItem}
+        renderItem={renderPost}
         keyExtractor={(item, index) => index.toString()}
       />
 
@@ -79,7 +122,7 @@ const MainScreen = () => {
           style={styles.input}
           value={commentText}
           onChangeText={setCommentText}
-          placeholder='Add a comment'
+          placeholder='Add a comment...'
           onSubmitEditing={addComment}
           multiline={true}
           // maxLength={}
@@ -87,7 +130,7 @@ const MainScreen = () => {
         <View style={styles.cardBottomRow}>
           <MyText>Photo</MyText>
           <MyButton style={styles.addButton} onPress={addComment}>
-            <MyText weight={700} style={styles.addButtonText}>+</MyText>
+            <MyText style={styles.addButtonText}>+</MyText>
           </MyButton>
         </View>
       </View>
@@ -131,6 +174,63 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     // borderWidth: 1,
   },
+  cardTopRow: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    // marginTop: 10,
+  },
+  img: {
+    marginRight: 10,
+  },
+  postAuthor: {
+    fontWeight: '700',
+    marginRight: 10,
+  },
+  itsYou: {
+    paddingHorizontal: 5,
+    paddingVertical: 3,
+    marginRight: 10,
+    borderRadius: 2,
+    backgroundColor: primaryColors.moderateBlue,
+    color: neutralColors.white,
+    fontWeight: '500',
+    fontSize: 13,
+  },
+  timeAgo: {
+    fontWeight: '500',
+    color: neutralColors.grayishBlue,
+    // textAlign: 'left',
+  },
+  cardBottomRow: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  vote: {
+    flexDirection: 'row',
+    height: 40,
+    width: 100,
+    justifyContent: 'space-around',
+    backgroundColor: neutralColors.veryLightGray,
+    borderRadius: 10,
+  },
+  voteText: {
+    fontWeight: '700',
+    padding: 5,
+    marginTop: 0,
+  },
+  voteControl: {
+    // color: neutralColors.lightGray,
+    color: neutralColors.grayishBlue, // not sure if this is right but not better option
+    fontSize: 20,
+  },
+  voteCount: {
+    color: primaryColors.moderateBlue,
+  },
   commentsList: {
     flex: 1,
     height: '100%',
@@ -144,13 +244,24 @@ const styles = StyleSheet.create({
     // borderBottomColor: '#ccc',
   },
   commentText: {
+    width: '100%',
+    marginTop: 20,
+    textAlign: 'left',
     // fontSize: 16,
+    fontWeight: '500',
+    color: neutralColors.grayishBlue,
+  },
+  replyAtUsername: {
+    fontWeight: '700',
+    color: primaryColors.moderateBlue,
+    // marginRight: 10,
   },
   replyContainer: {
     // marginVertical: 5,
   },
   replyText: {
     // fontSize: 16,
+    fontWeight: '500',
     color: '#666',
     marginVertical: 2,
   },
@@ -158,7 +269,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginVertical: 5,
+    // marginVertical: 5,
   },
   replyInput: {
     flex: 1,
@@ -175,6 +286,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 10,
+    fontWeight: '700',
   },
   replyButtonText: {
     color: '#fff',
@@ -198,13 +310,6 @@ const styles = StyleSheet.create({
     // marginRight: 10,
     textAlignVertical: 'top',
   },
-  cardBottomRow: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 10,
-  },
   addButton: {
     backgroundColor: '#3F51B5',
     paddingHorizontal: 20,
@@ -214,6 +319,7 @@ const styles = StyleSheet.create({
   addButtonText: {
     color: '#fff',
     fontSize: 20,
+    fontWeight: '700',
   },
 });
 
