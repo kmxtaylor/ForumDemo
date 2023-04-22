@@ -30,7 +30,8 @@ const MyButton = ({ style, onPress, children, ...rest }) => {
 
 MyButton.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
+  // onPress: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 };
 
