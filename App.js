@@ -14,7 +14,8 @@ import {
 } from '@expo-google-fonts/rubik';
 import * as SplashScreen from 'expo-splash-screen';
 
-import MainScreen from './screens/mainScreen';
+import MainScreen from './screens/MainScreen';
+import MyText from './components/MyText';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -49,6 +50,7 @@ const App = () => {
           enabled
         >
           <MainScreen />
+          {/* <MyText>Test text</MyText> */}
         </KeyboardAvoidingView>
       </SafeAreaView>
     </>
@@ -58,11 +60,16 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'hsl(228, 33%, 97%)',
+    backgroundColor: 'hsl(239, 57%, 85%)',
   },
   subContainer: {
     flex: 1,
-    padding: 20,
+    // height: '100%',
+    paddingHorizontal: 15,
+    // paddingVertical: 5,
+    justifyContent: 'space-between',
+    // alignItems: 'center',
+    // paddingBottom: 0,
   },
 });
 

@@ -34,10 +34,10 @@ const MainScreen = () => {
   };
 
   const renderItem = ({ item, index }) => (
-    <View style={styles.commentContainer}>
+    <View style={[styles.myCard, styles.commentContainer]}>
       <MyText weight={500} style={styles.commentText}>{item.text}</MyText>
 
-      <View style={styles.replyContainer}>
+      <View style={[styles.myCard, styles.replyContainer]}>
         {item.replies.map((reply, i) => (
           <MyText key={i} weight={500} style={styles.replyText}>
             {reply}
@@ -65,6 +65,8 @@ const MainScreen = () => {
 
   return (
     <>
+    {/* <View style={styles.mainScreen}> */}
+      {/* FlatList is scrollable element */}
       <FlatList
         style={styles.commentsList}
         data={comments}
@@ -72,18 +74,24 @@ const MainScreen = () => {
         keyExtractor={(item, index) => index.toString()}
       />
 
-      <View style={styles.inputContainer}>
+      <View style={[styles.myCard, styles.inputContainer]}>
         <TextInput
           style={styles.input}
           value={commentText}
           onChangeText={setCommentText}
           placeholder='Add a comment'
           onSubmitEditing={addComment}
+          multiline={true}
+          // maxLength={}
         />
-        <MyButton style={styles.addButton} onPress={addComment}>
-          <MyText weight={700} style={styles.addButtonText}>+</MyText>
-        </MyButton>
+        <View style={styles.cardBottomRow}>
+          <MyText>Photo</MyText>
+          <MyButton style={styles.addButton} onPress={addComment}>
+            <MyText weight={700} style={styles.addButtonText}>+</MyText>
+          </MyButton>
+        </View>
       </View>
+    {/* </View> */}
     </>
   );
 };
@@ -101,27 +109,45 @@ const neutralColors = {
   grayishBlue: 'hsl(211, 10%, 45%)',
   lightGray: 'hsl(223, 19%, 93%)',
   veryLightGray: 'hsl(228, 33%, 97%)',
-  White: 'hsl(0, 0%, 100%)',
+  white: 'hsl(0, 0%, 100%)',
 };
 
 /* Styles */
 const styles = StyleSheet.create({
+  // mainScreen: {
+  //   flex: 1,
+  //   // height: '100%',
+  //   alignItems: 'space-between',
+  //   justifyContent: 'space-between',
+  // },
+  myCard: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 15,
+    marginTop: 15,
+    // marginBottom: 5,
+    backgroundColor: neutralColors.white,
+    borderRadius: 10,
+    // borderWidth: 1,
+  },
   commentsList: {
     flex: 1,
+    height: '100%',
     marginBottom: 10,
   },
   commentContainer: {
-    backgroundColor: '#fff',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    // backgroundColor: '#fff',
+    // paddingHorizontal: 10,
+    // paddingVertical: 5,
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#ccc',
   },
   commentText: {
     // fontSize: 16,
   },
   replyContainer: {
-    marginVertical: 5,
+    // marginVertical: 5,
   },
   replyText: {
     // fontSize: 16,
@@ -155,22 +181,29 @@ const styles = StyleSheet.create({
     // fontSize: 16,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
+    // alignSelf: 'flex-end',
+    // height: 200,
+    // marginBottom: 0,
   },
   input: {
-    flex: 1,
+    // flex: 1,
+    width: '100%',
+    height: 100,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
     // fontSize: 16,
-    marginRight: 10,
+    // marginRight: 10,
+    textAlignVertical: 'top',
+  },
+  cardBottomRow: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
   },
   addButton: {
     backgroundColor: '#3F51B5',
