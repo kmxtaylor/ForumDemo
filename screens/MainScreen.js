@@ -19,12 +19,12 @@ import IconReply from '../components/svgs/IconReply';
 const MainScreen = () => {
   const [comments, setComments] = useState([]);
 
-  const [commentText, setCommentText] = useState('');
+  const [postText, setCommentText] = useState('');
   const [replyText, setReplyText] = useState('');
 
   const addComment = () => {
-    if (commentText !== '') {
-      setComments([...comments, { text: commentText, replies: [] }]);
+    if (postText !== '') {
+      setComments([...comments, { text: postText, replies: [] }]);
       setCommentText('');
     }
   };
@@ -144,17 +144,19 @@ const MainScreen = () => {
         data={comments}
         renderItem={renderPost}
         keyExtractor={(item, index) => index.toString()}
+        testID='commentsList'
       />
 
       <View style={[styles.myCard, styles.inputContainer]}>
         <TextInput
           style={styles.input}
-          value={commentText}
+          value={postText}
           onChangeText={setCommentText}
           placeholder='Add a comment...'
           onSubmitEditing={addComment}
           multiline={true}
           // maxLength={}
+          testID='input'
         />
         <View style={styles.cardBottomRow}>
           <Image
