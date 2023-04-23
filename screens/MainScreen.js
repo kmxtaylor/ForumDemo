@@ -81,7 +81,17 @@ const MainScreen = () => {
     // }
     // See below for actual reply button design
   }
-      
+    
+  const YouTag = ({author}) => {
+    if (author === data.currentUser.username) { // something like that
+      return (
+        <MyText style={styles.youTag}>you</MyText>
+      );
+    }
+    else {
+      return null;
+    }
+  }
 
   const renderPost = ({ item, index }) => (
     <View style={[styles.myCard, styles.commentContainer]}>
@@ -92,8 +102,7 @@ const MainScreen = () => {
           source={requiredAvatars['juliusomo']}
         />
         <MyText style={styles.postAuthor}>Name</MyText>
-        <MyText style={styles.itsYou}>you</MyText>
-        {/* ^ indicator for whether it's you, but idk how to display conditionally */}
+        <YouTag author={'juliusomo'} /> 
         <MyText style={styles.timeAgo}># days ago</MyText>
       </View>
       <MyText style={styles.commentText}>
@@ -107,8 +116,6 @@ const MainScreen = () => {
         </View>
         <View style={styles.onPostActionButtonsView}>
           <ActionButtons />
-          {/* {(item) => renderActionButtons(item)} */}
-          {/* <MyText>Action Buttons</MyText> */}
         </View>
       </View>
 
@@ -228,7 +235,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     color: primaryColors.darkBlue,
   },
-  itsYou: {
+  youTag: {
     paddingHorizontal: 5,
     paddingVertical: 3,
     marginRight: 10,
