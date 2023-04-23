@@ -16,6 +16,9 @@ import IconMinus from '../components/svgs/IconMinus';
 import IconPlus from '../components/svgs/IconPlus';
 import IconReply from '../components/svgs/IconReply';
 
+import data from '../assets/data/data.json';
+import requiredAvatars from '../assets/images/avatars';
+
 const MainScreen = () => {
   const [comments, setComments] = useState([]);
 
@@ -86,7 +89,7 @@ const MainScreen = () => {
       <View style={styles.cardTopRow}>
         <Image
           style={styles.avatar}
-          source={require('../assets/images/avatars/image-amyrobson.png')}
+          source={requiredAvatars['juliusomo']}
         />
         <MyText style={styles.postAuthor}>Name</MyText>
         <MyText style={styles.itsYou}>you</MyText>
@@ -161,7 +164,7 @@ const MainScreen = () => {
         <View style={styles.cardBottomRow}>
           <Image
             style={styles.avatar}
-            source={require('../assets/images/avatars/image-amyrobson.png')}
+            source={requiredAvatars[data.currentUser.username]}
           />
             <MyButton style={styles.sendButton} onPress={addComment}>
             <MyText style={styles.sendButtonText}>SEND</MyText>

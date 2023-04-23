@@ -15,7 +15,6 @@ import {
 import * as SplashScreen from 'expo-splash-screen';
 
 import MainScreen from './screens/MainScreen';
-import MyText from './components/MyText';
 
 SplashScreen.preventAutoHideAsync();
 
