@@ -38,32 +38,45 @@ const MainScreen = () => {
     }
   };
 
-  const renderActionButtons = ({item}) => {
-    if (item?.author === currentUser?.username) {
+  const deletePost = (item) => {
+    alert('Deletion not yet implemented');
+  };
+
+  const editPost = (item) => {
+    alert('Editing not yet implemented');
+  };
+
+  const ActionButtons = ({item}) => {
+    // if (item?.author === currentUser?.username) {
       return (
         <>
           <MyButton
+            style={styles.onPostActionButton}
             // style={styles.deleteButton}
-            // onPress={() => deletePost(item)}
+            onPress={() => deletePost(item)}
           >
-            <IconDelete />
-            <MyText>Delete</MyText>
+            <IconDelete style={styles.onPostActionButtonIcon} />
+            <MyText style={[styles.onPostActionText, {color: primaryColors.softRed}]}
+            >Delete</MyText>
           </MyButton>
           <MyButton
+            style={styles.onPostActionButton}
             // style={styles.editButton}
-            // onPress={() => editPost(item)}
+            onPress={() => editPost(item)}
           >
-            <IconEdit />
-            <MyText>Edit</MyText>
+            <IconEdit style={styles.onPostActionButtonIcon} />
+            <MyText style={[styles.onPostActionText, {color: primaryColors.moderateBlue}]}
+            >Edit</MyText>
           </MyButton>
         </>
       ); 
-    }
-    else {
-      <MyButton>
-        <MyText>Reply!</MyText>
-      </MyButton>
-    }
+    // }
+    // else {
+    //   <MyButton>
+    //     <MyText>Reply!</MyText>
+    //   </MyButton>
+    // }
+    // See below for actual reply button design
   }
       
 
@@ -89,10 +102,10 @@ const MainScreen = () => {
           <MyText style={styles.voteText}>#</MyText>
           <IconMinus />
         </View>
-        <View style={styles.actionButtons}>
-          {/* this isn't appearing yet */}
+        <View style={styles.onPostActionButtonsView}>
+          <ActionButtons />
           {/* {(item) => renderActionButtons(item)} */}
-          <MyText>Action Buttons</MyText>
+          {/* <MyText>Action Buttons</MyText> */}
         </View>
       </View>
 
@@ -112,12 +125,11 @@ const MainScreen = () => {
           placeholder='Reply to this comment'
           onSubmitEditing={() => addReply(index)}
         />
-        <MyButton
-          style={styles.replyButton}
-          onPress={() => addReply(index)}
-        >
-          <IconReply />
-          <MyText style={styles.replyButtonText}>Reply</MyText>
+        <MyButton style={styles.onPostActionButton} onPress={() => addReply(index)}>
+          <IconReply style={styles.onPostActionButtonIcon} />
+          <MyText
+            style={[styles.onPostActionText, {color: primaryColors.moderateBlue}]}
+          >Reply</MyText>
         </MyButton>
       </View>
     </View>
@@ -149,8 +161,8 @@ const MainScreen = () => {
             style={styles.avatar}
             source={require('../assets/images/avatars/image-amyrobson.png')}
           />
-            <MyButton style={styles.addButton} onPress={addComment}>
-            <MyText style={styles.addButtonText}>SEND</MyText>
+            <MyButton style={styles.sendButton} onPress={addComment}>
+            <MyText style={styles.sendButtonText}>SEND</MyText>
           </MyButton>
         </View>
       </View>
@@ -209,6 +221,7 @@ const styles = StyleSheet.create({
   postAuthor: {
     fontWeight: '700',
     marginRight: 10,
+    color: primaryColors.darkBlue,
   },
   itsYou: {
     paddingHorizontal: 5,
@@ -221,11 +234,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   timeAgo: {
-    fontWeight: '500',
+    fontWeight: '400',
     color: neutralColors.grayishBlue,
     // textAlign: 'left',
   },
   cardBottomRow: {
+    height: 50,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -234,8 +248,8 @@ const styles = StyleSheet.create({
   },
   vote: {
     flexDirection: 'row',
-    height: 40,
-    width: 100,
+    height: '100%',
+    width: 120,
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: neutralColors.veryLightGray,
@@ -253,6 +267,22 @@ const styles = StyleSheet.create({
   // voteCount: {
   //   color: primaryColors.moderateBlue,
   // },
+  onPostActionButtonsView: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  onPostActionButton: {
+    height: '100%',
+    width: 50,
+    marginLeft: 30,
+  },
+  onPostActionButtonIcon: {
+    marginRight: 5,
+  },
+  onPostActionText: {
+    fontWeight: '700',
+  },
   commentsList: {
     flex: 1,
     height: '100%',
@@ -270,7 +300,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: 'left',
     // fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '400',
     color: neutralColors.grayishBlue,
   },
   replyAtUsername: {
@@ -284,7 +314,7 @@ const styles = StyleSheet.create({
   replyText: {
     // fontSize: 16,
     fontWeight: '500',
-    color: '#666',
+    color: neutralColors.grayishBlue,
     marginVertical: 2,
   },
   replyInputContainer: {
@@ -296,7 +326,7 @@ const styles = StyleSheet.create({
   replyInput: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: neutralColors.lightGray,
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -310,15 +340,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontWeight: '700',
   },
-  // replyButtonIcon: {
-  //   marginRight: 5,
+  // replyButtonText: {
+  //   // marginLeft: 5,
+  //   color: primaryColors.moderateBlue,
+  //   fontWeight: '700',
+  //   // fontSize: 16,
   // },
-  replyButtonText: {
-    marginLeft: 5,
-    color: primaryColors.moderateBlue,
-    fontWeight: '700',
-    // fontSize: 16,
-  },
   inputContainer: {
     // alignSelf: 'flex-end',
     // height: 200,
@@ -329,22 +356,25 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 100,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: neutralColors.lightGray,
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
     // fontSize: 16,
     // marginRight: 10,
     textAlignVertical: 'top',
+    // padding: 20,
   },
-  addButton: {
-    backgroundColor: '#3F51B5',
+  sendButton: {
+    height: 60,
+    width: 120,
+    backgroundColor: primaryColors.moderateBlue,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
   },
-  addButtonText: {
-    color: '#fff',
+  sendButtonText: {
+    color: neutralColors.white,
     fontSize: 20,
     fontWeight: '700',
   },
