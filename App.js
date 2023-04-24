@@ -34,7 +34,7 @@ const App = () => {
   if (!fontsLoaded) {
     return null;
   }
-  
+
   return (
     <>
       <StatusBar barStyle='light-content' />

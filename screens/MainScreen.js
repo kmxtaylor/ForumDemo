@@ -49,30 +49,30 @@ const MainScreen = () => {
     alert('Editing not yet implemented');
   };
 
-  const ActionButtons = ({item}) => {
+  const ActionButtons = ({ item }) => {
     // if (item?.author === currentUser?.username) {
-      return (
-        <>
-          <MyButton
-            style={styles.onPostActionButton}
-            // style={styles.deleteButton}
-            onPress={() => deletePost(item)}
-          >
-            <IconDelete style={styles.onPostActionButtonIcon} />
-            <MyText style={[styles.onPostActionText, {color: primaryColors.softRed}]}
-            >Delete</MyText>
-          </MyButton>
-          <MyButton
-            style={styles.onPostActionButton}
-            // style={styles.editButton}
-            onPress={() => editPost(item)}
-          >
-            <IconEdit style={styles.onPostActionButtonIcon} />
-            <MyText style={[styles.onPostActionText, {color: primaryColors.moderateBlue}]}
-            >Edit</MyText>
-          </MyButton>
-        </>
-      ); 
+    return (
+      <>
+        <MyButton
+          style={styles.onPostActionButton}
+          // style={styles.deleteButton}
+          onPress={() => deletePost(item)}
+        >
+          <IconDelete style={styles.onPostActionButtonIcon} />
+          <MyText style={[styles.onPostActionText, { color: primaryColors.softRed }]}
+          >Delete</MyText>
+        </MyButton>
+        <MyButton
+          style={styles.onPostActionButton}
+          // style={styles.editButton}
+          onPress={() => editPost(item)}
+        >
+          <IconEdit style={styles.onPostActionButtonIcon} />
+          <MyText style={[styles.onPostActionText, { color: primaryColors.moderateBlue }]}
+          >Edit</MyText>
+        </MyButton>
+      </>
+    );
     // }
     // else {
     //   <MyButton>
@@ -81,8 +81,8 @@ const MainScreen = () => {
     // }
     // See below for actual reply button design
   }
-    
-  const YouTag = ({author}) => {
+
+  const YouTag = ({ author }) => {
     if (author === data.currentUser.username) { // something like that
       return (
         <MyText style={styles.youTag}>you</MyText>
@@ -102,7 +102,7 @@ const MainScreen = () => {
           source={requiredAvatars['juliusomo']}
         />
         <MyText style={styles.postAuthor}>Name</MyText>
-        <YouTag author={'juliusomo'} /> 
+        <YouTag author={'juliusomo'} />
         <MyText style={styles.timeAgo}># days ago</MyText>
       </View>
       <MyText style={styles.commentText}>
@@ -138,7 +138,7 @@ const MainScreen = () => {
         <MyButton style={styles.onPostActionButton} onPress={() => addReply(index)}>
           <IconReply style={styles.onPostActionButtonIcon} />
           <MyText
-            style={[styles.onPostActionText, {color: primaryColors.moderateBlue}]}
+            style={[styles.onPostActionText, { color: primaryColors.moderateBlue }]}
           >Reply</MyText>
         </MyButton>
       </View>
@@ -147,7 +147,7 @@ const MainScreen = () => {
 
   return (
     <>
-    {/* <View style={styles.mainScreen}> */}
+      {/* <View style={styles.mainScreen}> */}
       {/* FlatList is scrollable element */}
       <FlatList
         style={styles.commentsList}
@@ -173,12 +173,12 @@ const MainScreen = () => {
             style={styles.avatar}
             source={requiredAvatars[data.currentUser.username]}
           />
-            <MyButton style={styles.sendButton} onPress={addComment}>
+          <MyButton style={styles.sendButton} onPress={addComment}>
             <MyText style={styles.sendButtonText}>SEND</MyText>
           </MyButton>
         </View>
       </View>
-    {/* </View> */}
+      {/* </View> */}
     </>
   );
 };
