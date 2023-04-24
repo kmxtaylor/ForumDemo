@@ -4,6 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
+  View,
 } from 'react-native';
 
 import {
@@ -43,14 +44,15 @@ const App = () => {
         onLayout={onLayoutRootView}
         testID='app-screen'
       >
-        <KeyboardAvoidingView
+        {/* <KeyboardAvoidingView
           style={styles.subContainer}
           behavior='padding'
           enabled
-        >
+        > */}
+        <View onLayout={onLayoutRootView} style={styles.subContainer}>
           <MainScreen />
-          {/* <MyText>Test text</MyText> */}
-        </KeyboardAvoidingView>
+        </View>
+        {/* </KeyboardAvoidingView> */}
       </SafeAreaView>
     </>
   );
@@ -65,7 +67,8 @@ const styles = StyleSheet.create({
     flex: 1,
     // height: '100%',
     paddingHorizontal: 15,
-    // paddingVertical: 5,
+    // paddingVertical: 10,
+    paddingBottom: 15,
     justifyContent: 'space-between',
     // alignItems: 'center',
     // paddingBottom: 0,
