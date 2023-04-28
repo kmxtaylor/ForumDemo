@@ -106,10 +106,10 @@ const MainScreen = () => {
         <MyText style={styles.timeAgo}># days ago</MyText>
       </View>
       <MyText style={styles.commentText}>
-        <MyText style={styles.replyAtUsername}>@username</MyText>{' ' + item.text}
+        <MyText style={styles.replyAtUsername}>@username</MyText>{' ' + item.text} {/* source username from reply obj */}
       </MyText>
       <View style={styles.cardBottomRow}>
-        <View style={styles.vote}>
+        <View style={styles.vote}> {/* add testId=“vote_”+commentId+"_"+replyId */}
           <IconPlus />
           <MyText style={styles.voteText}>#</MyText>
           <IconMinus />
@@ -135,6 +135,7 @@ const MainScreen = () => {
           placeholder='Reply to this comment'
           onSubmitEditing={() => addReply(index)}
         />
+        {/* add testId=“button_”+commentId+”_”+replyId */}
         <MyButton style={styles.onPostActionButton} onPress={() => addReply(index)}>
           <IconReply style={styles.onPostActionButtonIcon} />
           <MyText
