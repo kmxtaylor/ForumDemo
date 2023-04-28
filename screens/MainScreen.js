@@ -93,23 +93,28 @@ const MainScreen = () => {
     }
   }
 
+  const tempUsername = 'juliusomo';
+
   const renderPost = ({ item, index }) => (
     <View style={[styles.myCard, styles.commentContainer]}>
       {/* Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies */}
       <View style={styles.cardTopRow}>
         <Image
           style={styles.avatar}
-          source={requiredAvatars['juliusomo']}
+          source={requiredAvatars[item.username || tempUsername]}
         />
         <MyText style={styles.postAuthor}>Name</MyText>
-        <YouTag author={'juliusomo'} />
+        <YouTag author={item.username || tempUsername} />
         <MyText style={styles.timeAgo}># days ago</MyText>
       </View>
       <MyText style={styles.commentText}>
-        <MyText style={styles.replyAtUsername}>@username</MyText>{' ' + item.text}
+        <MyText style={styles.replyAtUsername}>@{item.username || tempUsername}</MyText>{' ' + item.text}
       </MyText>
       <View style={styles.cardBottomRow}>
-        <View style={styles.vote}>
+        <View
+          style={styles.vote}           
+          // testID="`votes_${commentId}_${replyId}`"
+        >
           <IconPlus />
           <MyText style={styles.voteText}>#</MyText>
           <IconMinus />
@@ -135,7 +140,11 @@ const MainScreen = () => {
           placeholder='Reply to this comment'
           onSubmitEditing={() => addReply(index)}
         />
-        <MyButton style={styles.onPostActionButton} onPress={() => addReply(index)}>
+        <MyButton
+          style={styles.onPostActionButton}
+          onPress={() => addReply(index)}
+          // testID="`replyButton_${commentId}_${replyId}`"
+        >
           <IconReply style={styles.onPostActionButtonIcon} />
           <MyText
             style={[styles.onPostActionText, { color: primaryColors.moderateBlue }]}
