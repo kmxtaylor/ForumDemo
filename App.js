@@ -45,11 +45,14 @@ const App = () => {
         testID='app-screen'
       >
         {/* <KeyboardAvoidingView
+          onLayout={onLayoutRootView}
           style={styles.subContainer}
-          behavior='padding'
           enabled
         > */}
-        <View onLayout={onLayoutRootView} style={styles.subContainer}>
+        <View
+          onLayout={onLayoutRootView}
+          style={styles.subContainer}
+        >
           <MainScreen />
         </View>
         {/* </KeyboardAvoidingView> */}
