@@ -110,7 +110,7 @@ const CommentsList = ({
 
   const renderPost = ({ item, index }) => (
     // Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies
-    <MyCard>
+    <MyCard key={index}>
       <View style={styles.cardTopRow}>
         <Image
           style={styles.avatar}
@@ -154,6 +154,16 @@ const CommentsList = ({
           <MyText
             style={[styles.onPostActionText, { color: colors.primary.moderateBlue }]}
           >Reply</MyText>
+        </MyButton>
+        <MyButton
+          style={styles.onPostActionButton}
+          onPress={() => (alert('Reply canceling not coded yet'))}
+          testID="`cancelReplyButton_${commentId}_${replyId}`"
+        >
+          {/* <IconReply style={styles.onPostActionButtonIcon} /> */}
+          <MyText
+            style={[styles.onPostActionText, { color: colors.primary.softRed }]}
+          >X Cancel</MyText>
         </MyButton>
       </View>
 
@@ -258,8 +268,8 @@ const styles = StyleSheet.create({
   },
   onPostActionButton: {
     height: '100%',
-    width: 50,
-    marginLeft: 30,
+    width: 65,
+    marginLeft: 10,
   },
   onPostActionButtonIcon: {
     marginRight: 5,
