@@ -26,8 +26,10 @@ const MainScreen = () => {
   const [replyText, setReplyText] = useState('');
 
   const addComment = () => {
+    const newComment = { text: postText, replies: [] };
     if (postText !== '') {
-      setComments([...comments, { text: postText, replies: [] }]);
+      // use updater function for data locking
+      setComments(currComments => [...currComments, newComment]);
       setCommentText('');
     }
   };
