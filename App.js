@@ -15,7 +15,7 @@ import {
 } from '@expo-google-fonts/rubik';
 import * as SplashScreen from 'expo-splash-screen';
 
-import MainScreen from './screens/MainScreen';
+import Forum from './screens/Forum';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -53,7 +53,7 @@ const App = () => {
           onLayout={onLayoutRootView}
           style={styles.subContainer}
         >
-          <MainScreen />
+          <Forum />
         </View>
         {/* </KeyboardAvoidingView> */}
       </SafeAreaView>
