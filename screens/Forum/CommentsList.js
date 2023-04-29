@@ -137,9 +137,26 @@ const CommentsList = ({
         </View>
       </View>
 
-        {/* <MyText key={i} style={styles.replyText}>
-          {reply}
-        </MyText> */}
+      <View style={styles.replyInputContainer}>
+        <TextInput
+          style={styles.replyInput}
+          value={replyText}
+          onChangeText={setReplyText}
+          placeholder='Reply to this comment'
+          onSubmitEditing={() => addReply(index)}
+        />
+        <MyButton
+          style={styles.onPostActionButton}
+          onPress={() => addReply(index)}
+          // testID="`replyButton_${commentId}_${replyId}`"
+        >
+          <IconReply style={styles.onPostActionButtonIcon} />
+          <MyText
+            style={[styles.onPostActionText, { color: colors.primary.moderateBlue }]}
+          >Reply</MyText>
+        </MyButton>
+      </View>
+
       {item.replies.map((reply, i) => (
         <MyCard style={styles.replyContainer}>
           <View style={styles.cardTopRow} key={i}>
@@ -169,26 +186,6 @@ const CommentsList = ({
           </View>
         </MyCard>
       ))}
-
-      <View style={styles.replyInputContainer}>
-        <TextInput
-          style={styles.replyInput}
-          value={replyText}
-          onChangeText={setReplyText}
-          placeholder='Reply to this comment'
-          onSubmitEditing={() => addReply(index)}
-        />
-        <MyButton
-          style={styles.onPostActionButton}
-          onPress={() => addReply(index)}
-          // testID="`replyButton_${commentId}_${replyId}`"
-        >
-          <IconReply style={styles.onPostActionButtonIcon} />
-          <MyText
-            style={[styles.onPostActionText, { color: colors.primary.moderateBlue }]}
-          >Reply</MyText>
-        </MyButton>
-      </View>
     </MyCard>
   );
 
