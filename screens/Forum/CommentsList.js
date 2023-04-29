@@ -16,26 +16,41 @@ import IconEdit from '../../components/svgs/IconEdit';
 import IconMinus from '../../components/svgs/IconMinus';
 import IconPlus from '../../components/svgs/IconPlus';
 import IconReply from '../../components/svgs/IconReply';
-import InputContainer from './InputContainer';
 
 import colors from '../../assets/colors';
 import data from '../../assets/data/data.json';
 import { avatars, avatarStyles } from '../../assets/images/avatars';
 
 const CommentsList = ({ 
-  setComments, // won't need to pass in after I change reply functionality
+  setComments, calcNextId, // won't need to pass in after I change reply functionality
   comments, style, ...rest }) => {
 
   const [replyText, setReplyText] = useState('');
 
   const addReply = (commentIdx) => {
     if (replyText !== '') {
+      const myUname = data.currentUser.username;
+      const newReply = {
+        id: calcNextId(),
+        content: replyText,
+        createdAt: 'just now', // idk how accurate we wanna be
+        score: 0,
+        replyingTo: comments[commentIdx].user.username,
+        user: {
+          image: {
+            png: `./images/avatars/image-${myUname}.png`,
+            webp: `./images/avatars/image-${myUname}.webp`,
+          },
+          username: myUname,
+        },
+      };
       // use updater function for data locking
       setComments(currComments => {
-        currComments[commentIdx].replies.push(replyText);
+        currComments[commentIdx].replies.push(newReply);
         return currComments;
       });
       setReplyText('');
+      console.log('adding new reply:', newReply);
     }
   };
 
@@ -94,8 +109,8 @@ const CommentsList = ({
   const tempUsername = 'juliusomo';
 
   const renderPost = ({ item, index }) => (
+    // Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies
     <MyCard>
-      {/* Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies */}
       <View style={styles.cardTopRow}>
         <Image
           style={styles.avatar}
@@ -106,7 +121,7 @@ const CommentsList = ({
         <MyText style={styles.createdAt}>{item.createdAt}</MyText>
       </View>
       <MyText style={styles.commentText}>
-        <MyText style={styles.replyAtUsername}>@{item.user.username || tempUsername}</MyText>{' ' + item.content}
+        {' ' + item.content}
       </MyText>
       <View style={styles.cardActionsRow}>
         <View
@@ -122,13 +137,38 @@ const CommentsList = ({
         </View>
       </View>
 
-      <MyCard style={styles.replyContainer}>
-        {item.replies.map((reply, i) => (
-          <MyText key={i} style={styles.replyText}>
-            {reply}
+        {/* <MyText key={i} style={styles.replyText}>
+          {reply}
+        </MyText> */}
+      {item.replies.map((reply, i) => (
+        <MyCard style={styles.replyContainer}>
+          <View style={styles.cardTopRow} key={i}>
+            <Image
+              style={styles.avatar}
+              source={avatars[reply.user.username || tempUsername]}
+            />
+            <MyText style={styles.postAuthor}>{reply.user.username}</MyText>
+            <YouTag postAuthor={reply.user.username || tempUsername} />
+            <MyText style={styles.createdAt}>{reply.createdAt}</MyText>
+          </View>
+          <MyText style={styles.commentText}>
+            <MyText style={styles.replyAtUsername}>@{reply.user.username || tempUsername}</MyText>{' ' + reply.content}
           </MyText>
-        ))}
-      </MyCard>
+          <View style={styles.cardActionsRow}>
+            <View
+              style={styles.vote}           
+              // testID="`votes_${commentId}_${replyId}`"
+            >
+              <IconPlus />
+              <MyText style={styles.voteText}>{reply.score}</MyText>
+              <IconMinus />
+            </View>
+            <View style={styles.onPostActionButtonsView}>
+              <ActionButtons />
+            </View>
+          </View>
+        </MyCard>
+      ))}
 
       <View style={styles.replyInputContainer}>
         <TextInput

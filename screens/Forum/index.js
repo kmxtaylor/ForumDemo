@@ -61,7 +61,7 @@ const Forum = () => {
     <>
       <CommentsList
         comments={comments}
-        setComments={setComments} // won't need to pass in after I change reply functionality
+        setComments={setComments} calcNextId={calcNextId} // won't need to pass in after I change reply functionality
       />
       <InputContainer
         typedVal={postText}

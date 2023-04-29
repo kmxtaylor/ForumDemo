@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
     marginTop: 15,
     backgroundColor: colors.neutral.white,
     borderRadius: 10,
+    
+    borderWidth: 1,
+    borderColor: colors.neutral.lightGray
   },
   // cardActionsRow: {
   //   height: 50,
