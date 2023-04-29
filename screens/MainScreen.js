@@ -10,6 +10,7 @@ import {
 
 import MyButton from '../components/MyButton';
 import MyText from '../components/MyText';
+import MyCard from '../components/MyCard';
 import IconDelete from '../components/svgs/IconDelete';
 import IconEdit from '../components/svgs/IconEdit';
 import IconMinus from '../components/svgs/IconMinus';
@@ -18,6 +19,7 @@ import IconReply from '../components/svgs/IconReply';
 
 import data from '../assets/data/data.json';
 import requiredAvatars from '../assets/images/avatars';
+import colors from '../assets/colors';
 
 const MainScreen = () => {
   const [comments, setComments] = useState([]);
@@ -63,7 +65,7 @@ const MainScreen = () => {
           onPress={() => deletePost(item)}
         >
           <IconDelete style={styles.onPostActionButtonIcon} />
-          <MyText style={[styles.onPostActionText, { color: primaryColors.softRed }]}
+          <MyText style={[styles.onPostActionText, { color: colors.primary.softRed }]}
           >Delete</MyText>
         </MyButton>
         <MyButton
@@ -72,7 +74,7 @@ const MainScreen = () => {
           onPress={() => editPost(item)}
         >
           <IconEdit style={styles.onPostActionButtonIcon} />
-          <MyText style={[styles.onPostActionText, { color: primaryColors.moderateBlue }]}
+          <MyText style={[styles.onPostActionText, { color: colors.primary.moderateBlue }]}
           >Edit</MyText>
         </MyButton>
       </>
@@ -100,7 +102,7 @@ const MainScreen = () => {
   const tempUsername = 'juliusomo';
 
   const renderPost = ({ item, index }) => (
-    <View style={[styles.myCard, styles.commentContainer]}>
+    <MyCard>
       {/* Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies */}
       <View style={styles.cardTopRow}>
         <Image
@@ -151,16 +153,15 @@ const MainScreen = () => {
         >
           <IconReply style={styles.onPostActionButtonIcon} />
           <MyText
-            style={[styles.onPostActionText, { color: primaryColors.moderateBlue }]}
+            style={[styles.onPostActionText, { color: colors.primary.moderateBlue }]}
           >Reply</MyText>
         </MyButton>
       </View>
-    </View>
+    </MyCard>
   );
 
   return (
     <>
-      {/* <View style={styles.mainScreen}> */}
       {/* FlatList is scrollable element */}
       <FlatList
         style={styles.commentsList}
@@ -170,7 +171,7 @@ const MainScreen = () => {
         testID='commentsList'
       />
 
-      <View style={[styles.myCard, styles.inputContainer]}>
+      <MyCard style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           value={postText}
@@ -190,47 +191,13 @@ const MainScreen = () => {
             <MyText style={styles.sendButtonText}>SEND</MyText>
           </MyButton>
         </View>
-      </View>
-      {/* </View> */}
+      </MyCard>
     </>
   );
 };
 
-/* Colors */
-const primaryColors = {
-  moderateBlue: 'hsl(238, 40%, 52%)',
-  softRed: 'hsl(358, 79%, 66%)',
-  lightGrayishBlue: 'hsl(239, 57%, 85%)',
-  paleRed: 'hsl(357, 100%, 86%)',
-};
-
-const neutralColors = {
-  darkBlue: 'hsl(212, 24%, 26%)',
-  grayishBlue: 'hsl(211, 10%, 45%)',
-  lightGray: 'hsl(223, 19%, 93%)',
-  veryLightGray: 'hsl(228, 33%, 97%)',
-  white: 'hsl(0, 0%, 100%)',
-};
-
 /* Styles */
 const styles = StyleSheet.create({
-  // mainScreen: {
-  //   flex: 1,
-  //   // height: '100%',
-  //   alignItems: 'space-between',
-  //   justifyContent: 'space-between',
-  // },
-  myCard: {
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 15,
-    marginTop: 15,
-    // marginBottom: 5,
-    backgroundColor: neutralColors.white,
-    borderRadius: 10,
-    // borderWidth: 1,
-  },
   cardTopRow: {
     width: '100%',
     flexDirection: 'row',
@@ -246,21 +213,21 @@ const styles = StyleSheet.create({
   postAuthor: {
     fontWeight: '700',
     marginRight: 10,
-    color: primaryColors.darkBlue,
+    color: colors.primary.darkBlue,
   },
   youTag: {
     paddingHorizontal: 5,
     paddingVertical: 3,
     marginRight: 10,
     borderRadius: 2,
-    backgroundColor: primaryColors.moderateBlue,
-    color: neutralColors.white,
+    backgroundColor: colors.primary.moderateBlue,
+    color: colors.neutral.white,
     fontWeight: '500',
     fontSize: 13,
   },
   timeAgo: {
     fontWeight: '400',
-    color: neutralColors.grayishBlue,
+    color: colors.neutral.grayishBlue,
     // textAlign: 'left',
   },
   cardBottomRow: {
@@ -277,21 +244,13 @@ const styles = StyleSheet.create({
     width: 120,
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: neutralColors.veryLightGray,
+    backgroundColor: colors.neutral.veryLightGray,
     borderRadius: 10,
   },
   voteText: {
     fontWeight: '700',
-    color: primaryColors.moderateBlue,
+    color: colors.primary.moderateBlue,
   },
-  // voteControl: {
-  //   // color: neutralColors.lightGray,
-  //   color: neutralColors.grayishBlue, // not sure if this is right but not better option
-  //   fontSize: 20,
-  // },
-  // voteCount: {
-  //   color: primaryColors.moderateBlue,
-  // },
   onPostActionButtonsView: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -313,24 +272,17 @@ const styles = StyleSheet.create({
     height: '100%',
     marginBottom: 10,
   },
-  commentContainer: {
-    // backgroundColor: '#fff',
-    // paddingHorizontal: 10,
-    // paddingVertical: 5,
-    // borderBottomWidth: 1,
-    // borderBottomColor: '#ccc',
-  },
   commentText: {
     width: '100%',
     marginTop: 20,
     textAlign: 'left',
     // fontSize: 16,
     fontWeight: '400',
-    color: neutralColors.grayishBlue,
+    color: colors.neutral.grayishBlue,
   },
   replyAtUsername: {
     fontWeight: '700',
-    color: primaryColors.moderateBlue,
+    color: colors.primary.moderateBlue,
     // marginRight: 10,
   },
   replyContainer: {
@@ -339,7 +291,7 @@ const styles = StyleSheet.create({
   replyText: {
     // fontSize: 16,
     fontWeight: '500',
-    color: neutralColors.grayishBlue,
+    color: colors.neutral.grayishBlue,
     marginVertical: 2,
   },
   replyInputContainer: {
@@ -351,7 +303,7 @@ const styles = StyleSheet.create({
   replyInput: {
     flex: 1,
     borderWidth: 1,
-    borderColor: neutralColors.lightGray,
+    borderColor: colors.neutral.lightGray,
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -359,7 +311,7 @@ const styles = StyleSheet.create({
     // fontSize: 16,
   },
   replyButton: {
-    backgroundColor: neutralColors.white,
+    backgroundColor: colors.neutral.white,
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 10,
@@ -381,7 +333,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 100,
     borderWidth: 1,
-    borderColor: neutralColors.lightGray,
+    borderColor: colors.neutral.lightGray,
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -393,13 +345,13 @@ const styles = StyleSheet.create({
   sendButton: {
     height: 60,
     width: 120,
-    backgroundColor: primaryColors.moderateBlue,
+    backgroundColor: colors.primary.moderateBlue,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
   },
   sendButtonText: {
-    color: neutralColors.white,
+    color: colors.neutral.white,
     fontSize: 20,
     fontWeight: '700',
   },
