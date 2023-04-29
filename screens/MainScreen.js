@@ -32,11 +32,13 @@ const MainScreen = () => {
     }
   };
 
-  const addReply = (index) => {
+  const addReply = (commentIdx) => {
     if (replyText !== '') {
-      let updatedComments = [...comments];
-      updatedComments[index].replies.push(replyText);
-      setComments(updatedComments);
+      // use updater function for data locking
+      setComments(currComments => {
+        currComments[commentIdx].replies.push(replyText);
+        return currComments;
+      });
       setReplyText('');
     }
   };
