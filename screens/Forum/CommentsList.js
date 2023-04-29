@@ -80,8 +80,8 @@ const CommentsList = ({
     // See below for actual reply button design
   }
 
-  const YouTag = ({ author }) => {
-    if (author === data.currentUser.username) { // something like that
+  const YouTag = ({ postAuthor }) => {
+    if (postAuthor === data.currentUser.username) { // something like that
       return (
         <MyText style={styles.youTag}>you</MyText>
       );
@@ -99,14 +99,14 @@ const CommentsList = ({
       <View style={styles.cardTopRow}>
         <Image
           style={styles.avatar}
-          source={avatars[item.username || tempUsername]}
+          source={avatars[item.user.username || tempUsername]}
         />
-        <MyText style={styles.postAuthor}>Name</MyText>
-        <YouTag author={item.username || tempUsername} />
-        <MyText style={styles.timeAgo}># days ago</MyText>
+        <MyText style={styles.postAuthor}>{item.user.username}</MyText>
+        <YouTag postAuthor={item.user.username || tempUsername} />
+        <MyText style={styles.createdAt}>{item.createdAt}</MyText>
       </View>
       <MyText style={styles.commentText}>
-        <MyText style={styles.replyAtUsername}>@{item.username || tempUsername}</MyText>{' ' + item.text}
+        <MyText style={styles.replyAtUsername}>@{item.user.username || tempUsername}</MyText>{' ' + item.content}
       </MyText>
       <View style={styles.cardActionsRow}>
         <View
@@ -114,7 +114,7 @@ const CommentsList = ({
           // testID="`votes_${commentId}_${replyId}`"
         >
           <IconPlus />
-          <MyText style={styles.voteText}>#</MyText>
+          <MyText style={styles.voteText}>{item.score}</MyText>
           <IconMinus />
         </View>
         <View style={styles.onPostActionButtonsView}>
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 13,
   },
-  timeAgo: {
+  createdAt: {
     fontWeight: '400',
     color: colors.neutral.grayishBlue,
     // textAlign: 'left',
