@@ -34,22 +34,22 @@ const Forum = () => {
   }
 
   const addComment = () => {
-    const myUname = data.currentUser.username;
-    const newComment = {
-      id: calcNextId(),
-      content: postText,
-      createdAt: 'just now', // idk how accurate we wanna be
-      score: 0,
-      user: {
-        image: {
-          png: `./images/avatars/image-${myUname}.png`,
-          webp: `./images/avatars/image-${myUname}.webp`,
-        },
-        username: myUname,
-      },
-      replies: [],
-    };
     if (postText !== '') {
+      const myUname = data.currentUser.username;
+      const newComment = {
+        id: calcNextId(),
+        content: postText,
+        createdAt: 'just now', // idk how accurate we wanna be
+        score: 0,
+        user: {
+          image: {
+            png: `./images/avatars/image-${myUname}.png`,
+            webp: `./images/avatars/image-${myUname}.webp`,
+          },
+          username: myUname,
+        },
+        replies: [],
+      };
       // use updater function for data locking
       setComments(currComments => [...currComments, newComment]);
       setPostText('');
