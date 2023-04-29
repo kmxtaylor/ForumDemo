@@ -16,10 +16,12 @@ import IconEdit from '../components/svgs/IconEdit';
 import IconMinus from '../components/svgs/IconMinus';
 import IconPlus from '../components/svgs/IconPlus';
 import IconReply from '../components/svgs/IconReply';
+import InputContainer from '../components/InputContainer';
+// import CommentsList from '../components/CommentsList';
 
-import data from '../assets/data/data.json';
-import requiredAvatars from '../assets/images/avatars';
 import colors from '../assets/colors';
+import data from '../assets/data/data.json';
+import { avatars, avatarStyles } from '../assets/images/avatars';
 
 const MainScreen = () => {
   const [comments, setComments] = useState([]);
@@ -107,7 +109,7 @@ const MainScreen = () => {
       <View style={styles.cardTopRow}>
         <Image
           style={styles.avatar}
-          source={requiredAvatars[item.username || tempUsername]}
+          source={avatars[item.username || tempUsername]}
         />
         <MyText style={styles.postAuthor}>Name</MyText>
         <YouTag author={item.username || tempUsername} />
@@ -116,7 +118,7 @@ const MainScreen = () => {
       <MyText style={styles.commentText}>
         <MyText style={styles.replyAtUsername}>@{item.username || tempUsername}</MyText>{' ' + item.text}
       </MyText>
-      <View style={styles.cardBottomRow}>
+      <View style={styles.cardActionsRow}>
         <View
           style={styles.vote}           
           // testID="`votes_${commentId}_${replyId}`"
@@ -130,13 +132,13 @@ const MainScreen = () => {
         </View>
       </View>
 
-      <View style={[styles.myCard, styles.replyContainer]}>
+      <MyCard style={styles.replyContainer}>
         {item.replies.map((reply, i) => (
           <MyText key={i} style={styles.replyText}>
             {reply}
           </MyText>
         ))}
-      </View>
+      </MyCard>
 
       <View style={styles.replyInputContainer}>
         <TextInput
@@ -170,45 +172,24 @@ const MainScreen = () => {
         keyExtractor={(item, index) => index.toString()}
         testID='commentsList'
       />
-
-      <MyCard style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          value={postText}
-          onChangeText={setCommentText}
-          placeholder='Add a comment...'
-          onSubmitEditing={addComment}
-          multiline={true}
-          // maxLength={}
-          testID='input'
-        />
-        <View style={styles.cardBottomRow}>
-          <Image
-            style={styles.avatar}
-            source={requiredAvatars[data.currentUser.username]}
-          />
-          <MyButton style={styles.sendButton} onPress={addComment}>
-            <MyText style={styles.sendButtonText}>SEND</MyText>
-          </MyButton>
-        </View>
-      </MyCard>
+      <InputContainer
+        typedVal={postText}
+        handleTyping={setCommentText}
+        handleSubmit={addComment}
+      />
     </>
   );
 };
 
 /* Styles */
 const styles = StyleSheet.create({
+  ...avatarStyles,
   cardTopRow: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     // marginTop: 10,
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    marginRight: 10,
   },
   postAuthor: {
     fontWeight: '700',
@@ -230,7 +211,7 @@ const styles = StyleSheet.create({
     color: colors.neutral.grayishBlue,
     // textAlign: 'left',
   },
-  cardBottomRow: {
+  cardActionsRow: { // should probably be extracted
     height: 50,
     width: '100%',
     flexDirection: 'row',
@@ -315,44 +296,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 10,
-    fontWeight: '700',
-  },
-  // replyButtonText: {
-  //   // marginLeft: 5,
-  //   color: primaryColors.moderateBlue,
-  //   fontWeight: '700',
-  //   // fontSize: 16,
-  // },
-  inputContainer: {
-    // alignSelf: 'flex-end',
-    // height: 200,
-    // marginBottom: 0,
-  },
-  input: {
-    // flex: 1,
-    width: '100%',
-    height: 100,
-    borderWidth: 1,
-    borderColor: colors.neutral.lightGray,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    // fontSize: 16,
-    // marginRight: 10,
-    textAlignVertical: 'top',
-    // padding: 20,
-  },
-  sendButton: {
-    height: 60,
-    width: 120,
-    backgroundColor: colors.primary.moderateBlue,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 10,
-  },
-  sendButtonText: {
-    color: colors.neutral.white,
-    fontSize: 20,
     fontWeight: '700',
   },
 });

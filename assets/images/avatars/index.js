@@ -6,4 +6,13 @@ const avatars = {
   ramsesmiron: require('./image-ramsesmiron.png'),
 };
 
+const avatarStyles = {
+  avatar: {
+    width: 40,
+    height: 40,
+    marginRight: 10,
+  },
+};
+
+export { avatars, avatarStyles };
 export default avatars;
