@@ -14,7 +14,7 @@ const MyButton = ({ style, onPress, children, ...rest }) => {
         styles.btn,
         // {
         //   backgroundColor: bgColor,
-        //   borderBottomColor: colorGroups[btnColor]?.shadow || colorGroups.tan.shadow,
+        //   borderBottomColor: colorGroups[btnColor]?.shadow ?? colorGroups.tan.shadow,
         // },
         style,
       ]}

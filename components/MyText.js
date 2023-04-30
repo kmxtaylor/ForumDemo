@@ -22,10 +22,10 @@ const MyText = ({ style, children, ...rest }) => {
     <Text
       style={[
         {
-          fontFamily: font || 'Rubik_400Regular',
-          fontSize: style?.fontSize || 16, // requested default: 16
-          textAlign: style?.textAlign || 'center',
-          textAlignVertical: style?.textAlignVertical || 'center',
+          fontFamily: font ?? 'Rubik_400Regular',
+          fontSize: style?.fontSize ?? 16, // requested default: 16
+          textAlign: style?.textAlign ?? 'center',
+          textAlignVertical: style?.textAlignVertical ?? 'center',
         },
         style
       ]}
