@@ -11,21 +11,44 @@ const Forum = () => {
   const [postText, setPostText] = useState('');
 
   const NO_TARGET = null;
-  const [replyToIdx, setReplyToIdx] = useState(NO_TARGET);
+  // { commentGroup: null, reply: null };
+  const [replyTargetIdxs, setReplyTargetIdxs] = useState(NO_TARGET);
+  // const [commentTargetIdx, setCommentTargetIdx] = useState(NO_TARGET);
+  // const [nestedTargetIdx, setNestedTargetIdx] = useState(null);
+  const [replyingToUsername, setReplyingToUsername] = useState('');
   const [inputPlaceholder, setInputPlaceholder] = useState('Type a comment...');
 
   useEffect(() => {
+    console.log(
+      `commentGroup: ${replyTargetIdxs?.commentGroup}\t`,
+      `reply: ${replyTargetIdxs?.reply}`
+    );
+
     // change input placeholder
     let placeholder;
-    if (Number.isInteger(replyToIdx)) {
-      placeholder = `Type a reply to ${comments[replyToIdx].user.username}...`;
+    if (replyTargetIdxs) {
+      // let replyToName;
+      // if (replyTargetIdxs.reply) {
+      //   let comment = comments[replyTargetIdxs.commentGroup];
+      //   replyToName = comment?.replies?.[replyTargetIdxs.reply]?.user?.username
+      // }
+      // else {
+      //   replyToName = comments[replyTargetIdxs.commentGroup]?.user?.username;
+      // }
+      let commentGroup = { ...comments[replyTargetIdxs.commentGroup] };
+      const replyToName = (
+        commentGroup?.replies?.[replyTargetIdxs.reply]?.user?.username
+        ?? commentGroup?.user?.username
+      );
+      setReplyingToUsername(replyToName); // store for easier tagging reference
+      placeholder = `Type a reply to ${replyToName}...`;
     }
     else {
       placeholder = 'Type a comment...';
     }
     setInputPlaceholder(placeholder);
     // console.log(placeholder);
-  }, [replyToIdx]);
+  }, [replyTargetIdxs]);
 
   function calcNextId() {
     if (comments.length === 0 ) {
@@ -64,15 +87,16 @@ const Forum = () => {
           username: myUname,
         },
         ...(
-          Number.isInteger(replyToIdx)
-          ? { replyingTo: comments[replyToIdx].user.username } // reply mode
+          replyTargetIdxs
+          ? { replyingTo: replyingToUsername } // reply mode
           : { replies: [] } // comment mode
         ),
       };
       
-      if (Number.isInteger(replyToIdx)) {
+      if (replyTargetIdxs) {
         setComments(currComments => {
-          currComments[replyToIdx].replies.push(newPost);
+          currComments[replyTargetIdxs.commentGroup]
+            .replies.push(newPost); // simplest: add to end of comment group
           return currComments;
         });
       }
@@ -89,8 +113,8 @@ const Forum = () => {
     <>
       <CommentsList
         comments={comments}
-        replyToIdx={replyToIdx}
-        setReplyToIdx={setReplyToIdx}
+        replyTargetIdxs={replyTargetIdxs}
+        setReplyTargetIdxs={setReplyTargetIdxs}
       />
       <InputContainer
         displayedVal={postText}

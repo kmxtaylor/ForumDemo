@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import {
   View,
   FlatList,
@@ -22,7 +22,7 @@ import data from '../../assets/data/data.json';
 import { avatars, avatarStyles } from '../../assets/images/avatars';
 
 const CommentsList = ({
-  replyToIdx, setReplyToIdx, comments, style, ...rest
+  comments, replyTargetIdxs, setReplyTargetIdxs, style, ...rest
 }) => {
   const deletePost = (item) => {
     alert('Deletion not yet implemented');
@@ -42,7 +42,7 @@ const CommentsList = ({
           onPress={() => deletePost(item)}
         >
           <IconDelete style={styles.onPostActionButtonIcon} />
-          <MyText style={[styles.onPostActionText, { color: colors.primary.softRed }]}
+          <MyText style={{fontWeight: '700', color: colors.primary.softRed}}
           >Delete</MyText>
         </MyButton>
         <MyButton
@@ -51,23 +51,27 @@ const CommentsList = ({
           onPress={() => editPost(item)}
         >
           <IconEdit style={styles.onPostActionButtonIcon} />
-          <MyText style={[styles.onPostActionText, { color: colors.primary.moderateBlue }]}
+          <MyText style={{fontWeight: '700', color: colors.primary.moderateBlue}}
           >Edit</MyText>
         </MyButton>
       </>
     );
   }
 
-  const ReplyControls = ({ idx }) => {
-    if (replyToIdx === idx) {
+  const ReplyControls = ({ postObj, commentGroupIdx, replyIdx }) => {
+    
+    if (
+      replyTargetIdxs?.reply === replyIdx
+      && replyTargetIdxs?.commentGroup === commentGroupIdx
+    ) {
       return (
         <MyButton
           style={styles.onPostActionButton}
-          onPress={() => setReplyToIdx(null)}
+          onPress={() => setReplyTargetIdxs(null)}
           // testID="`cancelReplyButton_${commentId}_${replyId}`"
         >
           <MyText
-            style={[styles.onPostActionText, { color: colors.primary.softRed }]}
+            style={{fontWeight: '700', color: colors.primary.softRed}}
           >
             X Cancel
           </MyText>
@@ -78,12 +82,14 @@ const CommentsList = ({
       return (
         <MyButton
           style={styles.onPostActionButton}
-          onPress={() => setReplyToIdx(idx)}
+          onPress={() => setReplyTargetIdxs(
+            { commentGroup: commentGroupIdx, reply: replyIdx }
+          )}
           // testID="`replyButton_${commentId}_${replyId}`"
         >
           <IconReply style={styles.onPostActionButtonIcon} />
           <MyText
-            style={[styles.onPostActionText, { color: colors.primary.moderateBlue }]}
+            style={{fontWeight: '700', color: colors.primary.moderateBlue}}
           >
             Reply
           </MyText>
@@ -94,9 +100,11 @@ const CommentsList = ({
 
   const tempUsername = 'juliusomo';
 
-  const Post = ({ type: postType = 'comment', postObj, idx, ...rest }) => {
+  const Post = ({
+    postType = 'comment', postObj, commentGroupIdx, replyIdx = null, ...rest
+  }) => {
     return (
-      <MyCard key={idx} {...rest}>
+      <MyCard key={commentGroupIdx} {...rest}>
         <View style={styles.cardTopRow}>
           <Image
             style={styles.avatar}
@@ -112,10 +120,11 @@ const CommentsList = ({
           <MyText style={styles.createdAt}>{postObj.createdAt}</MyText>
         </View>
         <MyText style={styles.postText}>
-          { postType === 'comment'
-            && <MyText style={styles.replyAtTag}>
-              @{postObj.user.username || tempUsername}
-            </MyText>
+          { postType === 'reply' && (
+              <MyText style={styles.replyAtTag}>
+                @{postObj.user.username || tempUsername}
+              </MyText>
+            )
           }
           {' ' + postObj.content}
         </MyText>
@@ -133,17 +142,21 @@ const CommentsList = ({
           </View>
           {/* temp container, will delete after integrating other user data */}
           <View style={styles.replyInputContainer}>
-            <ReplyControls idx={idx} />
+            <ReplyControls
+              postObj={postObj}
+              commentGroupIdx={commentGroupIdx}
+              replyIdx={replyIdx}
+            />
           </View>
         </View>
       </MyCard>
     );
   };
 
-  const renderPostGroup = ({ item, index: groupIdx }) => (
+  const renderPostGroup = ({ item, index: commentGroupIdx }) => (
     // Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies
     <View style={styles.postGroupContainer}>
-      <Post type='comment' postObj={item} idx={groupIdx}/>
+      <Post type='comment' postObj={item} commentGroupIdx={commentGroupIdx}/>
 
       <View style={styles.repliesContainer}>
         {item.replies.map((reply, replyIdx) => (
@@ -151,7 +164,8 @@ const CommentsList = ({
             key={replyIdx}
             postType='reply'
             postObj={reply}
-            idx={replyIdx}
+            commentGroupIdx={commentGroupIdx}
+            replyIdx={replyIdx}
             style={replyIdx === 0 ? {marginTop:0} : {}} // for border appearance
           />
         ))}
@@ -245,9 +259,9 @@ const styles = StyleSheet.create({
   onPostActionButtonIcon: {
     marginRight: 5,
   },
-  onPostActionText: {
-    fontWeight: '700',
-  },
+  // onPostActionText: {
+  //   fontWeight: '700',
+  // },
   postText: {
     width: '100%',
     marginTop: 20,
