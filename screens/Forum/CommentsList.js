@@ -58,8 +58,8 @@ const CommentsList = ({
     );
   }
 
-  const ReplyControls = ({ index }) => {
-    if (replyToIdx === index) {
+  const ReplyControls = ({ idx }) => {
+    if (replyToIdx === idx) {
       return (
         <MyButton
           style={styles.onPostActionButton}
@@ -78,7 +78,7 @@ const CommentsList = ({
       return (
         <MyButton
           style={styles.onPostActionButton}
-          onPress={() => setReplyToIdx(index)}
+          onPress={() => setReplyToIdx(idx)}
           // testID="`replyButton_${commentId}_${replyId}`"
         >
           <IconReply style={styles.onPostActionButtonIcon} />
@@ -94,26 +94,30 @@ const CommentsList = ({
 
   const tempUsername = 'juliusomo';
 
-  const renderPostGroup = ({ item, index }) => (
-    // Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies
-    <View style={styles.postGroupContainer}>
-      <MyCard key={index}>
+  const Post = ({ type: postType = 'comment', postObj, idx, ...rest }) => {
+    return (
+      <MyCard key={idx} {...rest}>
         <View style={styles.cardTopRow}>
           <Image
             style={styles.avatar}
-            source={avatars[item.user.username || tempUsername]}
+            source={avatars[postObj.user.username || tempUsername]}
           />
-          <MyText style={styles.postAuthor}>{item.user.username}</MyText>
-          {/* <YouTag postAuthor={item.user.username || tempUsername} /> */}
+          <MyText style={styles.postAuthor}>{postObj.user.username}</MyText>
+          {/* <YouTag postAuthor={postObj.user.username || tempUsername} /> */}
           {
-                (item.user.username || tempUsername) === data.currentUser.username
-                ? <MyText style={styles.youTag}>you</MyText>
-                : null
-              }
-          <MyText style={styles.createdAt}>{item.createdAt}</MyText>
+            (postObj.user.username || tempUsername) === data.currentUser.username
+            ? <MyText style={styles.youTag}>you</MyText>
+            : null
+          }
+          <MyText style={styles.createdAt}>{postObj.createdAt}</MyText>
         </View>
-        <MyText style={styles.commentText}>
-          {' ' + item.content}
+        <MyText style={styles.postText}>
+          { postType === 'comment'
+            && <MyText style={styles.replyAtTag}>
+              @{postObj.user.username || tempUsername}
+            </MyText>
+          }
+          {' ' + postObj.content}
         </MyText>
         <View style={styles.cardActionsRow}>
           <View
@@ -121,55 +125,35 @@ const CommentsList = ({
             // testID="`votes_${commentId}_${replyId}`"
           >
             <IconPlus />
-            <MyText style={styles.voteText}>{item.score}</MyText>
+            <MyText style={styles.voteText}>{postObj.score}</MyText>
             <IconMinus />
           </View>
           <View style={styles.onPostActionButtonsView}>
             <ActionButtons />
           </View>
+          {/* temp container, will delete after integrating other user data */}
+          <View style={styles.replyInputContainer}>
+            <ReplyControls idx={idx} />
+          </View>
         </View>
-
-        {/* temp container */}
-        <View style={styles.replyInputContainer}>
-          <ReplyControls index={index} />
-        </View>
-
       </MyCard>
+    );
+  };
+
+  const renderPostGroup = ({ item, index: groupIdx }) => (
+    // Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies
+    <View style={styles.postGroupContainer}>
+      <Post type='comment' postObj={item} idx={groupIdx}/>
 
       <View style={styles.repliesContainer}>
-        {item.replies.map((reply, i) => (
-          <MyCard key={i} style={i === 0 ? {marginTop:0} : {}}>
-            <View style={styles.cardTopRow}>
-              <Image
-                style={styles.avatar}
-                source={avatars[reply.user.username || tempUsername]}
-              />
-              <MyText style={styles.postAuthor}>{reply.user.username}</MyText>
-              {/* <YouTag postAuthor={reply.user.username || tempUsername} /> */}
-              {
-                (reply.user.username || tempUsername) === data.currentUser.username
-                ? <MyText style={styles.youTag}>you</MyText>
-                : null
-              }
-              <MyText style={styles.createdAt}>{reply.createdAt}</MyText>
-            </View>
-            <MyText style={styles.commentText}>
-              <MyText style={styles.replyAtTag}>@{reply.user.username || tempUsername}</MyText>{' ' + reply.content}
-            </MyText>
-            <View style={styles.cardActionsRow}>
-              <View
-                style={styles.vote}           
-                // testID="`votes_${commentId}_${replyId}`"
-              >
-                <IconPlus />
-                <MyText style={styles.voteText}>{reply.score}</MyText>
-                <IconMinus />
-              </View>
-              <View style={styles.onPostActionButtonsView}>
-                <ActionButtons />
-              </View>
-            </View>
-          </MyCard>
+        {item.replies.map((reply, replyIdx) => (
+          <Post
+            key={replyIdx}
+            postType='reply'
+            postObj={reply}
+            idx={replyIdx}
+            style={replyIdx === 0 ? {marginTop:0} : {}} // for border appearance
+          />
         ))}
       </View>
     </View>
@@ -264,7 +248,7 @@ const styles = StyleSheet.create({
   onPostActionText: {
     fontWeight: '700',
   },
-  commentText: {
+  postText: {
     width: '100%',
     marginTop: 20,
     textAlign: 'left',
