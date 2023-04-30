@@ -12,25 +12,18 @@ const Forum = () => {
 
   const NO_TARGET = null;
   const [replyToIdx, setReplyToIdx] = useState(NO_TARGET);
-  const [inputPlaceholderText, setInputPlaceholderText] = useState('');
+  const [inputPlaceholder, setInputPlaceholder] = useState('Type a comment...');
 
   useEffect(() => {
     // change input placeholder
     let placeholder;
-    if (replyToIdx !== NO_TARGET) {
-      try {
-        placeholder = `Type reply to ${comments[replyToIdx].user.username}...`;
-      }
-      catch (err) {
-        placeholder = 'Type reply...';
-        console.error(err.message);
-        console.log('replyToIdx: ', replyToIdx);
-      }
+    if (Number.isInteger(replyToIdx)) {
+      placeholder = `Type a reply to ${comments[replyToIdx].user.username}...`;
     }
     else {
-      placeholder = 'Type comment...';
+      placeholder = 'Type a comment...';
     }
-    setInputPlaceholderText(placeholder);
+    setInputPlaceholder(placeholder);
     // console.log(placeholder);
   }, [replyToIdx]);
 
@@ -58,49 +51,37 @@ const Forum = () => {
   const addPost = () => {
     if (postText !== '') {
       const myUname = data.currentUser.username;
-      if (replyToIdx === NO_TARGET) {
-        const newComment = {
-          id: calcNextId(),
-          content: postText,
-          createdAt: 'just now', // idk how accurate we wanna be
-          score: 0,
-          user: {
-            image: {
-              png: `./images/avatars/image-${myUname}.png`,
-              webp: `./images/avatars/image-${myUname}.webp`,
-            },
-            username: myUname,
+      const newPost = {
+        id: calcNextId(),
+        content: postText,
+        createdAt: 'just now', // idk how accurate we wanna be
+        score: 0,
+        user: {
+          image: {
+            png: `./images/avatars/image-${myUname}.png`,
+            webp: `./images/avatars/image-${myUname}.webp`,
           },
-          replies: [],
-        };
-        // use updater function for data locking
-        setComments(currComments => [...currComments, newComment]);
-        setPostText('');
-        // console.log('adding new comment:', newComment);
-      }
-      else {
-        const newReply = {
-          id: calcNextId(),
-          content: postText,
-          createdAt: 'just now', // idk how accurate we wanna be
-          score: 0,
-          replyingTo: comments[replyToIdx].user.username,
-          user: {
-            image: {
-              png: `./images/avatars/image-${myUname}.png`,
-              webp: `./images/avatars/image-${myUname}.webp`,
-            },
-            username: myUname,
-          },
-        };
-        // use updater function for data locking
+          username: myUname,
+        },
+        ...(
+          Number.isInteger(replyToIdx)
+          ? { replyingTo: comments[replyToIdx].user.username } // reply mode
+          : { replies: [] } // comment mode
+        ),
+      };
+      
+      if (Number.isInteger(replyToIdx)) {
         setComments(currComments => {
-          currComments[replyToIdx].replies.push(newReply);
+          currComments[replyToIdx].replies.push(newPost);
           return currComments;
         });
-        setPostText('');
-        // console.log('adding new reply:', newReply);
       }
+      else {
+        setComments(currComments => [...currComments, newPost]);
+      }
+
+      setPostText('');
+      // console.log('adding new post:', newPost);
     }
   };
 
@@ -115,7 +96,7 @@ const Forum = () => {
         displayedVal={postText}
         handleKeyPress={setPostText}
         handleSubmit={addPost}
-        placeholder={inputPlaceholderText}
+        placeholder={inputPlaceholder}
       />
     </>
   );
