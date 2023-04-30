@@ -160,6 +160,17 @@ const Forum = () => {
         return newComments;
       });
     }
+
+    // if deleting comment you were editing, clear edit state
+    if (
+      deleteTargetIdxs?.reply === editTargetIdxs?.reply
+      && deleteTargetIdxs?.commentGroup === editTargetIdxs?.commentGroup
+    ) {
+      setEditTargetIdxs(NO_TARGET);
+      setPostText('');
+      console.log('deleted comment you were editing; exiting edit mode');
+    }
+
     setDeleteTargetIdxs(NO_TARGET);
     setIsModalVisible(false);
   };
