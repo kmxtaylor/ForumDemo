@@ -361,18 +361,19 @@ const styles = StyleSheet.create({
   // Modal header
   modalTitle: {
     fontSize: 20,
-    fontFamily: 'Rubik_700Bold',
-    marginRight: 161,
+    fontFamily: 'Rubik_500Medium',
+    marginRight: 164,
     marginBottom: 20,
     color: colors.red,
   },
   // Modal text (body)
   modalText: {
-    fontSize: 16,
+    fontSize: 17,
     fontFamily: 'Rubik_400Regular',
     textAlign: 'left',
-    marginLeft: 13.6,
+    marginRight: 10,
     marginBottom: 20,
+    letterSpacing: 0.8,
     color: ' hsl(211, 10%, 45%)' // Grayish blue text
   },
   // Modal buttons container
