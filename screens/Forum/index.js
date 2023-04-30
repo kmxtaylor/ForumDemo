@@ -17,15 +17,26 @@ const Forum = () => {
   const [inputPlaceholderText, setInputPlaceholderText] = useState('');
 
   useEffect(() => {
+    // change input placeholder
     let placeholder;
     if (replyTargetIdx !== BLANK_TARGET) {
-      placeholder = `Reply to ${comments[replyTargetIdx].user.username}...`;
+      try {
+        placeholder = `Reply to ${comments[replyTargetIdx].user.username}...`;
+      }
+      catch (e) {
+        placeholder = 'Reply...';
+        console.log('replyTargetIdx: ', replyTargetIdx);
+        console.log(replyTargetIdx?.idx);
+        console.log(comments[replyTargetIdx]?.user);
+      }
     }
     else {
       placeholder = 'Comment...';
     }
     setInputPlaceholderText(placeholder);
     // console.log(placeholder);
+
+    // change input placeholder
   }, [replyTargetIdx]);
 
   function calcNextId() {
@@ -103,7 +114,8 @@ const Forum = () => {
       <CommentsList
         comments={comments}
         setComments={setComments} calcNextId={calcNextId} replyText={replyText} setReplyText={setReplyText} // won't need to pass in after I change reply functionality
-        setReplyTargetIdx={setReplyTargetIdx}
+        replyMode={replyTargetIdx}
+        setReplyMode={setReplyTargetIdx}
       />
       <InputContainer
         typedVal={postText}

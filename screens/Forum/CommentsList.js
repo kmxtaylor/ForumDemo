@@ -23,7 +23,7 @@ import { avatars, avatarStyles } from '../../assets/images/avatars';
 
 const CommentsList = ({ 
   setComments, calcNextId, replyText, setReplyText, // won't need to pass in after I change reply functionality
-  setReplyTargetIdx,
+  replyMode, setReplyMode,
   comments, style, ...rest }) => {
 
   // const [replyText, setReplyText] = useState('');
@@ -80,9 +80,38 @@ const CommentsList = ({
   //   }
   // }
 
-  const setTarget = (idx) => {
-    setReplyTargetIdx(idx);
-    console.log('set target idx: ', idx);
+  const ReplyControls = ({ index }) => {
+    if (replyMode === index) {
+      return (
+        <MyButton
+          style={styles.onPostActionButton}
+          onPress={() => setReplyMode(null)}
+          // testID="`cancelReplyButton_${commentId}_${replyId}`"
+        >
+          <MyText
+            style={[styles.onPostActionText, { color: colors.primary.softRed }]}
+          >
+            X Cancel
+          </MyText>
+        </MyButton>
+      );
+    }
+    else {
+      return (
+        <MyButton
+          style={styles.onPostActionButton}
+          onPress={() => setReplyMode(index)}
+          // testID="`replyButton_${commentId}_${replyId}`"
+        >
+          <IconReply style={styles.onPostActionButtonIcon} />
+          <MyText
+            style={[styles.onPostActionText, { color: colors.primary.moderateBlue }]}
+          >
+            Reply
+          </MyText>
+        </MyButton>
+      );
+    }
   };
 
   const tempUsername = 'juliusomo';
@@ -123,34 +152,7 @@ const CommentsList = ({
         </View>
 
         <View style={styles.replyInputContainer}>
-          {/* <TextInput
-            style={styles.replyInput}
-            value={replyText}
-            onChangeText={setReplyText}
-            placeholder='Reply to this comment'
-            // onSubmitEditing={() => addReply(index)}
-          /> */}
-          <MyButton
-            style={styles.onPostActionButton}
-            onPress={() => setTarget(index)}
-            // onPress={() => addReply(index)}
-            // testID="`replyButton_${commentId}_${replyId}`"
-          >
-            <IconReply style={styles.onPostActionButtonIcon} />
-            <MyText
-              style={[styles.onPostActionText, { color: colors.primary.moderateBlue }]}
-            >Reply</MyText>
-          </MyButton>
-          <MyButton
-            style={styles.onPostActionButton}
-            onPress={() => setTarget(null)}
-            // testID="`cancelReplyButton_${commentId}_${replyId}`"
-          >
-            {/* <IconReply style={styles.onPostActionButtonIcon} /> */}
-            <MyText
-              style={[styles.onPostActionText, { color: colors.primary.softRed }]}
-            >X Cancel</MyText>
-          </MyButton>
+          <ReplyControls index={index} />
         </View>
 
       </MyCard>
