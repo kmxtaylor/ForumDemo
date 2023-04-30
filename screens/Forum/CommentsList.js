@@ -110,93 +110,98 @@ const CommentsList = ({
 
   const renderPost = ({ item, index }) => (
     // Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies
-    <MyCard key={index}>
-      <View style={styles.cardTopRow}>
-        <Image
-          style={styles.avatar}
-          source={avatars[item.user.username || tempUsername]}
-        />
-        <MyText style={styles.postAuthor}>{item.user.username}</MyText>
-        <YouTag postAuthor={item.user.username || tempUsername} />
-        <MyText style={styles.createdAt}>{item.createdAt}</MyText>
-      </View>
-      <MyText style={styles.commentText}>
-        {' ' + item.content}
-      </MyText>
-      <View style={styles.cardActionsRow}>
-        <View
-          style={styles.vote}           
-          // testID="`votes_${commentId}_${replyId}`"
-        >
-          <IconPlus />
-          <MyText style={styles.voteText}>{item.score}</MyText>
-          <IconMinus />
+    <View style={styles.postGroupContainer}>
+      <MyCard key={index}>
+        <View style={styles.cardTopRow}>
+          <Image
+            style={styles.avatar}
+            source={avatars[item.user.username || tempUsername]}
+          />
+          <MyText style={styles.postAuthor}>{item.user.username}</MyText>
+          <YouTag postAuthor={item.user.username || tempUsername} />
+          <MyText style={styles.createdAt}>{item.createdAt}</MyText>
         </View>
-        <View style={styles.onPostActionButtonsView}>
-          <ActionButtons />
+        <MyText style={styles.commentText}>
+          {' ' + item.content}
+        </MyText>
+        <View style={styles.cardActionsRow}>
+          <View
+            style={styles.vote}           
+            // testID="`votes_${commentId}_${replyId}`"
+          >
+            <IconPlus />
+            <MyText style={styles.voteText}>{item.score}</MyText>
+            <IconMinus />
+          </View>
+          <View style={styles.onPostActionButtonsView}>
+            <ActionButtons />
+          </View>
         </View>
-      </View>
 
-      <View style={styles.replyInputContainer}>
-        <TextInput
-          style={styles.replyInput}
-          value={replyText}
-          onChangeText={setReplyText}
-          placeholder='Reply to this comment'
-          onSubmitEditing={() => addReply(index)}
-        />
-        <MyButton
-          style={styles.onPostActionButton}
-          onPress={() => addReply(index)}
-          // testID="`replyButton_${commentId}_${replyId}`"
-        >
-          <IconReply style={styles.onPostActionButtonIcon} />
-          <MyText
-            style={[styles.onPostActionText, { color: colors.primary.moderateBlue }]}
-          >Reply</MyText>
-        </MyButton>
-        <MyButton
-          style={styles.onPostActionButton}
-          onPress={() => (alert('Reply canceling not coded yet'))}
-          testID="`cancelReplyButton_${commentId}_${replyId}`"
-        >
-          {/* <IconReply style={styles.onPostActionButtonIcon} /> */}
-          <MyText
-            style={[styles.onPostActionText, { color: colors.primary.softRed }]}
-          >X Cancel</MyText>
-        </MyButton>
-      </View>
+        <View style={styles.replyInputContainer}>
+          <TextInput
+            style={styles.replyInput}
+            value={replyText}
+            onChangeText={setReplyText}
+            placeholder='Reply to this comment'
+            onSubmitEditing={() => addReply(index)}
+          />
+          <MyButton
+            style={styles.onPostActionButton}
+            onPress={() => addReply(index)}
+            // testID="`replyButton_${commentId}_${replyId}`"
+          >
+            <IconReply style={styles.onPostActionButtonIcon} />
+            <MyText
+              style={[styles.onPostActionText, { color: colors.primary.moderateBlue }]}
+            >Reply</MyText>
+          </MyButton>
+          <MyButton
+            style={styles.onPostActionButton}
+            onPress={() => (alert('Reply canceling not coded yet'))}
+            testID="`cancelReplyButton_${commentId}_${replyId}`"
+          >
+            {/* <IconReply style={styles.onPostActionButtonIcon} /> */}
+            <MyText
+              style={[styles.onPostActionText, { color: colors.primary.softRed }]}
+            >X Cancel</MyText>
+          </MyButton>
+        </View>
 
-      {item.replies.map((reply, i) => (
-        <MyCard style={styles.replyContainer}>
-          <View style={styles.cardTopRow} key={i}>
-            <Image
-              style={styles.avatar}
-              source={avatars[reply.user.username || tempUsername]}
-            />
-            <MyText style={styles.postAuthor}>{reply.user.username}</MyText>
-            <YouTag postAuthor={reply.user.username || tempUsername} />
-            <MyText style={styles.createdAt}>{reply.createdAt}</MyText>
-          </View>
-          <MyText style={styles.commentText}>
-            <MyText style={styles.replyAtUsername}>@{reply.user.username || tempUsername}</MyText>{' ' + reply.content}
-          </MyText>
-          <View style={styles.cardActionsRow}>
-            <View
-              style={styles.vote}           
-              // testID="`votes_${commentId}_${replyId}`"
-            >
-              <IconPlus />
-              <MyText style={styles.voteText}>{reply.score}</MyText>
-              <IconMinus />
+      </MyCard>
+
+      <View style={styles.repliesContainer}>
+        {item.replies.map((reply, i) => (
+          <MyCard key={i} style={i === 0 ? {marginTop:0} : {}}>
+            <View style={styles.cardTopRow}>
+              <Image
+                style={styles.avatar}
+                source={avatars[reply.user.username || tempUsername]}
+              />
+              <MyText style={styles.postAuthor}>{reply.user.username}</MyText>
+              <YouTag postAuthor={reply.user.username || tempUsername} />
+              <MyText style={styles.createdAt}>{reply.createdAt}</MyText>
             </View>
-            <View style={styles.onPostActionButtonsView}>
-              <ActionButtons />
+            <MyText style={styles.commentText}>
+              <MyText style={styles.replyAtUsername}>@{reply.user.username || tempUsername}</MyText>{' ' + reply.content}
+            </MyText>
+            <View style={styles.cardActionsRow}>
+              <View
+                style={styles.vote}           
+                // testID="`votes_${commentId}_${replyId}`"
+              >
+                <IconPlus />
+                <MyText style={styles.voteText}>{reply.score}</MyText>
+                <IconMinus />
+              </View>
+              <View style={styles.onPostActionButtonsView}>
+                <ActionButtons />
+              </View>
             </View>
-          </View>
-        </MyCard>
-      ))}
-    </MyCard>
+          </MyCard>
+        ))}
+      </View>
+    </View>
   );
 
   return (
@@ -213,6 +218,17 @@ const CommentsList = ({
 /* Styles */
 const styles = StyleSheet.create({
   ...avatarStyles,
+  commentsList: {
+    flex: 1,
+    height: '100%',
+    marginBottom: 10,
+  },
+  postGroupContainer: {
+    // width: '100%',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // marginTop: 15,
+  },
   cardTopRow: {
     width: '100%',
     flexDirection: 'row',
@@ -277,11 +293,6 @@ const styles = StyleSheet.create({
   onPostActionText: {
     fontWeight: '700',
   },
-  commentsList: {
-    flex: 1,
-    height: '100%',
-    marginBottom: 10,
-  },
   commentText: {
     width: '100%',
     marginTop: 20,
@@ -295,8 +306,13 @@ const styles = StyleSheet.create({
     color: colors.primary.moderateBlue,
     // marginRight: 10,
   },
-  replyContainer: {
-    // marginVertical: 5,
+  repliesContainer: {
+    marginTop: 15,
+    width: '100%',
+    paddingLeft: 15,
+
+    borderLeftWidth: 1,
+    borderLeftColor: colors.neutral.lightGray,
   },
   replyText: {
     // fontSize: 16,

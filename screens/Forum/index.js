@@ -12,6 +12,8 @@ const Forum = () => {
   const [postText, setPostText] = useState('');
   // const [replyText, setReplyText] = useState('');
 
+  const [replyTargetIdx, setReplyTargetIdx] = useState('');
+
   function calcNextId() {
     if (comments.length === 0 ) {
       return 1;
