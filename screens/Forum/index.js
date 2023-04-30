@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import InputContainer from './InputContainer';
 import CommentsList from './CommentsList';
+import DeletionModal from './DeletionModal';
 
 import data from '../../assets/data/data.json';
 
@@ -13,13 +14,17 @@ const Forum = () => {
   const NO_TARGET = null;
   // { commentGroup: null, reply: null };
   const [replyTargetIdxs, setReplyTargetIdxs] = useState(NO_TARGET);
-  // const [commentTargetIdx, setCommentTargetIdx] = useState(NO_TARGET);
-  // const [nestedTargetIdx, setNestedTargetIdx] = useState(null);
   const [replyingToUsername, setReplyingToUsername] = useState('');
   const [inputPlaceholder, setInputPlaceholder] = useState('Type a comment...');
 
+  // useState for modal visibility and comment to delete
+  // { commentGroup: null, reply: null };
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [deleteTargetIdxs, setDeleteTargetIdxs] = useState(NO_TARGET);
+
   useEffect(() => {
     console.log(
+      'will reply to: ',
       `commentGroup: ${replyTargetIdxs?.commentGroup}\t`,
       `reply: ${replyTargetIdxs?.reply}`
     );
@@ -95,6 +100,7 @@ const Forum = () => {
       };
       
       if (replyTargetIdxs) {
+        // add to replies
         setComments(currComments => {
           currComments[replyTargetIdxs.commentGroup]
             .replies.push(newPost); // simplest: add to end of comment group
@@ -102,6 +108,7 @@ const Forum = () => {
         });
       }
       else {
+        // add to comment groups
         setComments(currComments => [...currComments, newPost]);
       }
 
@@ -112,12 +119,77 @@ const Forum = () => {
     }
   };
 
+  // Function to delete post and open modal to confirm delete post
+  const deletePost = ( idxObj ) => {
+    setDeleteTargetIdxs(idxObj);
+    setIsModalVisible(true);
+
+    console.log(
+      'initiate delete:',
+      // idxObj,
+      `commentGroup: ${idxObj?.commentGroup}\t`,
+      `reply: ${idxObj?.reply}`
+    );
+  };
+
+  // function to cancel delete post
+  // Closes modal after delete post is cancelled
+  const cancelDeletePost = () => {
+    setDeleteTargetIdxs(NO_TARGET);
+    setIsModalVisible(false);
+  };
+
+  // Function to confirm and delete post.
+  // Closes modal after delete post is confirmed
+  const confirmDeletePost = () => {
+    // setComments(currComments => {
+    //   const newComments = [...currComments];
+    //   newComments.splice(deleteTargetIdxs, 1);
+    //   return newComments;
+    // });
+    console.log(
+      'confirmed delete:',
+      `commentGroup: ${replyTargetIdxs?.commentGroup}\t`,
+      `reply: ${replyTargetIdxs?.reply}`
+    );
+    if (deleteTargetIdxs?.reply) {
+      // delete individual reply
+      setComments(currComments => {
+        const newComments = [...currComments];
+        newComments[deleteTargetIdxs.commentGroup].replies
+          .splice(deleteTargetIdxs.reply, 1);
+        return newComments;
+      });
+    }
+    else {
+      // delete whole comment group
+      setComments(currComments => {
+        const newComments = [...currComments];
+        newComments.splice(deleteTargetIdxs.commentGroup, 1);
+        return newComments;
+      });
+    }
+    setDeleteTargetIdxs(NO_TARGET);
+    setIsModalVisible(false);
+  };
+
+  const editPost = ({ postObj }) => {
+    alert('Editing not yet implemented');
+  };
+
   return (
     <>
+      <DeletionModal
+        isModalVisible={isModalVisible}
+        cancelDeletePost={cancelDeletePost}
+        confirmDeletePost={confirmDeletePost}
+      />
       <CommentsList
         comments={comments}
         replyTargetIdxs={replyTargetIdxs}
         setReplyTargetIdxs={setReplyTargetIdxs}
+        handleClickDelete={deletePost}
+        handleClickEdit={editPost}
       />
       <InputContainer
         displayedVal={postText}
