@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import InputContainer from './InputContainer';
 import CommentsList from './CommentsList';
@@ -12,7 +12,21 @@ const Forum = () => {
   const [postText, setPostText] = useState('');
   const [replyText, setReplyText] = useState('');
 
-  const [replyTargetIdx, setReplyTargetIdx] = useState(null);
+  const BLANK_TARGET = null;
+  const [replyTargetIdx, setReplyTargetIdx] = useState(BLANK_TARGET);
+  const [inputPlaceholderText, setInputPlaceholderText] = useState('');
+
+  useEffect(() => {
+    let placeholder;
+    if (replyTargetIdx !== BLANK_TARGET) {
+      placeholder = `Reply to ${comments[replyTargetIdx].user.username}...`;
+    }
+    else {
+      placeholder = 'Comment...';
+    }
+    setInputPlaceholderText(placeholder);
+    // console.log(placeholder);
+  }, [replyTargetIdx]);
 
   function calcNextId() {
     if (comments.length === 0 ) {
@@ -38,7 +52,7 @@ const Forum = () => {
   const addComment = () => {
     if (postText !== '') {
       const myUname = data.currentUser.username;
-      if (!replyTargetIdx) {
+      if (replyTargetIdx === BLANK_TARGET) {
         const newComment = {
           id: calcNextId(),
           content: postText,
@@ -84,34 +98,6 @@ const Forum = () => {
     }
   };
 
-  const addReply = (commentIdx) => {
-    if (replyText !== '') {
-      // const myUname = data.currentUser.username;
-      // const newReply = {
-      //   id: calcNextId(),
-      //   content: replyText,
-      //   createdAt: 'just now', // idk how accurate we wanna be
-      //   score: 0,
-      //   replyingTo: comments[commentIdx].user.username,
-      //   user: {
-      //     image: {
-      //       png: `./images/avatars/image-${myUname}.png`,
-      //       webp: `./images/avatars/image-${myUname}.webp`,
-      //     },
-      //     username: myUname,
-      //   },
-      // };
-      // // use updater function for data locking
-      // setComments(currComments => {
-      //   currComments[commentIdx].replies.push(newReply);
-      //   return currComments;
-      // });
-      // setReplyText('');
-      // console.log('adding new reply:', newReply);
-      setReplyTargetIdx((prevState) => commentIdx);
-    }
-  };
-
   return (
     <>
       <CommentsList
@@ -123,6 +109,7 @@ const Forum = () => {
         typedVal={postText}
         handleTyping={setPostText}
         handleSubmit={addComment}
+        placeholder={inputPlaceholderText}
       />
     </>
   );

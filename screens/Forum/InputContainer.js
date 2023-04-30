@@ -15,7 +15,7 @@ import colors from '../../assets/colors';
 import data from '../../assets/data/data.json';
 import { avatars, avatarStyles } from '../../assets/images/avatars';
 
-const InputContainer = ({ style, typedVal, handleTyping, handleSubmit, ...rest }) => {
+const InputContainer = ({ style, typedVal, handleTyping, handleSubmit, placeholder, ...rest }) => {
   return (
     <MyCard
       style={style}
@@ -25,7 +25,7 @@ const InputContainer = ({ style, typedVal, handleTyping, handleSubmit, ...rest }
         style={styles.input}
         value={typedVal}
         onChangeText={handleTyping}
-        placeholder='Type here...'
+        placeholder={placeholder}
         multiline={true}
         // maxLength={}
         testID='input'
