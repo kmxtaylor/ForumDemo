@@ -10,9 +10,9 @@ const Forum = () => {
   const [comments, setComments] = useState([]);
   
   const [postText, setPostText] = useState('');
-  // const [replyText, setReplyText] = useState('');
+  const [replyText, setReplyText] = useState('');
 
-  const [replyTargetIdx, setReplyTargetIdx] = useState('');
+  const [replyTargetIdx, setReplyTargetIdx] = useState(null);
 
   function calcNextId() {
     if (comments.length === 0 ) {
@@ -38,24 +38,77 @@ const Forum = () => {
   const addComment = () => {
     if (postText !== '') {
       const myUname = data.currentUser.username;
-      const newComment = {
-        id: calcNextId(),
-        content: postText,
-        createdAt: 'just now', // idk how accurate we wanna be
-        score: 0,
-        user: {
-          image: {
-            png: `./images/avatars/image-${myUname}.png`,
-            webp: `./images/avatars/image-${myUname}.webp`,
+      if (!replyTargetIdx) {
+        const newComment = {
+          id: calcNextId(),
+          content: postText,
+          createdAt: 'just now', // idk how accurate we wanna be
+          score: 0,
+          user: {
+            image: {
+              png: `./images/avatars/image-${myUname}.png`,
+              webp: `./images/avatars/image-${myUname}.webp`,
+            },
+            username: myUname,
           },
-          username: myUname,
-        },
-        replies: [],
-      };
-      // use updater function for data locking
-      setComments(currComments => [...currComments, newComment]);
-      setPostText('');
-      console.log('adding new comment:', newComment);
+          replies: [],
+        };
+        // use updater function for data locking
+        setComments(currComments => [...currComments, newComment]);
+        setPostText('');
+        console.log('adding new comment:', newComment);
+      }
+      else {
+        const newReply = {
+          id: calcNextId(),
+          content: postText,
+          createdAt: 'just now', // idk how accurate we wanna be
+          score: 0,
+          replyingTo: comments[replyTargetIdx].user.username,
+          user: {
+            image: {
+              png: `./images/avatars/image-${myUname}.png`,
+              webp: `./images/avatars/image-${myUname}.webp`,
+            },
+            username: myUname,
+          },
+        };
+        // use updater function for data locking
+        setComments(currComments => {
+          currComments[replyTargetIdx].replies.push(newReply);
+          return currComments;
+        });
+        setPostText('');
+        console.log('adding new reply:', newReply);
+      }
+    }
+  };
+
+  const addReply = (commentIdx) => {
+    if (replyText !== '') {
+      // const myUname = data.currentUser.username;
+      // const newReply = {
+      //   id: calcNextId(),
+      //   content: replyText,
+      //   createdAt: 'just now', // idk how accurate we wanna be
+      //   score: 0,
+      //   replyingTo: comments[commentIdx].user.username,
+      //   user: {
+      //     image: {
+      //       png: `./images/avatars/image-${myUname}.png`,
+      //       webp: `./images/avatars/image-${myUname}.webp`,
+      //     },
+      //     username: myUname,
+      //   },
+      // };
+      // // use updater function for data locking
+      // setComments(currComments => {
+      //   currComments[commentIdx].replies.push(newReply);
+      //   return currComments;
+      // });
+      // setReplyText('');
+      // console.log('adding new reply:', newReply);
+      setReplyTargetIdx((prevState) => commentIdx);
     }
   };
 
@@ -63,7 +116,8 @@ const Forum = () => {
     <>
       <CommentsList
         comments={comments}
-        setComments={setComments} calcNextId={calcNextId} // won't need to pass in after I change reply functionality
+        setComments={setComments} calcNextId={calcNextId} replyText={replyText} setReplyText={setReplyText} // won't need to pass in after I change reply functionality
+        setReplyTargetIdx={setReplyTargetIdx}
       />
       <InputContainer
         typedVal={postText}

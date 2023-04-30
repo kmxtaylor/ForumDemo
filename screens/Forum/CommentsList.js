@@ -22,37 +22,11 @@ import data from '../../assets/data/data.json';
 import { avatars, avatarStyles } from '../../assets/images/avatars';
 
 const CommentsList = ({ 
-  setComments, calcNextId, // won't need to pass in after I change reply functionality
+  setComments, calcNextId, replyText, setReplyText, // won't need to pass in after I change reply functionality
+  setReplyTargetIdx,
   comments, style, ...rest }) => {
 
-  const [replyText, setReplyText] = useState('');
-
-  const addReply = (commentIdx) => {
-    if (replyText !== '') {
-      const myUname = data.currentUser.username;
-      const newReply = {
-        id: calcNextId(),
-        content: replyText,
-        createdAt: 'just now', // idk how accurate we wanna be
-        score: 0,
-        replyingTo: comments[commentIdx].user.username,
-        user: {
-          image: {
-            png: `./images/avatars/image-${myUname}.png`,
-            webp: `./images/avatars/image-${myUname}.webp`,
-          },
-          username: myUname,
-        },
-      };
-      // use updater function for data locking
-      setComments(currComments => {
-        currComments[commentIdx].replies.push(newReply);
-        return currComments;
-      });
-      setReplyText('');
-      console.log('adding new reply:', newReply);
-    }
-  };
+  // const [replyText, setReplyText] = useState('');
 
   const deletePost = (item) => {
     alert('Deletion not yet implemented');
@@ -95,16 +69,21 @@ const CommentsList = ({
     // See below for actual reply button design
   }
 
-  const YouTag = ({ postAuthor }) => {
-    if (postAuthor === data.currentUser.username) { // something like that
-      return (
-        <MyText style={styles.youTag}>you</MyText>
-      );
-    }
-    else {
-      return null;
-    }
-  }
+  // const YouTag = ({ postAuthor }) => {
+  //   if (postAuthor === data.currentUser.username) { // something like that
+  //     return (
+  //       <MyText style={styles.youTag}>you</MyText>
+  //     );
+  //   }
+  //   else {
+  //     return null;
+  //   }
+  // }
+
+  const setTarget = (idx) => {
+    setReplyTargetIdx(idx);
+    console.log('set target idx: ', idx);
+  };
 
   const tempUsername = 'juliusomo';
 
@@ -118,7 +97,12 @@ const CommentsList = ({
             source={avatars[item.user.username || tempUsername]}
           />
           <MyText style={styles.postAuthor}>{item.user.username}</MyText>
-          <YouTag postAuthor={item.user.username || tempUsername} />
+          {/* <YouTag postAuthor={item.user.username || tempUsername} /> */}
+          {
+                (item.user.username || tempUsername) === data.currentUser.username
+                ? <MyText style={styles.youTag}>you</MyText>
+                : null
+              }
           <MyText style={styles.createdAt}>{item.createdAt}</MyText>
         </View>
         <MyText style={styles.commentText}>
@@ -139,16 +123,17 @@ const CommentsList = ({
         </View>
 
         <View style={styles.replyInputContainer}>
-          <TextInput
+          {/* <TextInput
             style={styles.replyInput}
             value={replyText}
             onChangeText={setReplyText}
             placeholder='Reply to this comment'
-            onSubmitEditing={() => addReply(index)}
-          />
+            // onSubmitEditing={() => addReply(index)}
+          /> */}
           <MyButton
             style={styles.onPostActionButton}
-            onPress={() => addReply(index)}
+            onPress={() => setTarget(index)}
+            // onPress={() => addReply(index)}
             // testID="`replyButton_${commentId}_${replyId}`"
           >
             <IconReply style={styles.onPostActionButtonIcon} />
@@ -158,8 +143,8 @@ const CommentsList = ({
           </MyButton>
           <MyButton
             style={styles.onPostActionButton}
-            onPress={() => (alert('Reply canceling not coded yet'))}
-            testID="`cancelReplyButton_${commentId}_${replyId}`"
+            onPress={() => setTarget(null)}
+            // testID="`cancelReplyButton_${commentId}_${replyId}`"
           >
             {/* <IconReply style={styles.onPostActionButtonIcon} /> */}
             <MyText
@@ -179,7 +164,12 @@ const CommentsList = ({
                 source={avatars[reply.user.username || tempUsername]}
               />
               <MyText style={styles.postAuthor}>{reply.user.username}</MyText>
-              <YouTag postAuthor={reply.user.username || tempUsername} />
+              {/* <YouTag postAuthor={reply.user.username || tempUsername} /> */}
+              {
+                (reply.user.username || tempUsername) === data.currentUser.username
+                ? <MyText style={styles.youTag}>you</MyText>
+                : null
+              }
               <MyText style={styles.createdAt}>{reply.createdAt}</MyText>
             </View>
             <MyText style={styles.commentText}>
@@ -221,13 +211,13 @@ const styles = StyleSheet.create({
   commentsList: {
     flex: 1,
     height: '100%',
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   postGroupContainer: {
     // width: '100%',
     // alignItems: 'center',
     // justifyContent: 'center',
-    // marginTop: 15,
+    marginBottom: 15,
   },
   cardTopRow: {
     width: '100%',
