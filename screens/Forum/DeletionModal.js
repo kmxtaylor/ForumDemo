@@ -36,13 +36,13 @@ const deletionModal = ({
             {/* marginRight & marginLeft is used to help with button spacing */}
             <MyButton
                 onPress={cancelDeletePost} 
-                style={[styles.modalButton, {backgroundColor:'hsl(211, 10%, 45%)'}, {marginLeft: 15}]}>
+                style={[styles.modalButton, {backgroundColor: colors.neutral.grayishBlue}, {marginLeft: 15}]}>
                 <MyText style={styles.modalButtonText}>NO, CANCEL</MyText>
             </MyButton>
             
             <MyButton
               onPress={confirmDeletePost} 
-              style={[styles.modalButton, {backgroundColor: 'hsl(358, 79%, 66%)',}, {marginRight: 15}]}>  
+              style={[styles.modalButton, {backgroundColor: colors.primary.softRed, marginRight: 15}]}>  
               <MyText style={styles.modalButtonText}>YES, DELETE</MyText>
             </MyButton>
             
