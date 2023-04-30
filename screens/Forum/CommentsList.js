@@ -26,74 +26,74 @@ const CommentsList = ({
 }) => {  
   
 
-  const MyPostButtons = ({ postObj, commentGroupIdx, replyIdx }) => {
-    // if (item?.author === currentUser?.username) {
-    return (
-      <>
-        <MyButton
-          style={styles.onPostActionButton}
-          // style={styles.deleteButton}
-          onPress={() => handleClickDelete(
-            { commentGroup: commentGroupIdx, reply: replyIdx }
-          )}
-          // onPress={() => console.log(`{ commentGroup: ${commentGroupIdx}, reply: ${replyIdx} }`)}
-        >
-          <IconDelete style={styles.onPostActionButtonIcon} />
-          <MyText style={{fontWeight: '700', color: colors.primary.softRed}}
-          >Delete</MyText>
-        </MyButton>
-        <MyButton
-          style={styles.onPostActionButton}
-          // style={styles.editButton}
-          onPress={() => handleClickEdit(
-            { commentGroup: commentGroupIdx, reply: replyIdx }
-          )}
-          // onPress={() => console.log(`{ commentGroup: ${commentGroupIdx}, reply: ${replyIdx} }`)}
-        >
-          <IconEdit style={styles.onPostActionButtonIcon} />
-          <MyText style={{fontWeight: '700', color: colors.primary.moderateBlue}}
-          >Edit</MyText>
-        </MyButton>
-      </>
-    );
-  };
-
-  const OthersPostButtons = ({ postObj, commentGroupIdx, replyIdx }) => {
-    if (
-      replyTargetIdxs?.reply === replyIdx
-      && replyTargetIdxs?.commentGroup === commentGroupIdx
-    ) {
+  const PostActionButtons = ({ postObj, commentGroupIdx, replyIdx }) => {
+    if (postObj.user.username === data.currentUser.username) {
       return (
-        <MyButton
-          style={styles.onPostActionButton}
-          onPress={() => setReplyTargetIdxs(null)} // NO_TARGET
-          // testID="`cancelReplyButton_${commentId}_${replyId}`"
-        >
-          <MyText
-            style={{fontWeight: '700', color: colors.primary.softRed}}
+        <>
+          <MyButton
+            style={styles.onPostActionButton}
+            // style={styles.deleteButton}
+            onPress={() => handleClickDelete(
+              { commentGroup: commentGroupIdx, reply: replyIdx }
+            )}
+            // onPress={() => console.log(`{ commentGroup: ${commentGroupIdx}, reply: ${replyIdx} }`)}
           >
-            X Cancel
-          </MyText>
-        </MyButton>
+            <IconDelete style={styles.onPostActionButtonIcon} />
+            <MyText style={{fontWeight: '700', color: colors.primary.softRed}}
+            >Delete</MyText>
+          </MyButton>
+          <MyButton
+            style={styles.onPostActionButton}
+            // style={styles.editButton}
+            onPress={() => handleClickEdit(
+              { commentGroup: commentGroupIdx, reply: replyIdx }
+            )}
+            // onPress={() => console.log(`{ commentGroup: ${commentGroupIdx}, reply: ${replyIdx} }`)}
+          >
+            <IconEdit style={styles.onPostActionButtonIcon} />
+            <MyText style={{fontWeight: '700', color: colors.primary.moderateBlue}}
+            >Edit</MyText>
+          </MyButton>
+        </>
       );
     }
     else {
-      return (
-        <MyButton
-          style={styles.onPostActionButton}
-          onPress={() => setReplyTargetIdxs(
-            { commentGroup: commentGroupIdx, reply: replyIdx }
-          )}
-          // testID="`replyButton_${commentId}_${replyId}`"
-        >
-          <IconReply style={styles.onPostActionButtonIcon} />
-          <MyText
-            style={{fontWeight: '700', color: colors.primary.moderateBlue}}
+      if (
+        replyTargetIdxs?.reply === replyIdx
+        && replyTargetIdxs?.commentGroup === commentGroupIdx
+      ) {
+        return (
+          <MyButton
+            style={styles.onPostActionButton}
+            onPress={() => setReplyTargetIdxs(null)} // NO_TARGET
+            // testID="`cancelReplyButton_${commentId}_${replyId}`"
           >
-            Reply
-          </MyText>
-        </MyButton>
-      );
+            <MyText
+              style={{fontWeight: '700', color: colors.primary.softRed}}
+            >
+              X Cancel
+            </MyText>
+          </MyButton>
+        );
+      }
+      else {
+        return (
+          <MyButton
+            style={styles.onPostActionButton}
+            onPress={() => setReplyTargetIdxs(
+              { commentGroup: commentGroupIdx, reply: replyIdx }
+            )}
+            // testID="`replyButton_${commentId}_${replyId}`"
+          >
+            <IconReply style={styles.onPostActionButtonIcon} />
+            <MyText
+              style={{fontWeight: '700', color: colors.primary.moderateBlue}}
+            >
+              Reply
+            </MyText>
+          </MyButton>
+        );
+      }
     }
   };
 
@@ -135,12 +135,7 @@ const CommentsList = ({
             <IconMinus />
           </View>
           <View style={styles.onPostActionButtonsView}>
-            <MyPostButtons
-              postObj={postObj}
-              commentGroupIdx={commentGroupIdx}
-              replyIdx={replyIdx}
-            />
-            <OthersPostButtons
+            <PostActionButtons
               postObj={postObj}
               commentGroupIdx={commentGroupIdx}
               replyIdx={replyIdx}
