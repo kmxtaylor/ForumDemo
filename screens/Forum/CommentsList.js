@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import {
   View,
   FlatList,
@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import MyButton from '../../components/MyButton';
 import MyText from '../../components/MyText';
@@ -56,25 +56,7 @@ const CommentsList = ({
         </MyButton>
       </>
     );
-    // }
-    // else {
-    //   <MyButton>
-    //     <MyText>Reply!</MyText>
-    //   </MyButton>
-    // }
-    // See below for actual reply button design
   }
-
-  // const YouTag = ({ postAuthor }) => {
-  //   if (postAuthor === data.currentUser.username) { // something like that
-  //     return (
-  //       <MyText style={styles.youTag}>you</MyText>
-  //     );
-  //   }
-  //   else {
-  //     return null;
-  //   }
-  // }
 
   const ReplyControls = ({ index }) => {
     if (replyToIdx === index) {
@@ -112,7 +94,7 @@ const CommentsList = ({
 
   const tempUsername = 'juliusomo';
 
-  const renderPost = ({ item, index }) => (
+  const renderPostGroup = ({ item, index }) => (
     // Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies
     <View style={styles.postGroupContainer}>
       <MyCard key={index}>
@@ -147,6 +129,7 @@ const CommentsList = ({
           </View>
         </View>
 
+        {/* temp container */}
         <View style={styles.replyInputContainer}>
           <ReplyControls index={index} />
         </View>
@@ -171,7 +154,7 @@ const CommentsList = ({
               <MyText style={styles.createdAt}>{reply.createdAt}</MyText>
             </View>
             <MyText style={styles.commentText}>
-              <MyText style={styles.replyAtUsername}>@{reply.user.username || tempUsername}</MyText>{' ' + reply.content}
+              <MyText style={styles.replyAtTag}>@{reply.user.username || tempUsername}</MyText>{' ' + reply.content}
             </MyText>
             <View style={styles.cardActionsRow}>
               <View
@@ -196,7 +179,7 @@ const CommentsList = ({
     <FlatList // scrollable
       style={styles.commentsList}
       data={comments}
-      renderItem={renderPost}
+      renderItem={renderPostGroup}
       keyExtractor={(item, index) => index.toString()}
       testID='commentsList'
     />
@@ -289,7 +272,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: colors.neutral.grayishBlue,
   },
-  replyAtUsername: {
+  replyAtTag: {
     fontWeight: '700',
     color: colors.primary.moderateBlue,
     // marginRight: 10,
