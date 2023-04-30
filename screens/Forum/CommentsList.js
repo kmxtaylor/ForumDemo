@@ -45,7 +45,10 @@ const CommentsList = ({
         <MyButton
           style={styles.onPostActionButton}
           // style={styles.editButton}
-          onPress={() => handleClickEdit(item)}
+          onPress={() => handleClickEdit(
+            { commentGroup: commentGroupIdx, reply: replyIdx }
+          )}
+          // onPress={() => console.log(`{ commentGroup: ${commentGroupIdx}, reply: ${replyIdx} }`)}
         >
           <IconEdit style={styles.onPostActionButtonIcon} />
           <MyText style={{fontWeight: '700', color: colors.primary.moderateBlue}}

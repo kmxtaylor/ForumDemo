@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   View,
   TextInput,
@@ -16,7 +15,7 @@ import data from '../../assets/data/data.json';
 import { avatars, avatarStyles } from '../../assets/images/avatars';
 
 const InputContainer = ({
-  displayedVal, handleKeyPress, handleSubmit, placeholder, style, ...rest 
+  displayedVal, handleKeyPress, handleSendPost, handleSaveEdits, placeholder, editingMode, style, ...rest 
 }) => {
   return (
     <MyCard
@@ -37,8 +36,11 @@ const InputContainer = ({
           style={styles.avatar}
           source={avatars[data.currentUser.username]}
         />
-        <MyButton style={styles.sendButton} onPress={handleSubmit}>
-          <MyText style={styles.sendButtonText}>SEND</MyText>
+        <MyButton
+          style={styles.sendButton}
+          onPress={editingMode ? handleSaveEdits : handleSendPost}
+        >
+          <MyText style={styles.sendButtonText}>{editingMode ? 'SAVE' : 'SEND'}</MyText>
         </MyButton>
       </View>
     </MyCard>
@@ -49,7 +51,7 @@ InputContainer.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   typedVal: PropTypes.string,
   handleTyping: PropTypes.func,
-  handleSubmit: PropTypes.func,
+  handleSendPost: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

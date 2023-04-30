@@ -24,6 +24,7 @@ const Forum = () => {
   const [deleteTargetIdxs, setDeleteTargetIdxs] = useState(NO_TARGET);
 
   // model edit functionality state management after delete
+  const [editTargetIdxs, setEditTargetIdxs] = useState(NO_TARGET);
 
   useEffect(() => {
     console.log(
@@ -115,7 +116,7 @@ const Forum = () => {
   };
 
   // Function to delete post and open modal to confirm delete post
-  const deletePost = (idxObj) => {
+  const startDeletePost = (idxObj) => {
     setDeleteTargetIdxs(idxObj);
     setIsModalVisible(true);
 
@@ -142,7 +143,7 @@ const Forum = () => {
       `commentGroup: ${deleteTargetIdxs?.commentGroup}\t`,
       `reply: ${deleteTargetIdxs?.reply}`
     );
-    if (deleteTargetIdxs?.reply !== null) {
+    if (deleteTargetIdxs?.reply !== NO_TARGET) {
       // delete individual reply
       setComments(currComments => {
         const newComments = [...currComments];
@@ -163,8 +164,57 @@ const Forum = () => {
     setIsModalVisible(false);
   };
 
-  const editPost = ({ postObj }) => {
-    alert('Editing not yet implemented');
+  const startEditPost = (idxObj) => {
+    setEditTargetIdxs(idxObj); // may be unnecessary
+    console.log(
+      'initiate edit:',
+      // idxObj,
+      `commentGroup: ${idxObj?.commentGroup}\t`,
+      `reply: ${idxObj?.reply}`
+    );
+
+    if (idxObj?.reply !== NO_TARGET) {
+      // edit reply
+      setPostText(
+        comments[idxObj.commentGroup].replies[idxObj.reply].content
+      );
+    }
+    else {
+      // edit parent comment of comment group
+      setPostText(
+        comments[idxObj.commentGroup].content
+      );
+    }
+  };
+
+  const saveEdits = () => {
+    // we should eventually handle the edge case where you start editing and then you delete the comment you were editing
+    console.log(
+      'saved edits:',
+      `commentGroup: ${editTargetIdxs?.commentGroup}\t`,
+      `reply: ${editTargetIdxs?.reply}`
+    );
+
+    if (editTargetIdxs?.reply !== NO_TARGET) {
+      // edit reply
+      setComments(currComments => {
+        const newComments = [...currComments];
+        newComments[editTargetIdxs.commentGroup]
+          .replies[editTargetIdxs.reply].content = postText;
+        return newComments;
+      });
+    }
+    else {
+      // edit parent comment of comment group
+      setComments(currComments => {
+        const newComments = [...currComments];
+        newComments[editTargetIdxs.commentGroup].content = postText;
+        return newComments;
+      });
+    }
+
+    setEditTargetIdxs(NO_TARGET);
+    setPostText('');
   };
 
   return (
@@ -178,14 +228,16 @@ const Forum = () => {
         comments={comments}
         replyTargetIdxs={replyTargetIdxs}
         setReplyTargetIdxs={setReplyTargetIdxs}
-        handleClickDelete={deletePost}
-        handleClickEdit={editPost}
+        handleClickDelete={startDeletePost}
+        handleClickEdit={startEditPost}
       />
       <InputContainer
         displayedVal={postText}
         handleKeyPress={setPostText}
-        handleSubmit={addPost}
+        handleSendPost={addPost}
+        handleSaveEdits={saveEdits}
         placeholder={inputPlaceholder}
+        editingMode={editTargetIdxs !== NO_TARGET}
       />
     </>
   );
