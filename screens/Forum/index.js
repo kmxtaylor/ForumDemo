@@ -44,6 +44,7 @@ const Forum = () => {
       placeholder = `Type a reply to ${replyToName}...`;
     }
     else {
+      setReplyingToUsername('');
       placeholder = 'Type a comment...';
     }
     setInputPlaceholder(placeholder);
@@ -105,6 +106,8 @@ const Forum = () => {
       }
 
       setPostText('');
+      setReplyTargetIdxs(NO_TARGET);
+      // setReplyingToUsername(''); // already handled by other setter
       // console.log('adding new post:', newPost);
     }
   };

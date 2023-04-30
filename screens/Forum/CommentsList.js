@@ -67,7 +67,7 @@ const CommentsList = ({
       return (
         <MyButton
           style={styles.onPostActionButton}
-          onPress={() => setReplyTargetIdxs(null)}
+          onPress={() => setReplyTargetIdxs(null)} // NO_TARGET
           // testID="`cancelReplyButton_${commentId}_${replyId}`"
         >
           <MyText
