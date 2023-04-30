@@ -2,10 +2,8 @@ import { useState } from 'react';
 import {
   View,
   FlatList,
-  TextInput,
   StyleSheet,
   Image,
-  Modal,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -96,8 +94,6 @@ const CommentsList = ({
     }
   };
 
-  const tempUsername = 'juliusomo';
-
   const Post = ({
     postType = 'comment', postObj, commentGroupIdx, replyIdx = null, ...rest
   }) => {
@@ -106,12 +102,12 @@ const CommentsList = ({
         <View style={styles.cardTopRow}>
           <Image
             style={styles.avatar}
-            source={avatars[postObj.user.username ?? tempUsername]}
+            source={avatars[postObj.user.username]}
           />
           <MyText style={styles.postAuthor}>{postObj.user.username}</MyText>
-          {/* <YouTag postAuthor={postObj.user.username ?? tempUsername} /> */}
+          {/* <YouTag postAuthor={postObj.user.username} /> */}
           {
-            (postObj.user.username ?? tempUsername) === data.currentUser.username
+            postObj.user.username === data.currentUser.username
             ? <MyText style={styles.youTag}>you</MyText>
             : null
           }
@@ -120,7 +116,7 @@ const CommentsList = ({
         <MyText style={styles.postText}>
           { postType === 'reply' && (
               <MyText style={styles.replyAtTag}>
-                @{postObj.user.username ?? tempUsername}
+                @{postObj.replyingTo}
               </MyText>
             )
           }
@@ -281,29 +277,6 @@ const styles = StyleSheet.create({
 
     borderLeftWidth: 1,
     borderLeftColor: colors.neutral.lightGray,
-  },
-  replyText: {
-    // fontSize: 16,
-    fontWeight: '500',
-    color: colors.neutral.grayishBlue,
-    marginVertical: 2,
-  },
-  replyInput: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: colors.neutral.lightGray,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    marginRight: 10,
-    // fontSize: 16,
-  },
-  replyButton: {
-    backgroundColor: colors.neutral.white,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    borderRadius: 10,
-    fontWeight: '700',
   },
 });
 

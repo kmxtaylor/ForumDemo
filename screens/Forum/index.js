@@ -8,7 +8,8 @@ import data from '../../assets/data/data.json';
 
 /* Manage data between CommentList */
 const Forum = () => {
-  const [comments, setComments] = useState([]);
+  // const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(data.comments);
   const [postText, setPostText] = useState('');
 
   const NO_TARGET = null;
@@ -21,6 +22,8 @@ const Forum = () => {
   // { commentGroup: null, reply: null };
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [deleteTargetIdxs, setDeleteTargetIdxs] = useState(NO_TARGET);
+
+  // model edit functionality state management after delete
 
   useEffect(() => {
     console.log(
@@ -46,7 +49,7 @@ const Forum = () => {
         ?? commentGroup?.user?.username
       );
       setReplyingToUsername(replyToName); // store for easier tagging reference
-      placeholder = `Type a reply to ${replyToName}...`;
+      placeholder = `Type a reply to @${replyToName}...`;
     }
     else {
       setReplyingToUsername('');
@@ -142,11 +145,6 @@ const Forum = () => {
   // Function to confirm and delete post.
   // Closes modal after delete post is confirmed
   const confirmDeletePost = () => {
-    // setComments(currComments => {
-    //   const newComments = [...currComments];
-    //   newComments.splice(deleteTargetIdxs, 1);
-    //   return newComments;
-    // });
     console.log(
       'confirmed delete:',
       `commentGroup: ${replyTargetIdxs?.commentGroup}\t`,
