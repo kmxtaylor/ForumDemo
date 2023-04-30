@@ -8,36 +8,31 @@ import data from '../../assets/data/data.json';
 /* Manage data between CommentList */
 const Forum = () => {
   const [comments, setComments] = useState([]);
-  
   const [postText, setPostText] = useState('');
-  const [replyText, setReplyText] = useState('');
 
-  const BLANK_TARGET = null;
-  const [replyTargetIdx, setReplyTargetIdx] = useState(BLANK_TARGET);
+  const NO_TARGET = null;
+  const [replyToIdx, setReplyToIdx] = useState(NO_TARGET);
   const [inputPlaceholderText, setInputPlaceholderText] = useState('');
 
   useEffect(() => {
     // change input placeholder
     let placeholder;
-    if (replyTargetIdx !== BLANK_TARGET) {
+    if (replyToIdx !== NO_TARGET) {
       try {
-        placeholder = `Reply to ${comments[replyTargetIdx].user.username}...`;
+        placeholder = `Type reply to ${comments[replyToIdx].user.username}...`;
       }
-      catch (e) {
-        placeholder = 'Reply...';
-        console.log('replyTargetIdx: ', replyTargetIdx);
-        console.log(replyTargetIdx?.idx);
-        console.log(comments[replyTargetIdx]?.user);
+      catch (err) {
+        placeholder = 'Type reply...';
+        console.error(err.message);
+        console.log('replyToIdx: ', replyToIdx);
       }
     }
     else {
-      placeholder = 'Comment...';
+      placeholder = 'Type comment...';
     }
     setInputPlaceholderText(placeholder);
     // console.log(placeholder);
-
-    // change input placeholder
-  }, [replyTargetIdx]);
+  }, [replyToIdx]);
 
   function calcNextId() {
     if (comments.length === 0 ) {
@@ -60,10 +55,10 @@ const Forum = () => {
     return maxUsedId + 1;
   }
 
-  const addComment = () => {
+  const addPost = () => {
     if (postText !== '') {
       const myUname = data.currentUser.username;
-      if (replyTargetIdx === BLANK_TARGET) {
+      if (replyToIdx === NO_TARGET) {
         const newComment = {
           id: calcNextId(),
           content: postText,
@@ -81,7 +76,7 @@ const Forum = () => {
         // use updater function for data locking
         setComments(currComments => [...currComments, newComment]);
         setPostText('');
-        console.log('adding new comment:', newComment);
+        // console.log('adding new comment:', newComment);
       }
       else {
         const newReply = {
@@ -89,7 +84,7 @@ const Forum = () => {
           content: postText,
           createdAt: 'just now', // idk how accurate we wanna be
           score: 0,
-          replyingTo: comments[replyTargetIdx].user.username,
+          replyingTo: comments[replyToIdx].user.username,
           user: {
             image: {
               png: `./images/avatars/image-${myUname}.png`,
@@ -100,11 +95,11 @@ const Forum = () => {
         };
         // use updater function for data locking
         setComments(currComments => {
-          currComments[replyTargetIdx].replies.push(newReply);
+          currComments[replyToIdx].replies.push(newReply);
           return currComments;
         });
         setPostText('');
-        console.log('adding new reply:', newReply);
+        // console.log('adding new reply:', newReply);
       }
     }
   };
@@ -113,14 +108,13 @@ const Forum = () => {
     <>
       <CommentsList
         comments={comments}
-        setComments={setComments} calcNextId={calcNextId} replyText={replyText} setReplyText={setReplyText} // won't need to pass in after I change reply functionality
-        replyMode={replyTargetIdx}
-        setReplyMode={setReplyTargetIdx}
+        replyToIdx={replyToIdx}
+        setReplyToIdx={setReplyToIdx}
       />
       <InputContainer
-        typedVal={postText}
-        handleTyping={setPostText}
-        handleSubmit={addComment}
+        displayedVal={postText}
+        handleKeyPress={setPostText}
+        handleSubmit={addPost}
         placeholder={inputPlaceholderText}
       />
     </>

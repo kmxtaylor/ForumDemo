@@ -21,13 +21,9 @@ import colors from '../../assets/colors';
 import data from '../../assets/data/data.json';
 import { avatars, avatarStyles } from '../../assets/images/avatars';
 
-const CommentsList = ({ 
-  setComments, calcNextId, replyText, setReplyText, // won't need to pass in after I change reply functionality
-  replyMode, setReplyMode,
-  comments, style, ...rest }) => {
-
-  // const [replyText, setReplyText] = useState('');
-
+const CommentsList = ({
+  replyToIdx, setReplyToIdx, comments, style, ...rest
+}) => {
   const deletePost = (item) => {
     alert('Deletion not yet implemented');
   };
@@ -81,11 +77,11 @@ const CommentsList = ({
   // }
 
   const ReplyControls = ({ index }) => {
-    if (replyMode === index) {
+    if (replyToIdx === index) {
       return (
         <MyButton
           style={styles.onPostActionButton}
-          onPress={() => setReplyMode(null)}
+          onPress={() => setReplyToIdx(null)}
           // testID="`cancelReplyButton_${commentId}_${replyId}`"
         >
           <MyText
@@ -100,7 +96,7 @@ const CommentsList = ({
       return (
         <MyButton
           style={styles.onPostActionButton}
-          onPress={() => setReplyMode(index)}
+          onPress={() => setReplyToIdx(index)}
           // testID="`replyButton_${commentId}_${replyId}`"
         >
           <IconReply style={styles.onPostActionButtonIcon} />
