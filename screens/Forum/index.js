@@ -35,17 +35,9 @@ const Forum = () => {
     // change input placeholder
     let placeholder;
     if (replyTargetIdxs) {
-      // let replyToName;
-      // if (replyTargetIdxs.reply) {
-      //   let comment = comments[replyTargetIdxs.commentGroup];
-      //   replyToName = comment?.replies?.[replyTargetIdxs.reply]?.user?.username
-      // }
-      // else {
-      //   replyToName = comments[replyTargetIdxs.commentGroup]?.user?.username;
-      // }
       let commentGroup = { ...comments[replyTargetIdxs.commentGroup] };
       const replyToName = (
-        commentGroup?.replies?.[replyTargetIdxs.reply]?.user?.username
+        commentGroup?.replies?.[replyTargetIdxs?.reply]?.user?.username
         ?? commentGroup?.user?.username
       );
       setReplyingToUsername(replyToName); // store for easier tagging reference
@@ -123,7 +115,7 @@ const Forum = () => {
   };
 
   // Function to delete post and open modal to confirm delete post
-  const deletePost = ( idxObj ) => {
+  const deletePost = (idxObj) => {
     setDeleteTargetIdxs(idxObj);
     setIsModalVisible(true);
 
@@ -147,10 +139,10 @@ const Forum = () => {
   const confirmDeletePost = () => {
     console.log(
       'confirmed delete:',
-      `commentGroup: ${replyTargetIdxs?.commentGroup}\t`,
-      `reply: ${replyTargetIdxs?.reply}`
+      `commentGroup: ${deleteTargetIdxs?.commentGroup}\t`,
+      `reply: ${deleteTargetIdxs?.reply}`
     );
-    if (deleteTargetIdxs?.reply) {
+    if (deleteTargetIdxs?.reply !== null) {
       // delete individual reply
       setComments(currComments => {
         const newComments = [...currComments];
