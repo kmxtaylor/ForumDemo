@@ -64,14 +64,14 @@ const CommentsList = ({
       ) {
         return (
           <MyButton
-            style={styles.onPostActionButton}
+            style={[styles.onPostActionButton, {width: 120}]}
             onPress={() => setReplyTargetIdxs(null)} // NO_TARGET
             // testID="`cancelReplyButton_${commentId}_${replyId}`"
           >
             <MyText
               style={{fontWeight: '700', color: colors.primary.softRed}}
             >
-              X Cancel
+              X Cancel Reply
             </MyText>
           </MyButton>
         );
