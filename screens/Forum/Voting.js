@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const Voting = (initialValue, initialVoteStatus) => {
-    const [value, setValue] = useState(initialValue);
+    const [score, setScore] = useState(initialValue);
     const [voteStatus, setVoteStatus] = useState(initialVoteStatus);
     
     const handleUpvote = () => {
@@ -40,7 +40,8 @@ const Voting = (initialValue, initialVoteStatus) => {
             setScore(score - 1);
             setVoteStatus('down');
           }
-        if (voteStatus === 'up' && score === 1) { // check if user cancels their downvote after previously upvoting
+        // check if user cancels their downvote after previously upvoting
+        if (voteStatus === 'up' && score === 1) { 
             // If previous vote status was up and the score is 1
             // then set the score to 0
             setScore(0);
@@ -48,7 +49,7 @@ const Voting = (initialValue, initialVoteStatus) => {
           }
     };
     
-    return [value, voteStatus, handleUpvote, handleDownvote];
+    return [score, voteStatus, handleUpvote, handleDownvote];
 };
 
 export default Voting;

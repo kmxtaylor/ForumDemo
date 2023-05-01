@@ -15,6 +15,7 @@ import IconEdit from '../../components/svgs/IconEdit';
 import IconMinus from '../../components/svgs/IconMinus';
 import IconPlus from '../../components/svgs/IconPlus';
 import IconReply from '../../components/svgs/IconReply';
+import Voting from './Voting';
 
 import colors from '../../assets/colors';
 import data from '../../assets/data/data.json';
@@ -100,51 +101,9 @@ const CommentsList = ({
   const Post = ({
     postType = 'comment', postObj, commentGroupIdx, replyIdx = null, ...rest
   }) => {
-    const [score, setScore] = useState(postObj.score);
-    const [voteStatus, setVoteStatus] = useState(postObj.voteStatus || null);
-
-    const handleUpvote = () => {
-      if (voteStatus === 'up') {
-        // undo upvote
-        setScore(score - 1);
-        setVoteStatus(null);
-      } else if (voteStatus === 'down') {
-          // change downvote to upvote
-          setScore(score + 2);
-          setVoteStatus('up');
-        } else {
-            // upvote
-            setScore(score + 1);
-            setVoteStatus('up');
-          }
-      };
-
-      const handleDownvote = () => {
-        if (voteStatus === 'down') {
-          // undo downvote
-          setScore(score + 1);
-          setVoteStatus(null);
-        } else if (voteStatus === 'up') {
-            // change upvote to downvote
-            setScore(score - 2); // subtract 2 instead of 1
-            setVoteStatus('down');
-          } else {
-              // downvote
-              if (score === 0) {
-                // do nothing
-                return;
-              }
-              setScore(score - 1);
-              setVoteStatus('down');
-            }
-
-        if (voteStatus === 'up' && score === 1) { // check if user cancels their downvote after previously upvoting
-          // If previous vote status was up and the score is 1
-          // then set the score to 0
-          setScore(0);
-          setVoteStatus(null);
-        }
-      };
+    
+    // Voting values & functions are returned from the Voting hook
+    const [score, voteStatus, handleUpvote, handleDownvote] = Voting(postObj.score, postObj.voteStatus);
 
     return (
       <MyCard key={commentGroupIdx} {...rest}>
@@ -176,16 +135,16 @@ const CommentsList = ({
             style={styles.vote}           
             // testID="`votes_${commentId}_${replyId}`"
           >
-             <MyButton
+          <MyButton
             onPress={handleUpvote}
-            style={[styles.voteButton, voteStatus === 'up' && styles.voteButtonActive]}
+            style={styles.voteButton}
           >
-            <IconPlus style={styles.voteIcon} />
+          <IconPlus style={styles.voteIcon} />
           </MyButton>
           <MyText style={styles.voteScore}>{score}</MyText>
           <MyButton
             onPress={handleDownvote}
-            style={[styles.voteButton, voteStatus === 'down' && styles.voteButtonActive]}
+            style={styles.voteButton}
           >
             <IconMinus style={styles.voteIcon} />
           </MyButton>
