@@ -34,9 +34,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 15,
     backgroundColor: colors.neutral.white,
-    borderRadius: 10,
+    borderRadius: 8,
     
-    borderWidth: 0.5,
+    // borderWidth: 0.5,
     borderColor: colors.neutral.lightGray
   },
   // cardActionsRow: {
