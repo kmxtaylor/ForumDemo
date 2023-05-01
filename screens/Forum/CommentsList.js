@@ -100,6 +100,52 @@ const CommentsList = ({
   const Post = ({
     postType = 'comment', postObj, commentGroupIdx, replyIdx = null, ...rest
   }) => {
+    const [score, setScore] = useState(postObj.score);
+    const [voteStatus, setVoteStatus] = useState(postObj.voteStatus || null);
+
+    const handleUpvote = () => {
+      if (voteStatus === 'up') {
+        // undo upvote
+        setScore(score - 1);
+        setVoteStatus(null);
+      } else if (voteStatus === 'down') {
+          // change downvote to upvote
+          setScore(score + 2);
+          setVoteStatus('up');
+        } else {
+            // upvote
+            setScore(score + 1);
+            setVoteStatus('up');
+          }
+      };
+
+      const handleDownvote = () => {
+        if (voteStatus === 'down') {
+          // undo downvote
+          setScore(score + 1);
+          setVoteStatus(null);
+        } else if (voteStatus === 'up') {
+            // change upvote to downvote
+            setScore(score - 2); // subtract 2 instead of 1
+            setVoteStatus('down');
+          } else {
+              // downvote
+              if (score === 0) {
+                // do nothing
+                return;
+              }
+              setScore(score - 1);
+              setVoteStatus('down');
+            }
+
+        if (voteStatus === 'up' && score === 1) { // check if user cancels their downvote after previously upvoting
+          // If previous vote status was up and the score is 1
+          // then set the score to 0
+          setScore(0);
+          setVoteStatus(null);
+        }
+      };
+
     return (
       <MyCard key={commentGroupIdx} {...rest}>
         <View style={styles.cardTopRow}>
@@ -130,9 +176,19 @@ const CommentsList = ({
             style={styles.vote}           
             // testID="`votes_${commentId}_${replyId}`"
           >
-            <IconPlus />
-            <MyText style={styles.voteText}>{postObj.score}</MyText>
-            <IconMinus />
+             <MyButton
+            onPress={handleUpvote}
+            style={[styles.voteButton, voteStatus === 'up' && styles.voteButtonActive]}
+          >
+            <IconPlus style={styles.voteIcon} />
+          </MyButton>
+          <MyText style={styles.voteScore}>{score}</MyText>
+          <MyButton
+            onPress={handleDownvote}
+            style={[styles.voteButton, voteStatus === 'down' && styles.voteButtonActive]}
+          >
+            <IconMinus style={styles.voteIcon} />
+          </MyButton>
           </View>
           <View style={styles.onPostActionButtonsView}>
             <PostActionButtons
