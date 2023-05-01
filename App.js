@@ -17,6 +17,8 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import Forum from './screens/Forum';
 
+import colors from './assets/colors';
+
 SplashScreen.preventAutoHideAsync();
 
 const App = () => {
@@ -41,8 +43,7 @@ const App = () => {
       <StatusBar barStyle='light-content' />
       <SafeAreaView
         style={styles.container}
-        onLayout={onLayoutRootView}
-        testID='app-screen'
+        // onLayout={onLayoutRootView}
       >
         {/* <KeyboardAvoidingView
           onLayout={onLayoutRootView}
@@ -52,6 +53,7 @@ const App = () => {
         <View
           onLayout={onLayoutRootView}
           style={styles.subContainer}
+          testID='app-screen'
         >
           <Forum />
         </View>
@@ -64,10 +66,10 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'hsl(239, 57%, 85%)',
   },
   subContainer: {
     flex: 1,
+    backgroundColor: colors.neutral.veryLightGray,
     // height: '100%',
     paddingHorizontal: 15,
     // paddingVertical: 10,
