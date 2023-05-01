@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     // width: '100%',
     // alignItems: 'center',
     // justifyContent: 'center',
-    marginBottom: 15,
+    marginBottom: 10,
   },
   cardTopRow: {
     width: '100%',
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     // marginRight: 10,
   },
   repliesContainer: {
-    marginTop: 15,
+    // marginTop: 15,
     width: '100%',
     paddingLeft: 15,
 

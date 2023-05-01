@@ -15,11 +15,11 @@ import data from '../../assets/data/data.json';
 import { avatars, avatarStyles } from '../../assets/images/avatars';
 
 const InputContainer = ({
-  displayedVal, handleKeyPress, handleSendPost, handleSaveEdits, placeholder, editingMode, style, ...rest 
+  displayedVal, handleKeyPress, handleSendPost, handleSaveEdits, placeholder, editingMode, ...rest 
 }) => {
   return (
     <MyCard
-      style={style}
+      style={styles.inputContainer}
       {...rest}
     >
       <TextInput
@@ -56,6 +56,9 @@ InputContainer.propTypes = {
 
 const styles = StyleSheet.create({
   ...avatarStyles,
+  inputContainer: {
+    marginBottom: 0,
+  },
   input: {
     // flex: 1,
     width: '100%',
