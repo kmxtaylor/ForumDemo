@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     // marginBottom: 20,
     textAlign: 'left',
+    color: colors.neutral.darkBlue,
   },
   // Modal text (body)
   modalBodyText: {

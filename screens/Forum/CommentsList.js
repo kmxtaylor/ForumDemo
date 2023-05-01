@@ -108,7 +108,6 @@ const CommentsList = ({
             source={avatars[postObj.user.username]}
           />
           <MyText style={styles.postAuthor}>{postObj.user.username}</MyText>
-          {/* <YouTag postAuthor={postObj.user.username} /> */}
           {
             postObj.user.username === data.currentUser.username
             ? <MyText style={styles.youTag}>you</MyText>
@@ -159,7 +158,6 @@ const CommentsList = ({
             postObj={reply}
             commentGroupIdx={commentGroupIdx}
             replyIdx={replyIdx}
-            style={replyIdx === 0 ? {marginTop:0} : {}} // for border appearance
           />
         ))}
       </View>
@@ -182,8 +180,9 @@ const styles = StyleSheet.create({
   ...avatarStyles,
   commentsList: {
     flex: 1,
-    height: '100%',
+    // height: '100%',
     // marginBottom: 10,
+    // gap: 20, // doesn't work, I think b/c of item rendering
   },
   postGroupContainer: {
     // width: '100%',
@@ -201,7 +200,7 @@ const styles = StyleSheet.create({
   postAuthor: {
     fontWeight: '700',
     marginRight: 10,
-    color: colors.primary.darkBlue,
+    color: colors.neutral.darkBlue,
   },
   youTag: {
     paddingHorizontal: 5,
@@ -270,11 +269,12 @@ const styles = StyleSheet.create({
     // marginRight: 10,
   },
   repliesContainer: {
-    // marginTop: 15,
     width: '100%',
+    gap: 10,
+    marginTop: 10,
     paddingLeft: 15,
 
-    borderLeftWidth: 1,
+    borderLeftWidth: 2,
     borderLeftColor: colors.neutral.lightGray,
   },
 });
