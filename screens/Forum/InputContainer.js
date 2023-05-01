@@ -82,11 +82,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   sendButton: {
-    height: 60,
-    width: 120,
+    height: 50,
+    width: 110,
     backgroundColor: colors.primary.moderateBlue,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    // paddingHorizontal: 20,
+    // paddingVertical: 10,
+    textAlign: 'center',
     borderRadius: 10,
   },
   sendButtonText: {

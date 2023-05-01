@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     // textAlign: 'left',
   },
   cardActionsRow: { // should probably be extracted
-    height: 50,
+    height: 40,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -229,7 +229,8 @@ const styles = StyleSheet.create({
   vote: {
     flexDirection: 'row',
     height: '100%',
-    width: 120,
+    // height: 40,
+    width: 110,
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: colors.neutral.veryLightGray,
