@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
-import colors from '../assets/colors';
+import colors from '../../assets/colors';
 
 /**
  * Custom card container
