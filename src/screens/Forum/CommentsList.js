@@ -7,18 +7,18 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import MyButton from '../../components/MyButton';
-import MyText from '../../components/MyText';
-import MyCard from '../../components/MyCard';
-import IconDelete from '../../components/svgs/IconDelete';
-import IconEdit from '../../components/svgs/IconEdit';
-import IconMinus from '../../components/svgs/IconMinus';
-import IconPlus from '../../components/svgs/IconPlus';
-import IconReply from '../../components/svgs/IconReply';
+import MyButton from 'components/MyButton';
+import MyText from 'components/MyText';
+import MyCard from 'components/MyCard';
+import IconDelete from 'components/svgs/IconDelete';
+import IconEdit from 'components/svgs/IconEdit';
+import IconMinus from 'components/svgs/IconMinus';
+import IconPlus from 'components/svgs/IconPlus';
+import IconReply from 'components/svgs/IconReply';
 
-import colors from '../../assets/colors';
-import data from '../../assets/data/data.json';
-import { avatars, avatarStyles } from '../../assets/images/avatars';
+import colors from '../../../assets/colors';
+import data from '../../../assets/data/data.json';
+import { avatars, avatarStyles } from '../../../assets/images/avatars';
 // import { accessibilityStateKeys } from '@testing-library/react-native/build/helpers/accessiblity';
 
 const CommentsList = ({

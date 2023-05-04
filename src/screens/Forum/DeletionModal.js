@@ -6,11 +6,11 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import MyText from '../../components/MyText';
-import MyButton from '../../components/MyButton';
-import MyCard from '../../components/MyCard';
+import MyText from 'components/MyText';
+import MyButton from 'components/MyButton';
+import MyCard from 'components/MyCard';
 
-import colors from '../../assets/colors';
+import colors from '../../../assets/colors';
 
 const deletionModal = ({
   isModalVisible, cancelDeletePost, confirmDeletePost
