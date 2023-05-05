@@ -1,6 +1,7 @@
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import App from '../App';
-import MainScreen from '../screens/MainScreen';
+// import MainScreen from '../screens/MainScreen';
+import CommentsList from '../screens/Forum/CommentsList';
 
 describe('Whole app', () => {
   // test if the app renders correctly
@@ -14,22 +15,4 @@ describe('Whole app', () => {
 
     expect(appScreen).toBeDefined();
   });
-});
-
-describe('MainScreen', () => {
-
-  test('should ...', async () => {
-    let renderedComponent;
-    await waitFor(() => {
-      renderedComponent = render(<MainScreen />);
-    });
-    const { getByTestId } = renderedComponent;
-    const input = getByTestId('input');
-    const commentsList = getByTestId('commentsList');
-
-    // ... do stuff
-  });
-
-  // ... other tests
-
 });

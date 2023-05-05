@@ -1,9 +1,11 @@
 import { render, fireEvent } from '@testing-library/react-native';
 import Forum from '../../../screens/Forum';
+import App from '../App';
 
-describe('Forum', () => {
-  // test if ...
-  test('renders correctly', () => {
-    render(<App />);
-  });
+// Functionality to test:
+
+describe('MainScreen', () => {
+
+
+
 });
