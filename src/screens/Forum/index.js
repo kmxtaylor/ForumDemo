@@ -27,11 +27,11 @@ const Forum = () => {
   const [editTargetIdxs, setEditTargetIdxs] = useState(NO_TARGET);
 
   useEffect(() => {
-    console.log(
-      'will reply to: ',
-      `commentGroup: ${replyTargetIdxs?.commentGroup}\t`,
-      `reply: ${replyTargetIdxs?.reply}`
-    );
+    // console.log(
+    //   'will reply to: ',
+    //   `commentGroup: ${replyTargetIdxs?.commentGroup}\t`,
+    //   `reply: ${replyTargetIdxs?.reply}`
+    // );
 
     // change input placeholder
     let placeholder;
@@ -120,12 +120,12 @@ const Forum = () => {
     setDeleteTargetIdxs(idxObj);
     setIsModalVisible(true);
 
-    console.log(
-      'initiate delete:',
-      // idxObj,
-      `commentGroup: ${idxObj?.commentGroup}\t`,
-      `reply: ${idxObj?.reply}`
-    );
+    // console.log(
+    //   'initiate delete:',
+    //   // idxObj,
+    //   `commentGroup: ${idxObj?.commentGroup}\t`,
+    //   `reply: ${idxObj?.reply}`
+    // );
   };
 
   // function to cancel delete post
@@ -138,11 +138,11 @@ const Forum = () => {
   // Function to confirm and delete post.
   // Closes modal after delete post is confirmed
   const confirmDeletePost = () => {
-    console.log(
-      'confirmed delete:',
-      `commentGroup: ${deleteTargetIdxs?.commentGroup}\t`,
-      `reply: ${deleteTargetIdxs?.reply}`
-    );
+    // console.log(
+    //   'confirmed delete:',
+    //   `commentGroup: ${deleteTargetIdxs?.commentGroup}\t`,
+    //   `reply: ${deleteTargetIdxs?.reply}`
+    // );
     if (deleteTargetIdxs?.reply !== NO_TARGET) {
       // delete individual reply
       setComments(currComments => {
@@ -168,7 +168,7 @@ const Forum = () => {
     ) {
       setEditTargetIdxs(NO_TARGET);
       setPostText('');
-      console.log('deleted comment you were editing; exiting edit mode');
+      // console.log('deleted comment you were editing; exiting edit mode');
     }
 
     setDeleteTargetIdxs(NO_TARGET);
@@ -177,12 +177,12 @@ const Forum = () => {
 
   const startEditPost = (idxObj) => {
     setEditTargetIdxs(idxObj); // may be unnecessary
-    console.log(
-      'initiate edit:',
-      // idxObj,
-      `commentGroup: ${idxObj?.commentGroup}\t`,
-      `reply: ${idxObj?.reply}`
-    );
+    // console.log(
+    //   'initiate edit:',
+    //   // idxObj,
+    //   `commentGroup: ${idxObj?.commentGroup}\t`,
+    //   `reply: ${idxObj?.reply}`
+    // );
 
     if (idxObj?.reply !== NO_TARGET) {
       // edit reply
@@ -200,11 +200,11 @@ const Forum = () => {
 
   const saveEdits = () => {
     // we should eventually handle the edge case where you start editing and then you delete the comment you were editing
-    console.log(
-      'saved edits:',
-      `commentGroup: ${editTargetIdxs?.commentGroup}\t`,
-      `reply: ${editTargetIdxs?.reply}`
-    );
+    // console.log(
+    //   'saved edits:',
+    //   `commentGroup: ${editTargetIdxs?.commentGroup}\t`,
+    //   `reply: ${editTargetIdxs?.reply}`
+    // );
 
     if (editTargetIdxs?.reply !== NO_TARGET) {
       // edit reply
