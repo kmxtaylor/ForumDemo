@@ -16,6 +16,8 @@ import IconMinus from 'components/svgs/IconMinus';
 import IconPlus from 'components/svgs/IconPlus';
 import IconReply from 'components/svgs/IconReply';
 
+import Voting from '../../utils/Voting';
+
 import colors from '../../../assets/colors';
 import data from '../../../assets/data/data.json';
 import { avatars, avatarStyles } from '../../../assets/images/avatars';
@@ -184,7 +186,7 @@ const CommentsList = ({
       data={comments}
       renderItem={renderPostGroup}
       keyExtractor={(item, index) => index.toString()}
-      testID='commentsList'
+      testID='comments-list'
     />
   );
 };
