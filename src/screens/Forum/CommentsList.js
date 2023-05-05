@@ -68,7 +68,7 @@ const CommentsList = ({
           <MyButton
             style={[styles.onPostActionButton, {width: 120}]}
             onPress={() => setReplyTargetIdxs(null)} // NO_TARGET
-            // testID="`cancelReplyButton_${commentId}_${replyId}`"
+            // testID={`cancel-reply-button${postObj.id}`}
           >
             <MyText
               style={{fontWeight: '700', color: colors.primary.softRed}}
@@ -85,7 +85,7 @@ const CommentsList = ({
             onPress={() => setReplyTargetIdxs(
               { commentGroup: commentGroupIdx, reply: replyIdx }
             )}
-            // testID="`replyButton_${commentId}_${replyId}`"
+            testID={`reply-button-${postObj.id}`}
           >
             <IconReply style={styles.onPostActionButtonIcon} />
             <MyText
@@ -133,7 +133,7 @@ const CommentsList = ({
         <View style={styles.cardActionsRow}>
           <View
             style={styles.vote}           
-            // testID="`votes_${commentId}_${replyId}`"
+            // testID={`votes-${postObj.id}`}
           >
           <MyButton
             onPress={handleUpvote}

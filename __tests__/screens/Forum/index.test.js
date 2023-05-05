@@ -20,12 +20,14 @@ describe('Forum functionality', () => {
 
   // test if can add comment
   test('comment adding correctly', async () =>  {
+    // render screen
     let renderedScreen;
     await waitFor(() => {
       renderedScreen = render(<Forum />);
     }, TIMEOUT);
     const { getByTestId } = renderedScreen;
 
+    // get elements relevant to test
     const input = getByTestId('input');
     const commentsList = getByTestId('comments-list');
     const sendButton = getByTestId('submit-button');
@@ -33,10 +35,12 @@ describe('Forum functionality', () => {
     // expect(input).toBeDefined();
     // expect(commentsList).toBeDefined();
 
+    // execute adding comment
     const COMMENT_TEXT = 'test comment';
     fireEvent.changeText(input, COMMENT_TEXT);
     fireEvent.press(sendButton);
 
+    // check comment added
     console.log(commentsList.props);
     const [ lastComment ] = commentsList.props.data.slice(-1);
     // const [ lastComment ] = commentsList.props.data.reverse();
@@ -69,38 +73,37 @@ describe('Forum functionality', () => {
   // });
 
   /* test if can reply to comment */
-  // test('reply correctly', async () =>  {
-  //   let renderedScreen;
-  //   await waitFor(() => {
-  //     renderedScreen = render(<Forum />);
-  //   }, TIMEOUT);
-  //   const { getByTestId, getByType } = renderedScreen;
+  test('reply correctly', async () =>  {
+    // render screen
+    let renderedScreen;
+    await waitFor(() => {
+      renderedScreen = render(<Forum />);
+    }, TIMEOUT);
+    const { getByTestId } = renderedScreen;
     
-  //   const input = getByTestId('input');
-  //   const commentsList = getByTestId('comments-list');
-  //   // const [ firstComment ] = commentsList.props.data;
-  //   // replyButton = getByTestId(`reply-button-${firstComment.id}`);
-  //   const replyButton = getByType(commentsList[0], 'Button');
-  //   console.log(replyButton);
-  //   const sendButton = getByTestId('submit-button');
+    // Get elements relevant to test
+    const input = getByTestId('input');
+    const commentsList = getByTestId('comments-list');
+    const sendButton = getByTestId('submit-button');
+    // access the reply button on the first comment
+    const [ targetComment ] = commentsList.props.data;
+    replyButton = getByTestId(`reply-button-${targetComment.id}`);
+    console.log(replyButton);
 
-  //   // expect(input).toBeDefined();
-  //   // expect(commentsList).toBeDefined();
+    // execute replying to 1st comment
+    fireEvent.press(replyButton);
 
-  //   // access the reply button on the first comment
-  //   fireEvent.press(replyButton);
+    const REPLY_TEXT = 'test comment';
+    fireEvent.changeText(input, REPLY_TEXT);
+    fireEvent.press(sendButton);
 
-  //   const REPLY_TEXT = 'test comment';
-  //   fireEvent.changeText(input, REPLY_TEXT);
-  //   fireEvent.press(sendButton);
+    // check reply added
+    // console.log(commentsList.props);
+    const [ firstComment ] = commentsList.props.data;
 
-  //   // console.log(commentsList.props);
-  //   const [ firstComment ] = commentsList.props.data;
-
-  //   expect(firstComment.content).toBe(REPLY_TEXT);
-  // });
+    expect(firstComment.content).toBe(REPLY_TEXT);
+  });
 
   // test if can reply to reply 
-
 
 });

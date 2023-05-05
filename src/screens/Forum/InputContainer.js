@@ -40,7 +40,10 @@ const InputContainer = ({
           style={styles.sendButton}
           onPress={editingMode ? handleSaveEdits : handleSendPost}
         >
-          <MyText style={styles.sendButtonText}>{editingMode ? 'SAVE' : 'SEND'}</MyText>
+          <MyText
+            style={styles.sendButtonText}
+            testID='submit-button'
+          >{editingMode ? 'SAVE' : 'SEND'}</MyText>
         </MyButton>
       </View>
     </MyCard>
