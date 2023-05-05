@@ -86,9 +86,9 @@ describe('Forum functionality', () => {
     const commentsList = getByTestId('comments-list');
     const sendButton = getByTestId('submit-button');
     // access the reply button on the first comment
-    const [ targetComment ] = commentsList.props.data;
-    replyButton = getByTestId(`reply-button-${targetComment.id}`);
-    console.log(replyButton);
+    const [ firstComment ] = commentsList.props.data;
+    replyButton = getByTestId(`reply-button-${firstComment.id}`);
+    // console.log(replyButton);
 
     // execute replying to 1st comment
     fireEvent.press(replyButton);
@@ -98,12 +98,14 @@ describe('Forum functionality', () => {
     fireEvent.press(sendButton);
 
     // check reply added
-    // console.log(commentsList.props);
-    const [ firstComment ] = commentsList.props.data;
+    // console.log(commentsList.props.data);
+    const [ firstCommentReply ] = commentsList.props.data[0].replies;
 
-    expect(firstComment.content).toBe(REPLY_TEXT);
+    expect(firstCommentReply.content).toBe(REPLY_TEXT);
   });
 
   // test if can reply to reply 
+
+  // test if can cancel reply mode
 
 });
