@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
-import colors from '../assets/colors';
+import colors from '../../assets/colors';
 
 /**
  * Custom card container
@@ -9,7 +9,11 @@ import colors from '../assets/colors';
 const MyCard = ({ style, children, ...rest }) => {
   return (
     <View
-      style={[styles.myCard, style]}
+      style={[
+        styles.myCard,
+        {marginBottom: style?.marginBottom ?? 10},
+        style
+      ]}
       {...rest}
     >
       {children}
@@ -29,11 +33,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 15,
-    marginTop: 15,
     backgroundColor: colors.neutral.white,
-    borderRadius: 10,
+    borderRadius: 8,
     
-    borderWidth: 1,
+    // borderWidth: 0.5,
     borderColor: colors.neutral.lightGray
   },
   // cardActionsRow: {

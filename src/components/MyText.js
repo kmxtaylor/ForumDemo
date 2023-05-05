@@ -6,14 +6,14 @@ import PropTypes from 'prop-types';
  */
 const MyText = ({ style, children, ...rest }) => {
   let font;
-  switch (style?.fontWeight) {
-    case '400':
+  switch (parseInt(style?.fontWeight)) {
+    case 400:
       font = 'Rubik_400Regular';
       break;
-    case '500':
+    case 500:
       font = 'Rubik_500Medium';
       break;
-    case '700':
+    case 700:
       font = 'Rubik_700Bold';
       break;
   }

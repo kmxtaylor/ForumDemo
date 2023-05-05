@@ -7,19 +7,18 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import MyButton from '../../components/MyButton';
-import MyText from '../../components/MyText';
-import MyCard from '../../components/MyCard';
-import IconDelete from '../../components/svgs/IconDelete';
-import IconEdit from '../../components/svgs/IconEdit';
-import IconMinus from '../../components/svgs/IconMinus';
-import IconPlus from '../../components/svgs/IconPlus';
-import IconReply from '../../components/svgs/IconReply';
-import Voting from './Voting';
+import MyButton from 'components/MyButton';
+import MyText from 'components/MyText';
+import MyCard from 'components/MyCard';
+import IconDelete from 'components/svgs/IconDelete';
+import IconEdit from 'components/svgs/IconEdit';
+import IconMinus from 'components/svgs/IconMinus';
+import IconPlus from 'components/svgs/IconPlus';
+import IconReply from 'components/svgs/IconReply';
 
-import colors from '../../assets/colors';
-import data from '../../assets/data/data.json';
-import { avatars, avatarStyles } from '../../assets/images/avatars';
+import colors from '../../../assets/colors';
+import data from '../../../assets/data/data.json';
+import { avatars, avatarStyles } from '../../../assets/images/avatars';
 // import { accessibilityStateKeys } from '@testing-library/react-native/build/helpers/accessiblity';
 
 const CommentsList = ({
@@ -204,7 +203,7 @@ const styles = StyleSheet.create({
     // width: '100%',
     // alignItems: 'center',
     // justifyContent: 'center',
-    marginBottom: 15,
+    marginBottom: 10,
   },
   cardTopRow: {
     width: '100%',
@@ -234,7 +233,7 @@ const styles = StyleSheet.create({
     // textAlign: 'left',
   },
   cardActionsRow: { // should probably be extracted
-    height: 50,
+    height: 40,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -244,7 +243,8 @@ const styles = StyleSheet.create({
   vote: {
     flexDirection: 'row',
     height: '100%',
-    width: 120,
+    // height: 40,
+    width: 110,
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: colors.neutral.veryLightGray,
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     // marginRight: 10,
   },
   repliesContainer: {
-    marginTop: 15,
+    // marginTop: 15,
     width: '100%',
     paddingLeft: 15,
 

@@ -6,20 +6,20 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import MyText from '../../components/MyText';
-import MyButton from '../../components/MyButton';
-import MyCard from '../../components/MyCard';
+import MyText from 'components/MyText';
+import MyButton from 'components/MyButton';
+import MyCard from 'components/MyCard';
 
-import colors from '../../assets/colors';
-import data from '../../assets/data/data.json';
-import { avatars, avatarStyles } from '../../assets/images/avatars';
+import colors from '../../../assets/colors';
+import data from '../../../assets/data/data.json';
+import { avatars, avatarStyles } from '../../../assets/images/avatars';
 
 const InputContainer = ({
-  displayedVal, handleKeyPress, handleSendPost, handleSaveEdits, placeholder, editingMode, style, ...rest 
+  displayedVal, handleKeyPress, handleSendPost, handleSaveEdits, placeholder, editingMode, ...rest 
 }) => {
   return (
     <MyCard
-      style={style}
+      style={styles.inputContainer}
       {...rest}
     >
       <TextInput
@@ -56,6 +56,9 @@ InputContainer.propTypes = {
 
 const styles = StyleSheet.create({
   ...avatarStyles,
+  inputContainer: {
+    marginBottom: 0,
+  },
   input: {
     // flex: 1,
     width: '100%',
@@ -79,11 +82,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   sendButton: {
-    height: 60,
-    width: 120,
+    height: 50,
+    width: 110,
     backgroundColor: colors.primary.moderateBlue,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    // paddingHorizontal: 20,
+    // paddingVertical: 10,
+    textAlign: 'center',
     borderRadius: 10,
   },
   sendButtonText: {
