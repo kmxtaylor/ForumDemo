@@ -100,6 +100,10 @@ const CommentsList = ({
   const Post = ({
     postType = 'comment', postObj, commentGroupIdx, replyIdx = null, ...rest
   }) => {
+    
+    // Voting values & functions are returned from the Voting hook
+    const [score, voteStatus, handleUpvote, handleDownvote] = Voting(postObj.score, postObj.voteStatus);
+
     return (
       <MyCard key={commentGroupIdx} {...rest}>
         <View style={styles.cardTopRow}>
@@ -130,9 +134,19 @@ const CommentsList = ({
             style={styles.vote}           
             // testID="`votes_${commentId}_${replyId}`"
           >
-            <IconPlus />
-            <MyText style={styles.voteText}>{postObj.score}</MyText>
-            <IconMinus />
+          <MyButton
+            onPress={handleUpvote}
+            style={styles.voteButton}
+          >
+          <IconPlus style={styles.voteIcon} />
+          </MyButton>
+          <MyText style={styles.voteScore}>{score}</MyText>
+          <MyButton
+            onPress={handleDownvote}
+            style={styles.voteButton}
+          >
+            <IconMinus style={styles.voteIcon} />
+          </MyButton>
           </View>
           <View style={styles.onPostActionButtonsView}>
             <PostActionButtons
