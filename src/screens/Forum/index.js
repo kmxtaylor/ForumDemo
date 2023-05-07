@@ -219,6 +219,11 @@ const Forum = () => {
     //   `reply: ${editTargetIdxs?.reply}`
     // );
 
+    if (postText === '') {
+      alert("You can't leave an empty comment -- maybe delete your comment instead");
+      return;
+    }
+
     if (editTargetIdxs?.reply !== NO_TARGET) {
       // edit reply
       setComments(currComments => {
