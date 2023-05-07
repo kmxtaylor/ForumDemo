@@ -10,7 +10,7 @@ import MyText from 'components/MyText';
 import MyButton from 'components/MyButton';
 import MyCard from 'components/MyCard';
 
-import colors from '../../../assets/colors';
+import colors from '/../assets/colors';
 
 const deletionModal = ({
   isModalVisible, cancelDeletePost, confirmDeletePost

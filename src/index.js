@@ -17,7 +17,7 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import Forum from 'screens/Forum';
 
-import colors from '..//assets/colors';
+import colors from '../assets/colors';
 
 SplashScreen.preventAutoHideAsync();
 

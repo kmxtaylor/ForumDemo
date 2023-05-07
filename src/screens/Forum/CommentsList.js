@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   View,
   FlatList,
@@ -15,30 +15,36 @@ import IconEdit from 'components/svgs/IconEdit';
 import IconMinus from 'components/svgs/IconMinus';
 import IconPlus from 'components/svgs/IconPlus';
 import IconReply from 'components/svgs/IconReply';
+import InputContainer from './InputContainer';
 
-import Voting from '../../utils/Voting';
+import Voting from '/utils/Voting';
 
-import colors from '../../../assets/colors';
-import data from '../../../assets/data/data.json';
-import { avatars, avatarStyles } from '../../../assets/images/avatars';
+import colors from '/../assets/colors';
+import data from '/../assets/data/data.json';
+import { avatars, avatarStyles } from '/../assets/images/avatars';
 // import { accessibilityStateKeys } from '@testing-library/react-native/build/helpers/accessiblity';
 
 const CommentsList = ({
   comments, replyTargetIdxs, setReplyTargetIdxs, handleClickDelete, handleClickEdit, style, ...rest
 }) => {  
-  
 
   const PostActionButtons = ({ postObj, commentGroupIdx, replyIdx }) => {
+    const replyInputRef = useRef(null);
+    const editInputRef = useRef(null);
+
     if (postObj.user.username === data.currentUser.username) {
       return (
         <>
           <MyButton
+          InputContainer replyInputRef={replyInputRef} editInputRef={editInputRef} 
+
             style={styles.onPostActionButton}
             // style={styles.deleteButton}
             onPress={() => handleClickDelete(
               { commentGroup: commentGroupIdx, reply: replyIdx }
             )}
             // onPress={() => console.log(`{ commentGroup: ${commentGroupIdx}, reply: ${replyIdx} }`)}
+            testID={`delete-button-${postObj.id}`}
           >
             <IconDelete style={styles.onPostActionButtonIcon} />
             <MyText style={{fontWeight: '700', color: colors.primary.softRed}}
@@ -47,9 +53,12 @@ const CommentsList = ({
           <MyButton
             style={styles.onPostActionButton}
             // style={styles.editButton}
-            onPress={() => handleClickEdit(
-              { commentGroup: commentGroupIdx, reply: replyIdx }
-            )}
+            onPress={() => {
+              handleClickEdit({ commentGroup: commentGroupIdx, reply: replyIdx });
+              // editInputRef.current.focus();
+            }}
+            // ref={editInputRef}
+            testID={`edit-button-${postObj.id}`}
             // onPress={() => console.log(`{ commentGroup: ${commentGroupIdx}, reply: ${replyIdx} }`)}
           >
             <IconEdit style={styles.onPostActionButtonIcon} />
@@ -65,10 +74,11 @@ const CommentsList = ({
         && replyTargetIdxs?.commentGroup === commentGroupIdx
       ) {
         return (
+          // Cancel Reply Button
           <MyButton
             style={[styles.onPostActionButton, {width: 120}]}
             onPress={() => setReplyTargetIdxs(null)} // NO_TARGET
-            // testID={`cancel-reply-button${postObj.id}`}
+            testID={`cancel-reply-button-${postObj.id}`}
           >
             <MyText
               style={{fontWeight: '700', color: colors.primary.softRed}}
@@ -80,11 +90,14 @@ const CommentsList = ({
       }
       else {
         return (
+          // Reply Button
           <MyButton
             style={styles.onPostActionButton}
-            onPress={() => setReplyTargetIdxs(
-              { commentGroup: commentGroupIdx, reply: replyIdx }
-            )}
+            onPress={() => {
+              setReplyTargetIdxs({ commentGroup: commentGroupIdx, reply: replyIdx });
+              // replyInputRef.current.focus();
+            }}
+            // ref={replyInputRef}
             testID={`reply-button-${postObj.id}`}
           >
             <IconReply style={styles.onPostActionButtonIcon} />
@@ -137,16 +150,16 @@ const CommentsList = ({
           >
           <MyButton
             onPress={handleUpvote}
-            style={styles.voteButton}
+            //style={styles.voteButton}
           >
-          <IconPlus style={styles.voteIcon} />
+          <IconPlus style={styles} />
           </MyButton>
-          <MyText style={styles.voteScore}>{score}</MyText>
+          <MyText style={styles.voteText}>{score}</MyText>
           <MyButton
             onPress={handleDownvote}
-            style={styles.voteButton}
+            //style={styles.voteButton}
           >
-            <IconMinus style={styles.voteIcon} />
+            <IconMinus style={styles} />
           </MyButton>
           </View>
           <View style={styles.onPostActionButtonsView}>
@@ -181,6 +194,7 @@ const CommentsList = ({
   );
 
   return (
+    
     <FlatList // scrollable
       style={styles.commentsList}
       data={comments}
@@ -188,6 +202,7 @@ const CommentsList = ({
       keyExtractor={(item, index) => index.toString()}
       testID='comments-list'
     />
+    
   );
 };
 
