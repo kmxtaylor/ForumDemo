@@ -78,7 +78,7 @@ const CommentsList = ({
           <MyButton
             style={[styles.onPostActionButton, {width: 120}]}
             onPress={() => setReplyTargetIdxs(null)} // NO_TARGET
-            testID={`cancel-reply-button${postObj.id}`}
+            testID={`cancel-reply-button-${postObj.id}`}
           >
             <MyText
               style={{fontWeight: '700', color: colors.primary.softRed}}

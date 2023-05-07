@@ -92,6 +92,7 @@ describe('Forum functionality', () => {
     fireEvent.press(sendButton);
 
     // get the reply button for the first reply
+    console.log(commentsList.props.data);
     const [ firstCommentReply ] = commentsList.props.data[0].replies; 
     const replyButton2 = getByTestId(`reply-button-${firstCommentReply.id}`);
 
@@ -130,7 +131,7 @@ describe('Forum functionality', () => {
     fireEvent.press(replyButton);
   
     // get cancel reply button and execute it
-    const cancelReplyButton = getByTestId(`cancel-reply-button${firstComment.id}`);
+    const cancelReplyButton = getByTestId(`cancel-reply-button-${firstComment.id}`);
     fireEvent.press(cancelReplyButton);
   
     // check that reply mode has been exited
