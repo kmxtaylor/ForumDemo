@@ -14,8 +14,6 @@ import colors from '/../assets/colors';
 import data from '/../assets/data/data.json';
 import { avatars, avatarStyles } from '/../assets/images/avatars';
 
-import { useRef } from 'react';
-
 const InputContainer = ({
   displayedVal, 
   handleKeyPress, 
@@ -23,6 +21,7 @@ const InputContainer = ({
   handleSaveEdits, 
   placeholder, 
   editingMode, 
+  textInputRef,
   ...rest 
 }) => {
 
@@ -39,6 +38,7 @@ const InputContainer = ({
         multiline={true}
         // maxLength={}
         testID='input'
+        ref={textInputRef}
       />
       <View style={styles.cardActionsRow}>
         <Image

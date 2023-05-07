@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import InputContainer from './InputContainer';
 import CommentsList from './CommentsList';
@@ -26,6 +26,9 @@ const Forum = () => {
   // model edit functionality state management after delete
   const [editTargetIdxs, setEditTargetIdxs] = useState(NO_TARGET);
 
+  /* Init Refs */
+  const textInputRef = useRef(null);
+
   useEffect(() => {
     // console.log(
     //   'will reply to: ',
@@ -43,6 +46,9 @@ const Forum = () => {
       );
       setReplyingToUsername(replyToName); // store for easier tagging reference
       placeholder = `Type a reply to @${replyToName}...`;
+
+      // show keyboard when reply button is pressed
+      textInputRef.current.focus();
     }
     else {
       setReplyingToUsername('');
@@ -51,6 +57,13 @@ const Forum = () => {
     setInputPlaceholder(placeholder);
     // console.log(placeholder);
   }, [replyTargetIdxs]);
+
+  useEffect(() => {
+    if (editTargetIdxs) {
+      // show keyboard when edit button is pressed
+      textInputRef.current.focus();
+    }
+  }, [editTargetIdxs]);
 
   function calcNextId() {
     if (comments.length === 0 ) {
@@ -249,6 +262,7 @@ const Forum = () => {
         handleSaveEdits={saveEdits}
         placeholder={inputPlaceholder}
         editingMode={editTargetIdxs !== NO_TARGET}
+        textInputRef={textInputRef}
       />
     </>
   );
