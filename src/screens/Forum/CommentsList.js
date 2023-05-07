@@ -15,7 +15,6 @@ import IconEdit from 'components/svgs/IconEdit';
 import IconMinus from 'components/svgs/IconMinus';
 import IconPlus from 'components/svgs/IconPlus';
 import IconReply from 'components/svgs/IconReply';
-import Voting from './Voting';
 import InputContainer from './InputContainer';
 
 import Voting from '../../utils/Voting';
