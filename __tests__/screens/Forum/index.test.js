@@ -1,5 +1,6 @@
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import Forum from 'screens/Forum';
+import { currentUser } from '/../assets/data/data.json';
 
 const TIMEOUT = { timeout: 20000 };
 
@@ -66,7 +67,7 @@ describe('Forum functionality', () => {
     expect(firstCommentReply.content).toBe(REPLY_TEXT);
   });
 
-  /* test if can reply to reply */
+  /* test if can reply to (another user's) reply */
   test('reply to reply correctly', async () =>  {
     // render screen
     let renderedScreen;
@@ -79,37 +80,38 @@ describe('Forum functionality', () => {
     const input = getByTestId('input');
     const commentsList = getByTestId('comments-list');
     const sendButton = getByTestId('submit-button');
-    // access the reply button on the first comment
-    const [ firstComment ] = commentsList.props.data;
-    const replyButton = getByTestId(`reply-button-${firstComment.id}`);
-    // console.log(replyButton);
 
-    // execute replying to 1st comment
+    // get the reply button for the first reply from a DIFFERENT user
+    let replyableReply, parentCommentIdx;
+    // console.log(JSON.stringify(commentsList.props.data.entries(), null, 2));
+    // console.log(commentsList.props.data);
+    // for (const [comment, idx] of commentsList.props.data.entries()) {
+    let commentsCopy = commentsList.props.data;
+    for (let idx = 0; idx < commentsCopy.length; idx++) {
+      replyableReply = commentsCopy[idx].replies?.find(
+        reply => reply?.user?.username !== currentUser.username
+      );
+      if (replyableReply) {
+        parentCommentIdx = idx;
+        break;
+      }
+    }
+    // console.log(replyableReply);
+    const replyButton = getByTestId(`reply-button-${replyableReply.id}`);
+
+    // execute replying to target reply
     fireEvent.press(replyButton);
 
     const REPLY_TEXT = 'test comment';
     fireEvent.changeText(input, REPLY_TEXT);
     fireEvent.press(sendButton);
 
-    // get the reply button for the first reply
-    console.log(commentsList.props.data);
-    const [ firstCommentReply ] = commentsList.props.data[0].replies; 
-    const replyButton2 = getByTestId(`reply-button-${firstCommentReply.id}`);
-
-    // execute replying to 1st reply
-    fireEvent.press(replyButton2);
-
-    const REPLY_TEXT_2 = 'test comment';
-    fireEvent.changeText(input, REPLY_TEXT_2);
-    fireEvent.press(sendButton);
-
     // check reply added
-    const [ firstCommentReplyReply ] = commentsList.props.data[0].replies[0].replies;
-    expect(firstCommentReplyReply.content).toBe(REPLY_TEXT_2);
-
+    // console.log(commentsList.props.data[parentCommentIdx]);
+    const [ replyToReply ] = commentsList.props.data[parentCommentIdx].replies.slice(-1);
+    expect(replyToReply.content).toBe(REPLY_TEXT);
   });
   
-
   // test of cancel reply mode
   test('cancel reply mode correctly', async () => {
     // render screen
