@@ -17,11 +17,11 @@ import IconPlus from 'components/svgs/IconPlus';
 import IconReply from 'components/svgs/IconReply';
 import InputContainer from './InputContainer';
 
-import Voting from '../../utils/Voting';
+import Voting from '/utils/Voting';
 
-import colors from '../../../assets/colors';
-import data from '../../../assets/data/data.json';
-import { avatars, avatarStyles } from '../../../assets/images/avatars';
+import colors from '/../assets/colors';
+import data from '/../assets/data/data.json';
+import { avatars, avatarStyles } from '/../assets/images/avatars';
 // import { accessibilityStateKeys } from '@testing-library/react-native/build/helpers/accessiblity';
 
 const CommentsList = ({

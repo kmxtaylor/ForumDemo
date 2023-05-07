@@ -4,7 +4,7 @@ import InputContainer from './InputContainer';
 import CommentsList from './CommentsList';
 import DeletionModal from './DeletionModal';
 
-import data from '../../../assets/data/data.json';
+import data from '/../assets/data/data.json';
 
 /* Manage data between CommentList */
 const Forum = () => {

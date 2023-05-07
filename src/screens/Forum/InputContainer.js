@@ -10,9 +10,9 @@ import MyText from 'components/MyText';
 import MyButton from 'components/MyButton';
 import MyCard from 'components/MyCard';
 
-import colors from '../../../assets/colors';
-import data from '../../../assets/data/data.json';
-import { avatars, avatarStyles } from '../../../assets/images/avatars';
+import colors from '/../assets/colors';
+import data from '/../assets/data/data.json';
+import { avatars, avatarStyles } from '/../assets/images/avatars';
 
 import { useRef } from 'react';
 
