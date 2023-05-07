@@ -66,7 +66,6 @@ describe('Forum functionality', () => {
     expect(firstCommentReply.content).toBe(REPLY_TEXT);
   });
 
-
   /* test if can reply to reply */
   test('reply to reply correctly', async () =>  {
     // render screen

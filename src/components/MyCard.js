@@ -8,14 +8,7 @@ import colors from '../../assets/colors';
  */
 const MyCard = ({ style, children, ...rest }) => {
   return (
-    <View
-      style={[
-        styles.myCard,
-        {marginBottom: style?.marginBottom ?? 10},
-        style
-      ]}
-      {...rest}
-    >
+    <View style={[styles.myCard, style]} {...rest}>
       {children}
     </View>
   );
@@ -35,18 +28,9 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: colors.neutral.white,
     borderRadius: 8,
-    
     // borderWidth: 0.5,
     borderColor: colors.neutral.lightGray
   },
-  // cardActionsRow: {
-  //   height: 50,
-  //   width: '100%',
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   alignItems: 'center',
-  //   marginTop: 20,
-  // },
 });
 
 export default MyCard;
