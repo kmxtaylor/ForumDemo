@@ -1,18 +1,27 @@
+
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import App from '../App';
-// import MainScreen from '../screens/MainScreen';
-import CommentsList from '../screens/Forum/CommentsList';
 
-describe('Whole app', () => {
-  // test if the app renders correctly
+describe('Overall app', () => {
+  // test if the app renders correctly without crashing: jest-expo is required
   test('should render the app screen', async () => {
-    let renderedComponent;
+    let renderedApp;
     await waitFor(() => {
-      renderedComponent = render(<App />);
-    });
-    const { getByTestId } = renderedComponent;
+        renderedApp = render(<App />);
+      });
+    const { getByTestId } = renderedApp;
     const appScreen = getByTestId('app-screen');
-
+  
     expect(appScreen).toBeDefined();
   });
+  // test('renders correctly', async () =>  {
+  //   const { getByTestId } = render(<App />);
+  //   let asyncContent;
+
+  //   await waitFor(() => {
+  //     asyncContent = getByTestId('app-screen');
+  //   }, TIMEOUT);
+
+  //   expect(asyncContent).toBeDefined();
+  // });
 });

@@ -14,9 +14,18 @@ import colors from '../../../assets/colors';
 import data from '../../../assets/data/data.json';
 import { avatars, avatarStyles } from '../../../assets/images/avatars';
 
+import { useRef } from 'react';
+
 const InputContainer = ({
-  displayedVal, handleKeyPress, handleSendPost, handleSaveEdits, placeholder, editingMode, ...rest 
+  displayedVal, 
+  handleKeyPress, 
+  handleSendPost, 
+  handleSaveEdits, 
+  placeholder, 
+  editingMode, 
+  ...rest 
 }) => {
+
   return (
     <MyCard
       style={styles.inputContainer}
@@ -40,7 +49,11 @@ const InputContainer = ({
           style={styles.sendButton}
           onPress={editingMode ? handleSaveEdits : handleSendPost}
         >
-          <MyText style={styles.sendButtonText}>{editingMode ? 'SAVE' : 'SEND'}</MyText>
+           <MyText
+            style={styles.sendButtonText}
+            testID='submit-button'
+            >{editingMode ? 'SAVE' : 'SEND'}
+          </MyText>
         </MyButton>
       </View>
     </MyCard>
