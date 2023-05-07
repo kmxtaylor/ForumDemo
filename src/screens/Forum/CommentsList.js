@@ -44,7 +44,7 @@ const CommentsList = ({
               { commentGroup: commentGroupIdx, reply: replyIdx }
             )}
             // onPress={() => console.log(`{ commentGroup: ${commentGroupIdx}, reply: ${replyIdx} }`)}
-            testID={`delete-button${postObj.id}`}
+            testID={`delete-button-${postObj.id}`}
           >
             <IconDelete style={styles.onPostActionButtonIcon} />
             <MyText style={{fontWeight: '700', color: colors.primary.softRed}}
@@ -58,7 +58,7 @@ const CommentsList = ({
               // editInputRef.current.focus();
             }}
             // ref={editInputRef}
-            testID={`edit-button${postObj.id}`}
+            testID={`edit-button-${postObj.id}`}
             // onPress={() => console.log(`{ commentGroup: ${commentGroupIdx}, reply: ${replyIdx} }`)}
           >
             <IconEdit style={styles.onPostActionButtonIcon} />

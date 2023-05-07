@@ -27,7 +27,7 @@ describe('Forum functionality', () => {
     fireEvent.press(sendButton);
 
     // check comment added
-    console.log(commentsList.props);
+    // console.log(commentsList.props);
     const [ lastComment ] = commentsList.props.data.slice(-1);
     // const [ lastComment ] = commentsList.props.data.reverse();
 
