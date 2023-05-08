@@ -43,13 +43,7 @@ const App = () => {
       <StatusBar barStyle='light-content' />
       <SafeAreaView
         style={styles.container}
-        // onLayout={onLayoutRootView}
       >
-        {/* <KeyboardAvoidingView
-          onLayout={onLayoutRootView}
-          style={styles.subContainer}
-          enabled
-        > */}
         <View
           onLayout={onLayoutRootView}
           style={styles.subContainer}
@@ -57,7 +51,6 @@ const App = () => {
         >
           <Forum />
         </View>
-        {/* </KeyboardAvoidingView> */}
       </SafeAreaView>
     </>
   );
@@ -70,13 +63,9 @@ const styles = StyleSheet.create({
   subContainer: {
     flex: 1,
     backgroundColor: colors.neutral.veryLightGray,
-    // height: '100%',
     paddingHorizontal: 15,
     paddingVertical: 10,
-    // paddingBottom: 15,
     justifyContent: 'space-between',
-    // alignItems: 'center',
-    // paddingBottom: 0,
   },
 });
 

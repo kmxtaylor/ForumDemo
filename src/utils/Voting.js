@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 // Notes on Voting:
-// If the user has already upvoted, then clicking the upvote button will undo the upvote.
-// If the user has already downvoted, then clicking the upvote button will change the downvote to an upvote.
+// If the user has already upvoted, then clicking the upvote button again will undo the upvote.
+// If the user has already downvoted, then clicking the downvote button again will undo the downvote.
 // This implementation for Voting does not allow the vote score to be negative.
 // Instead, if the vote score is 0 and the user clicks the downvote button, nothing happens (the lowest vote score is 0).
 

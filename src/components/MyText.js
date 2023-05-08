@@ -37,7 +37,6 @@ const MyText = ({ style, children, ...rest }) => {
 };
 
 MyText.propTypes = {
-  // weight: PropTypes.oneOf([400, 500, 700]),
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   children: PropTypes.node,
 };

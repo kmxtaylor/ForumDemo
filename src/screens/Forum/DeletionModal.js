@@ -67,29 +67,26 @@ const styles = StyleSheet.create({
   // Pop-up modal container
   modalContent: {
     width: '100%',
-    // padding: 15,
     padding: 10,
-    // padding: 5,
     rowGap: 15,
   },
   // Modal header
   modalTitleText: {
     fontSize: 20,
     fontWeight: 500,
-    // marginBottom: 20,
     textAlign: 'left',
     color: colors.neutral.darkBlue,
   },
+  
   // Modal text (body)
   modalBodyText: {
     fontSize: 16, // style guide says 16px for body/paragraph
     fontWeight: 400,
-    // letterSpacing: 0.5,
     lineHeight: 24,
     textAlign: 'left',
     color: colors.neutral.grayishBlue,
-    // marginBottom: 15,
   },
+
   // Modal buttons container
   modalButtonContainer: {
     flexDirection: 'row',
@@ -97,13 +94,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
   },
+
   // Modal buttons (Cancel and Delete)
   modalButton: {
     // width: 133,
     width: '48%',
     height: 45,
     borderRadius: 8,
-    // marginHorizontal: 6,
   },
   // Modal button text
   modalButtonText: {

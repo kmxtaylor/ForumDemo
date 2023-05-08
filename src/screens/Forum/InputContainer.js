@@ -36,7 +36,6 @@ const InputContainer = ({
         onChangeText={handleKeyPress}
         placeholder={placeholder}
         multiline={true}
-        // maxLength={}
         testID='input'
         ref={textInputRef}
       />
@@ -73,7 +72,6 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   input: {
-    // flex: 1,
     width: '100%',
     height: 100,
     borderWidth: 1,
@@ -81,10 +79,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    // fontSize: 16,
-    // marginRight: 10,
     textAlignVertical: 'top',
-    // padding: 20,
   },
   cardActionsRow: {
     height: 50,
@@ -98,8 +93,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: 110,
     backgroundColor: colors.primary.moderateBlue,
-    // paddingHorizontal: 20,
-    // paddingVertical: 10,
     textAlign: 'center',
     borderRadius: 10,
   },

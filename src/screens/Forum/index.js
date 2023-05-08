@@ -8,18 +8,15 @@ import data from '/../assets/data/data.json';
 
 /* Manage data between CommentList */
 const Forum = () => {
-  // const [comments, setComments] = useState([]);
   const [comments, setComments] = useState(data.comments);
   const [postText, setPostText] = useState('');
 
   const NO_TARGET = null;
-  // { commentGroup: null, reply: null };
   const [replyTargetIdxs, setReplyTargetIdxs] = useState(NO_TARGET);
   const [replyingToUsername, setReplyingToUsername] = useState('');
   const [inputPlaceholder, setInputPlaceholder] = useState('Type a comment...');
 
   // useState for modal visibility and comment to delete
-  // { commentGroup: null, reply: null };
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [deleteTargetIdxs, setDeleteTargetIdxs] = useState(NO_TARGET);
 
@@ -30,12 +27,6 @@ const Forum = () => {
   const textInputRef = useRef(null);
 
   useEffect(() => {
-    // console.log(
-    //   'will reply to: ',
-    //   `commentGroup: ${replyTargetIdxs?.commentGroup}\t`,
-    //   `reply: ${replyTargetIdxs?.reply}`
-    // );
-
     // change input placeholder
     let placeholder;
     if (replyTargetIdxs) {
@@ -55,7 +46,6 @@ const Forum = () => {
       placeholder = 'Type a comment...';
     }
     setInputPlaceholder(placeholder);
-    // console.log(placeholder);
   }, [replyTargetIdxs]);
 
   useEffect(() => {
@@ -112,7 +102,7 @@ const Forum = () => {
         // add to replies
         setComments(currComments => {
           currComments[replyTargetIdxs.commentGroup]
-            .replies.push(newPost); // simplest: add to end of comment group
+            .replies.push(newPost); // add to end of comment group
           return currComments;
         });
       }
@@ -123,8 +113,6 @@ const Forum = () => {
 
       setPostText('');
       setReplyTargetIdxs(NO_TARGET);
-      // setReplyingToUsername(''); // already handled by other setter
-      // console.log('adding new post:', newPost);
     }
   };
 
@@ -132,13 +120,6 @@ const Forum = () => {
   const startDeletePost = (idxObj) => {
     setDeleteTargetIdxs(idxObj);
     setIsModalVisible(true);
-
-    // console.log(
-    //   'initiate delete:',
-    //   // idxObj,
-    //   `commentGroup: ${idxObj?.commentGroup}\t`,
-    //   `reply: ${idxObj?.reply}`
-    // );
   };
 
   // function to cancel delete post
@@ -151,11 +132,6 @@ const Forum = () => {
   // Function to confirm and delete post.
   // Closes modal after delete post is confirmed
   const confirmDeletePost = () => {
-    // console.log(
-    //   'confirmed delete:',
-    //   `commentGroup: ${deleteTargetIdxs?.commentGroup}\t`,
-    //   `reply: ${deleteTargetIdxs?.reply}`
-    // );
     if (deleteTargetIdxs?.reply !== NO_TARGET) {
       // delete individual reply
       setComments(currComments => {
@@ -181,7 +157,6 @@ const Forum = () => {
     ) {
       setEditTargetIdxs(NO_TARGET);
       setPostText('');
-      // console.log('deleted comment you were editing; exiting edit mode');
     }
 
     setDeleteTargetIdxs(NO_TARGET);
@@ -189,14 +164,7 @@ const Forum = () => {
   };
 
   const startEditPost = (idxObj) => {
-    setEditTargetIdxs(idxObj); // may be unnecessary
-    // console.log(
-    //   'initiate edit:',
-    //   // idxObj,
-    //   `commentGroup: ${idxObj?.commentGroup}\t`,
-    //   `reply: ${idxObj?.reply}`
-    // );
-
+    setEditTargetIdxs(idxObj); 
     if (idxObj?.reply !== NO_TARGET) {
       // edit reply
       setPostText(
@@ -212,13 +180,6 @@ const Forum = () => {
   };
 
   const saveEdits = () => {
-    // we should eventually handle the edge case where you start editing and then you delete the comment you were editing
-    // console.log(
-    //   'saved edits:',
-    //   `commentGroup: ${editTargetIdxs?.commentGroup}\t`,
-    //   `reply: ${editTargetIdxs?.reply}`
-    // );
-
     if (postText === '') {
       alert("You can't leave an empty comment -- maybe delete your comment instead");
       return;

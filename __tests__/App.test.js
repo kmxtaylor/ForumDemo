@@ -16,14 +16,5 @@ describe('Overall app', () => {
   
     expect(appScreen).toBeDefined();
   });
-  // test('renders correctly', async () =>  {
-  //   const { getByTestId } = render(<App />);
-  //   let asyncContent;
-
-  //   await waitFor(() => {
-  //     asyncContent = getByTestId('app-screen');
-  //   }, TIMEOUT);
-
-  //   expect(asyncContent).toBeDefined();
-  // });
+  
 });

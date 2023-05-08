@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: colors.neutral.white,
     borderRadius: 8,
-    // borderWidth: 0.5,
     borderColor: colors.neutral.lightGray
   },
 });

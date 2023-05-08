@@ -22,28 +22,28 @@ import Voting from '/utils/Voting';
 import colors from '/../assets/colors';
 import data from '/../assets/data/data.json';
 import { avatars, avatarStyles } from '/../assets/images/avatars';
-// import { accessibilityStateKeys } from '@testing-library/react-native/build/helpers/accessiblity';
 
 const CommentsList = ({
   comments, replyTargetIdxs, setReplyTargetIdxs, handleClickDelete, handleClickEdit, style, ...rest
 }) => {  
 
   const PostActionButtons = ({ postObj, commentGroupIdx, replyIdx }) => {
+    // Refs for the InputContainer component
     const replyInputRef = useRef(null);
     const editInputRef = useRef(null);
 
     if (postObj.user.username === data.currentUser.username) {
       return (
         <>
+          {/* Delete Button and Edit Button */}
           <MyButton
+          // InputContainer component is used for both editing and replying
           InputContainer replyInputRef={replyInputRef} editInputRef={editInputRef} 
 
             style={styles.onPostActionButton}
-            // style={styles.deleteButton}
             onPress={() => handleClickDelete(
               { commentGroup: commentGroupIdx, reply: replyIdx }
             )}
-            // onPress={() => console.log(`{ commentGroup: ${commentGroupIdx}, reply: ${replyIdx} }`)}
             testID={`delete-button-${postObj.id}`}
           >
             <IconDelete style={styles.onPostActionButtonIcon} />
@@ -52,14 +52,10 @@ const CommentsList = ({
           </MyButton>
           <MyButton
             style={styles.onPostActionButton}
-            // style={styles.editButton}
             onPress={() => {
               handleClickEdit({ commentGroup: commentGroupIdx, reply: replyIdx });
-              // editInputRef.current.focus();
             }}
-            // ref={editInputRef}
             testID={`edit-button-${postObj.id}`}
-            // onPress={() => console.log(`{ commentGroup: ${commentGroupIdx}, reply: ${replyIdx} }`)}
           >
             <IconEdit style={styles.onPostActionButtonIcon} />
             <MyText style={{fontWeight: '700', color: colors.primary.moderateBlue}}
@@ -95,9 +91,7 @@ const CommentsList = ({
             style={styles.onPostActionButton}
             onPress={() => {
               setReplyTargetIdxs({ commentGroup: commentGroupIdx, reply: replyIdx });
-              // replyInputRef.current.focus();
             }}
-            // ref={replyInputRef}
             testID={`reply-button-${postObj.id}`}
           >
             <IconReply style={styles.onPostActionButtonIcon} />
@@ -112,6 +106,7 @@ const CommentsList = ({
     }
   };
 
+  // Post Component that contains the post's content and actions (like vote buttons)
   const Post = ({
     postType = 'comment', postObj, commentGroupIdx, replyIdx = null, ...rest
   }) => {
@@ -150,7 +145,6 @@ const CommentsList = ({
           >
           <MyButton
             onPress={handleUpvote}
-            //style={styles.voteButton}
             testID={`upvote-button-${postObj.id}`}
 
           >
@@ -159,7 +153,6 @@ const CommentsList = ({
           <MyText style={styles.voteText}>{score}</MyText>
           <MyButton
             onPress={handleDownvote}
-            //style={styles.voteButton}
             testID={`downvote-button-${postObj.id}`}
           >
             <IconMinus style={styles} />
@@ -177,8 +170,8 @@ const CommentsList = ({
     );
   };
 
+  // Renders a comment group (comment + replies)
   const renderPostGroup = ({ item, index: commentGroupIdx }) => (
-    // Will probably refactor comment/reply card to its own container so can be easily used for both comments & replies
     <View style={styles.postGroupContainer}>
       <Post type='comment' postObj={item} commentGroupIdx={commentGroupIdx}/>
 
@@ -214,14 +207,8 @@ const styles = StyleSheet.create({
   ...avatarStyles,
   commentsList: {
     flex: 1,
-    // height: '100%',
-    // marginBottom: 10,
-    // gap: 20, // doesn't work, I think b/c of item rendering
   },
   postGroupContainer: {
-    // width: '100%',
-    // alignItems: 'center',
-    // justifyContent: 'center',
     marginBottom: 10,
   },
   cardTopRow: {
@@ -229,7 +216,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    // marginTop: 10,
   },
   postAuthor: {
     fontWeight: '700',
@@ -249,9 +235,8 @@ const styles = StyleSheet.create({
   createdAt: {
     fontWeight: '400',
     color: colors.neutral.grayishBlue,
-    // textAlign: 'left',
   },
-  cardActionsRow: { // should probably be extracted
+  cardActionsRow: { 
     height: 40,
     width: '100%',
     flexDirection: 'row',
@@ -262,7 +247,6 @@ const styles = StyleSheet.create({
   vote: {
     flexDirection: 'row',
     height: '100%',
-    // height: 40,
     width: 110,
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -286,21 +270,16 @@ const styles = StyleSheet.create({
   onPostActionButtonIcon: {
     marginRight: 5,
   },
-  // onPostActionText: {
-  //   fontWeight: '700',
-  // },
   postText: {
     width: '100%',
     marginTop: 20,
     textAlign: 'left',
-    // fontSize: 16,
     fontWeight: '400',
     color: colors.neutral.grayishBlue,
   },
   replyAtTag: {
     fontWeight: '700',
     color: colors.primary.moderateBlue,
-    // marginRight: 10,
   },
   repliesContainer: {
     width: '100%',
