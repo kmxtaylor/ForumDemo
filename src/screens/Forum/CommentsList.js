@@ -28,18 +28,11 @@ const CommentsList = ({
 }) => {  
 
   const PostActionButtons = ({ postObj, commentGroupIdx, replyIdx }) => {
-    // Refs for the InputContainer component
-    const replyInputRef = useRef(null);
-    const editInputRef = useRef(null);
-
     if (postObj.user.username === data.currentUser.username) {
       return (
         <>
           {/* Delete Button and Edit Button */}
           <MyButton
-          // InputContainer component is used for both editing and replying
-          InputContainer replyInputRef={replyInputRef} editInputRef={editInputRef} 
-
             style={styles.onPostActionButton}
             onPress={() => handleClickDelete(
               { commentGroup: commentGroupIdx, reply: replyIdx }

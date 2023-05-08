@@ -122,15 +122,13 @@ const Forum = () => {
     setIsModalVisible(true);
   };
 
-  // function to cancel delete post
-  // Closes modal after delete post is cancelled
+  // closes modal after delete post is cancelled
   const cancelDeletePost = () => {
     setDeleteTargetIdxs(NO_TARGET);
     setIsModalVisible(false);
   };
 
-  // Function to confirm and delete post.
-  // Closes modal after delete post is confirmed
+  // confirm and delete post: closes modal after delete post is confirmed
   const confirmDeletePost = () => {
     if (deleteTargetIdxs?.reply !== NO_TARGET) {
       // delete individual reply
