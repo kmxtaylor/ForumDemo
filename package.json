@@ -18,7 +18,7 @@
     "expo-splash-screen": "^0.18.1",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
-    "react-native": "0.71.6",
+    "react-native": "0.71.7",
     "react-native-web": "~0.18.10",
     "react-dom": "18.2.0",
     "@expo/webpack-config": "^18.0.1",
