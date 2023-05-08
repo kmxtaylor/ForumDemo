@@ -13,8 +13,7 @@ describe('Overall app', () => {
     }, TIMEOUT);
     const { getByTestId } = renderedApp;
     const appScreen = getByTestId('app-screen');
-  
+
     expect(appScreen).toBeDefined();
   });
-  
 });

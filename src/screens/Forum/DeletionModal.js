@@ -27,23 +27,23 @@ const DeletionModal = ({
               <MyText style={styles.modalTitleText}>Delete comment</MyText>
             </View>
             <View>
-              <MyText style={styles.modalBodyText}> 
+              <MyText style={styles.modalBodyText}>
                 Are you sure you want to delete this comment?
                 This will remove the comment and can't be undone.
               </MyText>
             </View>
-            
+
             <View style={styles.modalButtonContainer}>
               <MyButton
-                  onPress={cancelDeletePost} 
-                  testID={'cancel-delete-button'}
-                  style={[styles.modalButton, {backgroundColor: colors.neutral.grayishBlue}]}>
-                  <MyText style={styles.modalButtonText}>NO, CANCEL</MyText>
+                onPress={cancelDeletePost}
+                testID={'cancel-delete-button'}
+                style={[styles.modalButton, { backgroundColor: colors.neutral.grayishBlue }]}>
+                <MyText style={styles.modalButtonText}>NO, CANCEL</MyText>
               </MyButton>
-              
+
               <MyButton
-                onPress={confirmDeletePost} 
-                style={[styles.modalButton, {backgroundColor: colors.primary.softRed}]}>  
+                onPress={confirmDeletePost}
+                style={[styles.modalButton, { backgroundColor: colors.primary.softRed }]}>
                 <MyText style={styles.modalButtonText}>YES, DELETE</MyText>
               </MyButton>
             </View>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: colors.neutral.darkBlue,
   },
-  
+
   // Modal text (body)
   modalBodyText: {
     fontSize: 16, // style guide says 16px for body/paragraph

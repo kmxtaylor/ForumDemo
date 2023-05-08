@@ -15,14 +15,14 @@ import data from '/../assets/data/data.json';
 import { avatars, avatarStyles } from '/../assets/images/avatars';
 
 const InputContainer = ({
-  displayedVal, 
-  handleKeyPress, 
-  handleSendPost, 
-  handleSaveEdits, 
-  placeholder, 
-  editingMode, 
+  displayedVal,
+  handleKeyPress,
+  handleSendPost,
+  handleSaveEdits,
+  placeholder,
+  editingMode,
   textInputRef,
-  ...rest 
+  ...rest
 }) => {
 
   return (
@@ -48,10 +48,10 @@ const InputContainer = ({
           style={styles.sendButton}
           onPress={editingMode ? handleSaveEdits : handleSendPost}
         >
-           <MyText
+          <MyText
             style={styles.sendButtonText}
             testID='submit-button'
-            >{editingMode ? 'SAVE' : 'SEND'}
+          >{editingMode ? 'SAVE' : 'SEND'}
           </MyText>
         </MyButton>
       </View>
@@ -101,11 +101,11 @@ InputContainer.propTypes = {
   displayedVal: PropTypes.string,
   handleKeyPress: PropTypes.func,
   handleSendPost: PropTypes.func,
-  handleSaveEdits: PropTypes.func, 
+  handleSaveEdits: PropTypes.func,
   placeholder: PropTypes.string,
   editingMode: PropTypes.bool,
   textInputRef: PropTypes.oneOfType([
-    PropTypes.func, 
+    PropTypes.func,
     PropTypes.shape({ current: PropTypes.any }),
   ]),
 };

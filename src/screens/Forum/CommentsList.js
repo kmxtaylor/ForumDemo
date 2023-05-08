@@ -23,7 +23,7 @@ import { avatars, avatarStyles } from '/../assets/images/avatars';
 
 const CommentsList = ({
   style, comments, replyTargetIdxs, setReplyTargetIdxs, handleClickDelete, handleClickEdit, ...rest
-}) => {  
+}) => {
 
   const PostActionButtons = ({ postObj, commentGroupIdx, replyIdx }) => {
     if (postObj.user.username === data.currentUser.username) {
@@ -38,7 +38,7 @@ const CommentsList = ({
             testID={`delete-button-${postObj.id}`}
           >
             <IconDelete style={styles.onPostActionButtonIcon} />
-            <MyText style={{fontWeight: '700', color: colors.primary.softRed}}
+            <MyText style={{ fontWeight: '700', color: colors.primary.softRed }}
             >Delete</MyText>
           </MyButton>
           <MyButton
@@ -49,7 +49,7 @@ const CommentsList = ({
             testID={`edit-button-${postObj.id}`}
           >
             <IconEdit style={styles.onPostActionButtonIcon} />
-            <MyText style={{fontWeight: '700', color: colors.primary.moderateBlue}}
+            <MyText style={{ fontWeight: '700', color: colors.primary.moderateBlue }}
             >Edit</MyText>
           </MyButton>
         </>
@@ -63,12 +63,12 @@ const CommentsList = ({
         return (
           // Cancel Reply Button
           <MyButton
-            style={[styles.onPostActionButton, {width: 120}]}
+            style={[styles.onPostActionButton, { width: 120 }]}
             onPress={() => setReplyTargetIdxs(null)} // NO_TARGET
             testID={`cancel-reply-button-${postObj.id}`}
           >
             <MyText
-              style={{fontWeight: '700', color: colors.primary.softRed}}
+              style={{ fontWeight: '700', color: colors.primary.softRed }}
             >
               X Cancel Reply
             </MyText>
@@ -87,7 +87,7 @@ const CommentsList = ({
           >
             <IconReply style={styles.onPostActionButtonIcon} />
             <MyText
-              style={{fontWeight: '700', color: colors.primary.moderateBlue}}
+              style={{ fontWeight: '700', color: colors.primary.moderateBlue }}
             >
               Reply
             </MyText>
@@ -101,7 +101,7 @@ const CommentsList = ({
   const Post = ({
     postType = 'comment', postObj, commentGroupIdx, replyIdx = null, ...rest
   }) => {
-    
+
     // Voting values & functions are returned from the Voting hook
     const [score, voteStatus, handleUpvote, handleDownvote] = Voting(postObj.score, postObj.voteStatus);
 
@@ -115,36 +115,36 @@ const CommentsList = ({
           <MyText style={styles.postAuthor}>{postObj.user.username}</MyText>
           {
             postObj.user.username === data.currentUser.username
-            ? <MyText style={styles.youTag}>you</MyText>
-            : null
+              ? <MyText style={styles.youTag}>you</MyText>
+              : null
           }
           <MyText style={styles.createdAt}>{postObj.createdAt}</MyText>
         </View>
         <MyText style={styles.postText}>
-          { postType === 'reply' && (
-              <MyText style={styles.replyAtTag}>@{postObj.replyingTo} </MyText>
-            )
+          {postType === 'reply' && (
+            <MyText style={styles.replyAtTag}>@{postObj.replyingTo} </MyText>
+          )
           }
           {'' + postObj.content}
         </MyText>
         <View style={styles.cardActionsRow}>
           <View
-            style={styles.vote}           
+            style={styles.vote}
             testID={`votes-${postObj.id}`}
           >
-          <MyButton
-            onPress={handleUpvote}
-            testID={`upvote-button-${postObj.id}`}
-          >
-          <IconPlus style={styles} />
-          </MyButton>
-          <MyText style={styles.voteText}>{score}</MyText>
-          <MyButton
-            onPress={handleDownvote}
-            testID={`downvote-button-${postObj.id}`}
-          >
-            <IconMinus style={styles} />
-          </MyButton>
+            <MyButton
+              onPress={handleUpvote}
+              testID={`upvote-button-${postObj.id}`}
+            >
+              <IconPlus style={styles} />
+            </MyButton>
+            <MyText style={styles.voteText}>{score}</MyText>
+            <MyButton
+              onPress={handleDownvote}
+              testID={`downvote-button-${postObj.id}`}
+            >
+              <IconMinus style={styles} />
+            </MyButton>
           </View>
           <View style={styles.onPostActionButtonsView}>
             <PostActionButtons
@@ -161,7 +161,7 @@ const CommentsList = ({
   // Renders a comment group (comment + replies)
   const renderPostGroup = ({ item, index: commentGroupIdx }) => (
     <View style={styles.postGroupContainer}>
-      <Post type='comment' postObj={item} commentGroupIdx={commentGroupIdx}/>
+      <Post type='comment' postObj={item} commentGroupIdx={commentGroupIdx} />
 
       <View style={styles.repliesContainer}>
         {item.replies.map((reply, replyIdx) => (
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: colors.neutral.grayishBlue,
   },
-  cardActionsRow: { 
+  cardActionsRow: {
     height: 40,
     width: '100%',
     flexDirection: 'row',

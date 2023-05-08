@@ -56,12 +56,12 @@ const Forum = () => {
   }, [editTargetIdxs]);
 
   function calcNextId() {
-    if (comments.length === 0 ) {
+    if (comments.length === 0) {
       return 1;
     }
 
     const usedIds = new Set();
-    
+
     // Add all existing ids to the set
     comments.forEach((item) => {
       usedIds.add(item.id);
@@ -69,10 +69,10 @@ const Forum = () => {
         usedIds.add(reply.id);
       });
     });
-    
+
     // Find the largest used id (maintain order by not reusing deleted ids unless all deleted)
     let maxUsedId = Math.max(...usedIds);
-    
+
     return maxUsedId + 1;
   }
 
@@ -93,11 +93,11 @@ const Forum = () => {
         },
         ...(
           replyTargetIdxs
-          ? { replyingTo: replyingToUsername } // reply mode
-          : { replies: [] } // comment mode
+            ? { replyingTo: replyingToUsername } // reply mode
+            : { replies: [] } // comment mode
         ),
       };
-      
+
       if (replyTargetIdxs) {
         // add to replies
         setComments(currComments => {
@@ -162,7 +162,7 @@ const Forum = () => {
   };
 
   const startEditPost = (idxObj) => {
-    setEditTargetIdxs(idxObj); 
+    setEditTargetIdxs(idxObj);
     if (idxObj?.reply !== NO_TARGET) {
       // edit reply
       setPostText(
