@@ -20,24 +20,18 @@ describe('Forum functionality', () => {
     const commentsList = getByTestId('comments-list');
     const sendButton = getByTestId('submit-button');
 
-    // expect(input).toBeDefined();
-    // expect(commentsList).toBeDefined();
-
     // execute adding comment
     const COMMENT_TEXT = 'test comment';
     fireEvent.changeText(input, COMMENT_TEXT);
     fireEvent.press(sendButton);
 
     // check comment added
-    // console.log(commentsList.props);
     const [ lastComment ] = commentsList.props.data.slice(-1);
-    // const [ lastComment ] = commentsList.props.data.reverse();
-
     expect(lastComment.content).toBe(COMMENT_TEXT);
   });
 
 
-  /* test if can reply to comment */
+  // test if can reply to comment
   test('reply correctly', async () =>  {
     // render screen
     let renderedScreen;
@@ -50,10 +44,10 @@ describe('Forum functionality', () => {
     const input = getByTestId('input');
     const commentsList = getByTestId('comments-list');
     const sendButton = getByTestId('submit-button');
+
     // access the reply button on the first comment
     const [ firstComment ] = commentsList.props.data;
     replyButton = getByTestId(`reply-button-${firstComment.id}`);
-    // console.log(replyButton);
 
     // execute replying to 1st comment
     fireEvent.press(replyButton);
@@ -63,14 +57,12 @@ describe('Forum functionality', () => {
     fireEvent.press(sendButton);
 
     // check reply added
-    // console.log(commentsList.props.data);
     const [ firstCommentReply ] = commentsList.props.data[0].replies;
-
     expect(firstCommentReply.content).toBe(REPLY_TEXT);
   });
 
 
-  /* test if can reply to (another user's) reply */
+  // test if can reply to (another user's) reply
   test('reply to reply correctly', async () =>  {
     // render screen
     let renderedScreen;
@@ -86,9 +78,7 @@ describe('Forum functionality', () => {
 
     // get the reply button for the first reply from a DIFFERENT user
     let replyableReply, parentCommentIdx;
-    // console.log(JSON.stringify(commentsList.props.data.entries(), null, 2));
-    // console.log(commentsList.props.data);
-    // for (const [comment, idx] of commentsList.props.data.entries()) {
+
     let commentsCopy = commentsList.props.data;
     for (let idx = 0; idx < commentsCopy.length; idx++) {
       replyableReply = commentsCopy[idx].replies?.find(
@@ -99,7 +89,7 @@ describe('Forum functionality', () => {
         break;
       }
     }
-    // console.log(replyableReply);
+
     const replyButton = getByTestId(`reply-button-${replyableReply.id}`);
 
     // execute replying to target reply
@@ -110,7 +100,6 @@ describe('Forum functionality', () => {
     fireEvent.press(sendButton);
 
     // check reply added
-    // console.log(commentsList.props.data[parentCommentIdx]);
     const [ replyToReply ] = commentsList.props.data[parentCommentIdx].replies.slice(-1);
     expect(replyToReply.content).toBe(REPLY_TEXT);
   });
@@ -197,12 +186,53 @@ describe('Forum functionality', () => {
   });
 
 
+  // test to edit the user's own comment but delete's input text and tries to save changes
+  test('edit comment correctly without deleting input text', async () => {
+    // render screen
+    let renderedScreen;
+    await waitFor(() => {
+      renderedScreen = render(<Forum />);
+    }, TIMEOUT);
+    const { getByTestId } = renderedScreen;
+  
+    // get elements relevant to test
+    const input = getByTestId('input');
+    const commentsList = getByTestId('comments-list');
+    const sendButton = getByTestId('submit-button');
+  
+    // create a test user
+    const TEST_USER_1 = { id: 1, username: 'test_user_1' };
+  
+    // add a comment from TEST_USER_1
+    const COMMENT_TEXT = 'test comment from test_user_1';
+    fireEvent.changeText(input, COMMENT_TEXT);
+    fireEvent.press(sendButton);
+  
+    // access the edit button on the comment
+    const [ comment ] = commentsList.props.data.filter(comment => comment.user.id === TEST_USER_1.id);
+    const editButton = comment ? getByTestId('edit-button-${comment.id}') : undefined;
+  
+    // execute editing comment
+    if (editButton) {
+      // test editing with empty input
+      fireEvent.press(editButton);
+      fireEvent.changeText(input, '');
+      fireEvent.press(sendButton);
+  
+      // check that the alert was displayed and the comment was not deleted
+      const [ updatedComment ] = commentsList.props.data.filter(comment => comment.id === comment.id);
+      expect(updatedComment.content).toBe(EDITED_COMMENT_TEXT);
+      expect(alert).toHaveBeenCalledWith("You can't leave an empty comment -- maybe delete your comment instead");
+    }
+  });
+
+
   // test to delete the user's own comment
   test('delete comment correctly', async () => {
     // render screen
     let renderedScreen;
     await waitFor(() => {
-      renderedScreen = render(<Forum currentUser={{ id: 1 }} />);
+      renderedScreen = render(<Forum currentUser={{ id: 4 }} />);
     }, TIMEOUT);
     const { getByTestId } = renderedScreen;
 
@@ -231,7 +261,7 @@ describe('Forum functionality', () => {
     // render screen
     let renderedScreen;
     await waitFor(() => {
-      renderedScreen = render(<Forum currentUser={{ id: 1 }} />);
+      renderedScreen = render(<Forum currentUser={{ id: 4 }} />);
     }, TIMEOUT);
     const { getByTestId } = renderedScreen;
   
@@ -268,7 +298,7 @@ describe('Forum functionality', () => {
     }, TIMEOUT);
     const { getByTestId } = renderedScreen;
   
-    // get upvote button and score element
+    // get up vote button and score element
     const upVoteButton = getByTestId(`upvote-button-1`);
     const scoreElement = getByTestId(`votes-1`);
     const originalScore = Number(scoreElement.props.children);
