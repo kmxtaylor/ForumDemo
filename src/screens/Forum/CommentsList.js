@@ -146,11 +146,13 @@ const CommentsList = ({
         <View style={styles.cardActionsRow}>
           <View
             style={styles.vote}           
-            // testID={`votes-${postObj.id}`}
+            testID={`votes-${postObj.id}`}
           >
           <MyButton
             onPress={handleUpvote}
             //style={styles.voteButton}
+            testID={`upvote-button-${postObj.id}`}
+
           >
           <IconPlus style={styles} />
           </MyButton>
@@ -158,6 +160,7 @@ const CommentsList = ({
           <MyButton
             onPress={handleDownvote}
             //style={styles.voteButton}
+            testID={`downvote-button-${postObj.id}`}
           >
             <IconMinus style={styles} />
           </MyButton>

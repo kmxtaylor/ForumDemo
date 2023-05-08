@@ -35,11 +35,11 @@ const deletionModal = ({
             </View>
             
             <View style={styles.modalButtonContainer}>
-              {/* marginRight & marginLeft is used to help with button spacing */}
               <MyButton
                   onPress={cancelDeletePost} 
                   style={[styles.modalButton, {backgroundColor: colors.neutral.grayishBlue}]}>
                   <MyText style={styles.modalButtonText}>NO, CANCEL</MyText>
+                  testID={'cancel-delete-button'}
               </MyButton>
               
               <MyButton
