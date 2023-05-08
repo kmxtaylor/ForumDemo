@@ -37,9 +37,9 @@ const deletionModal = ({
             <View style={styles.modalButtonContainer}>
               <MyButton
                   onPress={cancelDeletePost} 
+                  testID={'cancel-delete-button'}
                   style={[styles.modalButton, {backgroundColor: colors.neutral.grayishBlue}]}>
                   <MyText style={styles.modalButtonText}>NO, CANCEL</MyText>
-                  testID={'cancel-delete-button'}
               </MyButton>
               
               <MyButton
