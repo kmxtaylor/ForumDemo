@@ -7,14 +7,7 @@ import PropTypes from 'prop-types';
 const MyButton = ({ style, onPress, children, ...rest }) => {
 
   return (
-    <Pressable
-      style={[
-        styles.btn,
-        style,
-      ]}
-      onPress={onPress}
-      {...rest}
-    >
+    <Pressable style={[styles.btn, style,]} onPress={onPress} {...rest}>
       {children}
     </Pressable>
   );

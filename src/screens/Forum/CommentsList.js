@@ -1,4 +1,3 @@
-import { useState, useRef } from 'react';
 import {
   View,
   FlatList,
@@ -15,7 +14,6 @@ import IconEdit from 'components/svgs/IconEdit';
 import IconMinus from 'components/svgs/IconMinus';
 import IconPlus from 'components/svgs/IconPlus';
 import IconReply from 'components/svgs/IconReply';
-import InputContainer from './InputContainer';
 
 import Voting from '/utils/Voting';
 
@@ -24,7 +22,7 @@ import data from '/../assets/data/data.json';
 import { avatars, avatarStyles } from '/../assets/images/avatars';
 
 const CommentsList = ({
-  comments, replyTargetIdxs, setReplyTargetIdxs, handleClickDelete, handleClickEdit, style, ...rest
+  style, comments, replyTargetIdxs, setReplyTargetIdxs, handleClickDelete, handleClickEdit, ...rest
 }) => {  
 
   const PostActionButtons = ({ postObj, commentGroupIdx, replyIdx }) => {
@@ -124,12 +122,10 @@ const CommentsList = ({
         </View>
         <MyText style={styles.postText}>
           { postType === 'reply' && (
-              <MyText style={styles.replyAtTag}>
-                @{postObj.replyingTo}
-              </MyText>
+              <MyText style={styles.replyAtTag}>@{postObj.replyingTo} </MyText>
             )
           }
-          {' ' + postObj.content}
+          {'' + postObj.content}
         </MyText>
         <View style={styles.cardActionsRow}>
           <View
@@ -139,7 +135,6 @@ const CommentsList = ({
           <MyButton
             onPress={handleUpvote}
             testID={`upvote-button-${postObj.id}`}
-
           >
           <IconPlus style={styles} />
           </MyButton>
@@ -183,15 +178,14 @@ const CommentsList = ({
   );
 
   return (
-    
     <FlatList // scrollable
       style={styles.commentsList}
       data={comments}
       renderItem={renderPostGroup}
       keyExtractor={(item, index) => index.toString()}
       testID='comments-list'
+      {...rest}
     />
-    
   );
 };
 
@@ -284,5 +278,12 @@ const styles = StyleSheet.create({
     borderLeftColor: colors.neutral.lightGray,
   },
 });
+
+CommentsList.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  comments: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  handleClickDelete: PropTypes.func,
+  handleClickEdit: PropTypes.func,
+};
 
 export default CommentsList;

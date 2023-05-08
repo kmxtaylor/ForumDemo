@@ -11,7 +11,7 @@ import MyCard from 'components/MyCard';
 
 import colors from '/../assets/colors';
 
-const deletionModal = ({
+const DeletionModal = ({
   isModalVisible, cancelDeletePost, confirmDeletePost
 }) => {
   return (
@@ -89,14 +89,12 @@ const styles = StyleSheet.create({
   // Modal buttons container
   modalButtonContainer: {
     flexDirection: 'row',
-    // justifyContent: 'center',
     justifyContent: 'space-between',
     width: '100%',
   },
 
   // Modal buttons (Cancel and Delete)
   modalButton: {
-    // width: 133,
     width: '48%',
     height: 45,
     borderRadius: 8,
@@ -109,4 +107,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default deletionModal;
+DeletionModal.propTypes = {
+  isModalVisible: PropTypes.bool,
+  cancelDeletePost: PropTypes.func,
+  confirmDeletePost: PropTypes.func,
+};
+
+export default DeletionModal;

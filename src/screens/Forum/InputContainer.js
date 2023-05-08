@@ -59,13 +59,6 @@ const InputContainer = ({
   );
 };
 
-InputContainer.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  typedVal: PropTypes.string,
-  handleTyping: PropTypes.func,
-  handleSendPost: PropTypes.func,
-};
-
 const styles = StyleSheet.create({
   ...avatarStyles,
   inputContainer: {
@@ -102,5 +95,19 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
+
+InputContainer.propTypes = {
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  displayedVal: PropTypes.string,
+  handleKeyPress: PropTypes.func,
+  handleSendPost: PropTypes.func,
+  handleSaveEdits: PropTypes.func, 
+  placeholder: PropTypes.string,
+  editingMode: PropTypes.bool,
+  textInputRef: PropTypes.oneOfType([
+    PropTypes.func, 
+    PropTypes.shape({ current: PropTypes.any }),
+  ]),
+};
 
 export default InputContainer;

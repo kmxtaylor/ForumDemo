@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import {
-  KeyboardAvoidingView,
   StyleSheet,
   SafeAreaView,
   StatusBar,
