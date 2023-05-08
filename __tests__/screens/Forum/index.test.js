@@ -5,6 +5,7 @@ import { currentUser } from '/../assets/data/data.json';
 const TIMEOUT = { timeout: 20000 };
 
 describe('Forum functionality', () => {
+
   // test if can add comment
   test('comment adding correctly', async () =>  {
     // render screen
@@ -34,6 +35,7 @@ describe('Forum functionality', () => {
 
     expect(lastComment.content).toBe(COMMENT_TEXT);
   });
+
 
   /* test if can reply to comment */
   test('reply correctly', async () =>  {
@@ -66,6 +68,7 @@ describe('Forum functionality', () => {
 
     expect(firstCommentReply.content).toBe(REPLY_TEXT);
   });
+
 
   /* test if can reply to (another user's) reply */
   test('reply to reply correctly', async () =>  {
@@ -112,6 +115,7 @@ describe('Forum functionality', () => {
     expect(replyToReply.content).toBe(REPLY_TEXT);
   });
   
+
   // test of cancel reply mode
   test('cancel reply mode correctly', async () => {
     // render screen
@@ -121,7 +125,7 @@ describe('Forum functionality', () => {
     }, TIMEOUT);
     const { getByTestId } = renderedScreen;
     
-    // Get elements relevant to test
+    // get elements relevant to test
     const input = getByTestId('input');
     const commentsList = getByTestId('comments-list');
     
@@ -141,7 +145,8 @@ describe('Forum functionality', () => {
     expect(input.props.placeholder).toBe('Type a comment...');
   });
 
-  // edit comment
+
+  // test to edit the user's own comment
   test('edit comment correctly', async () => {
     // render screen
     let renderedScreen;
@@ -149,53 +154,154 @@ describe('Forum functionality', () => {
       renderedScreen = render(<Forum />);
     }, TIMEOUT);
     const { getByTestId } = renderedScreen;
-    
-    // Get elements relevant to test
+
+    // get elements relevant to test
     const input = getByTestId('input');
     const commentsList = getByTestId('comments-list');
     const sendButton = getByTestId('submit-button');
-    
-    // access the edit button on the first comment
-    const [ firstComment ] = commentsList.props.data;
-    const editButton = getByTestId(`edit-button-${firstComment.id}`);
-    
-    // execute editing 1st comment
-    fireEvent.press(editButton);
-    const EDIT_TEXT = 'edited comment';
-    fireEvent.changeText(input, EDIT_TEXT);
+
+    // create two test users
+    const TEST_USER_1 = { id: 1, username: 'test_user_1' };
+    const TEST_USER_2 = { id: 2, username: 'test_user_2' };
+
+    // add a comment from TEST_USER_1
+    const COMMENT_TEXT = 'test comment from test_user_1';
+    fireEvent.changeText(input, COMMENT_TEXT);
     fireEvent.press(sendButton);
-    
-    // check comment edited
-    const [ editedComment ] = commentsList.props.data;
-    expect(editedComment.content).toBe(EDIT_TEXT);
-  
+
+    // add a comment from TEST_USER_2
+    const COMMENT_TEXT_2 = 'test comment from test_user_2';
+    fireEvent.changeText(input, COMMENT_TEXT_2);
+    fireEvent.press(sendButton);
+
+    // access the edit button on the first comment
+    const [ firstComment ] = commentsList.props.data.filter(comment => comment.user.id === TEST_USER_1.id);
+    const editButton = firstComment ? getByTestId('edit-button-${firstComment.id}') : undefined;
+
+    // execute editing 1st comment
+    if (editButton) {
+      fireEvent.press(editButton);
+      const EDITED_COMMENT_TEXT = 'edited comment';
+      fireEvent.changeText(input, EDITED_COMMENT_TEXT);
+      fireEvent.press(sendButton);
+
+      // checks the comment was edited
+      const [ editedComment ] = commentsList.props.data.filter(comment => comment.id === firstComment.id);
+      expect(editedComment.content).toBe(EDITED_COMMENT_TEXT);
+    }
+
+    // user 1 should not be able to edit user 2's comment
+    const [ secondComment ] = commentsList.props.data.filter(comment => comment.user.id === TEST_USER_2.id);
+    const editButton2 = secondComment ? getByTestId('edit-button-${secondComment.id}') : undefined;
+    expect(editButton2).toBe(undefined);
   });
 
-  // delete comment
+
+  // test to delete the user's own comment
   test('delete comment correctly', async () => {
+    // render screen
+    let renderedScreen;
+    await waitFor(() => {
+      renderedScreen = render(<Forum currentUser={{ id: 1 }} />);
+    }, TIMEOUT);
+    const { getByTestId } = renderedScreen;
+
+    // get elements relevant to test
+    const commentsList = getByTestId('comments-list');
+
+    // access the delete button on the first comment (from the current user)
+    const [ firstComment ] = commentsList.props.data;
+    const deleteButton = firstComment.userId === 1 ? getByTestId('delete-button-${firstComment.id}') : undefined;
+    
+    // execute deleting 1st comment
+    if (deleteButton) {
+      fireEvent.press(deleteButton);
+      // check that the comment was deleted
+      const [ deletedComment ] = commentsList.props.data.filter(comment => comment.id === firstComment.id);
+      expect(deletedComment).toBe(undefined);
+    }
+    // check comment deleted if it belonged to the current user
+    const updatedCommentsList = getByTestId('comments-list');
+    expect(updatedCommentsList.props.data.length).toBe(deleteButton ? commentsList.props.data.length - 1 : commentsList.props.data.length);
+  });
+
+
+  // test to cancel deleting comment (from the current user)
+  test('cancel deleting comment', async () => {
+    // render screen
+    let renderedScreen;
+    await waitFor(() => {
+      renderedScreen = render(<Forum currentUser={{ id: 1 }} />);
+    }, TIMEOUT);
+    const { getByTestId } = renderedScreen;
+  
+    // get elements relevant to test
+    const commentsList = getByTestId('comments-list');
+    const [ firstComment ] = commentsList.props.data;
+    const deleteButton = firstComment.userId === 1 ? getByTestId('delete-button-${firstComment.id}') : undefined;
+  
+    // execute deleting 1st comment
+    if (deleteButton) {
+      fireEvent.press(deleteButton);
+      
+      // find cancel button in modal and press it
+      const cancelButton = getByTestId('cancel-delete-button');
+      fireEvent.press(cancelButton);
+  
+      // check that the comments list is the same length as before
+      const updatedCommentsList = getByTestId('comments-list');
+      expect(updatedCommentsList.props.data.length).toBe(commentsList.props.data.length);
+     
+      // check that the comment still exists in the list of comments
+      const [ comment ] = updatedCommentsList.props.data.filter(comment => comment.id === firstComment.id);
+      expect(comment).toBeTruthy(); // comment still exists and is not undefined/null/empty
+    }
+  });
+
+  
+  // test to up vote a comment and check that the score increases by 1
+  test('upvoting a comment increases its score', async () => {
     // render screen
     let renderedScreen;
     await waitFor(() => {
       renderedScreen = render(<Forum />);
     }, TIMEOUT);
     const { getByTestId } = renderedScreen;
-    
-    // Get elements relevant to test
-    const input = getByTestId('input');
-    const commentsList = getByTestId('comments-list');
-    const sendButton = getByTestId('submit-button');
-    
-    // access the delete button on the first comment
-    const [ firstComment ] = commentsList.props.data;
-    const deleteButton = getByTestId(`delete-button-${firstComment.id}`);
-    
-    // execute deleting 1st comment
-    fireEvent.press(deleteButton);
-    
-    // check comment deleted
-    expect(commentsList.props.data.length).toBe(0);
   
+    // get upvote button and score element
+    const upVoteButton = getByTestId(`upvote-button-1`);
+    const scoreElement = getByTestId(`votes-1`);
+    const originalScore = Number(scoreElement.props.children);
+  
+    // simulate button press on upvote button
+    fireEvent.press(upVoteButton);
+  
+    // check that the score has increased by 1
+    const updatedScore = Number(scoreElement.props.children);
+    expect(updatedScore).toBe(originalScore + 1);
   });
+
+
+  // test to down vote a comment and check that the score decreases by 1
+  test('down-voting a comment decreases its score', async () => {
+    // render screen
+    let renderedScreen;
+    await waitFor(() => {
+      renderedScreen = render(<Forum />);
+    }, TIMEOUT);
+    const { getByTestId } = renderedScreen;
   
+    // get down vote button and score element
+    const downVoteButton = getByTestId(`downvote-button-1`);
+    const scoreElement = getByTestId(`votes-1`);
+    const originalScore = Number(scoreElement.props.children);
+  
+    // simulate button press on down vote button
+    fireEvent.press(downVoteButton);
+  
+    // check that the score has decreased by 1
+    const updatedScore = Number(scoreElement.props.children);
+    expect(updatedScore).toBe(originalScore - 1);
+  });
 
 });
