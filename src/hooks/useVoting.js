@@ -6,7 +6,7 @@ import { useState } from "react";
 // This implementation for Voting does not allow the vote score to be negative.
 // Instead, if the vote score is 0 and the user clicks the downvote button, nothing happens (the lowest vote score is 0).
 
-const Voting = (initialValue, initialVoteStatus) => {
+const useVoting = (initialValue, initialVoteStatus) => {
     const [score, setScore] = useState(initialValue);
     const [voteStatus, setVoteStatus] = useState(initialVoteStatus);
 
@@ -55,7 +55,7 @@ const Voting = (initialValue, initialVoteStatus) => {
         }
     };
 
-    return [score, voteStatus, handleUpvote, handleDownvote];
+    return { score, voteStatus, handleUpvote, handleDownvote };
 };
 
-export default Voting;
+export default useVoting;

@@ -15,7 +15,7 @@ import IconMinus from 'components/svgs/IconMinus';
 import IconPlus from 'components/svgs/IconPlus';
 import IconReply from 'components/svgs/IconReply';
 
-import Voting from '/utils/Voting';
+import useVoting from '/hooks/useVoting';
 
 import colors from '/../assets/colors';
 import data from '/../assets/data/data.json';
@@ -103,7 +103,7 @@ const CommentsList = ({
   }) => {
 
     // Voting values & functions are returned from the Voting hook
-    const [score, voteStatus, handleUpvote, handleDownvote] = Voting(postObj.score, postObj.voteStatus);
+    const { score, handleUpvote, handleDownvote } = useVoting(postObj.score, postObj.voteStatus);
 
     return (
       <MyCard key={commentGroupIdx} {...rest}>
